@@ -1,15 +1,15 @@
 package data
 import data.datasource.model.*
 interface EcoSystemDataSource {
-    fun getMentees(): List<MenteeRow>
-    fun getMenteeById(id: String): MenteeRow?
-    fun getMenteesByTeamId(teamId: String): List<MenteeRow>
-    fun getTeams(): List<TeamRow>
-    fun getTeamById(teamId: String): TeamRow?
-    fun getPerformances(): List<PerformanceRow>
-    fun getPerformanceByMenteeId(menteeId: String): List<PerformanceRow>
-    fun getProjects(): List<ProjectRow>
-    fun getProjectByTeamId(teamId: String): ProjectRow?
-    fun getAttendances(): List<AttendanceRow>
-    fun getAttendanceByMenteeId(menteeId: String): AttendanceRow?
+    fun getMentees(): Result<List<MenteeRow>>
+    fun getMenteeById(id: String): Result<MenteeRow?>
+    fun getMenteesByTeamId(teamId: String): Result<List<MenteeRow>>
+    fun getTeams(): Result<List<TeamRow>>
+    fun getTeamById(teamId: String): Result<TeamRow?>
+    fun getPerformances(): Result<List<PerformanceRow>>
+    fun getPerformanceByMenteeId(menteeId: String): Result<List<PerformanceRow>>
+    fun getProjects(): Result<List<ProjectRow>>
+    fun getProjectByTeamId(teamId: String): Result<ProjectRow?>
+    fun getAttendances(): Result<List<AttendanceRow>>
+    fun getAttendanceByMenteeId(menteeId: String): Result<AttendanceRow?>
 }
