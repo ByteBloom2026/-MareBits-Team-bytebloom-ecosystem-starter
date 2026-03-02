@@ -8,4 +8,4 @@ fun ProjectRow.toDomain():ValidationResult<Project> =
         id =id,
         name=name,
         assignedTeamId = teamId
-    )as ValidationResult<Project>
+    )

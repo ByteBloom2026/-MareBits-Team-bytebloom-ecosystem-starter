@@ -2,19 +2,27 @@ package data.repository
 import data.EcoSystemDataSource
 import domain.model.Attendance
 import data.repository.mappers.toDomain
-
+import domain.validation.ValidationResult
 class AttendanceRepositoryImpl(
     private val dataSource: EcoSystemDataSource
 ) : AttendanceRepository {
     override fun getAllAttendance(): Result<List<Attendance>> {
-        val resultFromData = dataSource.getAttendances()
-        return resultFromData.map { list ->
-            list.map { it.toDomain() }
+        val rows = dataSource.getAttendances().getOrElse { return Result.failure(it) }
+        val out = mutableListOf<Attendance>()
+        for (row in rows) {
+            when (val mapped = row.toDomain()) {
+                is ValidationResult.Success -> out.add(mapped.data)
+                is ValidationResult.Failure -> { }
+            }
         }
+        return Result.success(out)
     }
     override fun getAttendanceByMenteeId(menteeId: String): Result<Attendance?> {
-        return dataSource.getAttendanceByMenteeId(menteeId).map {
-            it?.toDomain()
+        val row = dataSource.getAttendanceByMenteeId(menteeId).getOrElse { return Result.failure(it) }
+            ?: return Result.success(null)
+        return when (val mapped = row.toDomain()) {
+            is ValidationResult.Success -> Result.success(mapped.data)
+            is ValidationResult.Failure -> Result.success(null)
         }
     }
 }
