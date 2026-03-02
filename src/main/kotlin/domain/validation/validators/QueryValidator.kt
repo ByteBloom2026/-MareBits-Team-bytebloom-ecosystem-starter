@@ -1,6 +1,7 @@
 package domain.validation.validators
 import domain.validation.ValidationResult
 import domain.validation.Validator
+
 class QueryValidator(
     private val minLength: Int = 2
 ) : Validator<String> {

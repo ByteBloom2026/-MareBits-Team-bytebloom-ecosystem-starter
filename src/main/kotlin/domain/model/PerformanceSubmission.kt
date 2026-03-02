@@ -8,12 +8,6 @@ data class PerformanceSubmission private constructor(
     val score: Double,
     val menteeId: String
 ) {
-    constructor(type: SubmissionType, score: Double, menteeId: String) : this(
-        id = java.util.UUID.randomUUID().toString(),
-        type = type,
-        score = score,
-        menteeId = menteeId
-    )
     companion object {
         private val submissionIdValidator = SubmissionIdValidator()
         private val submissionTypeValidator = SubmissionTypeValidator()
