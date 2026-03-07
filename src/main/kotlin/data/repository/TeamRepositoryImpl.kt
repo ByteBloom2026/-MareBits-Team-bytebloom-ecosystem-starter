@@ -19,6 +19,15 @@ class TeamRepositoryImpl(
         return Result.success(out)
     }
 
+    override fun searchTeamsByName(keyword: String): Result<List<Team>>{
+        val rows = dataSource.getTeams()
+            .getOrElse { return Result.failure(it) }
+            .filter { it.name.contains(keyword, ignoreCase = true) }
+            .map { it.toDomain() }
+
+        return Result.success(rows)
+    }
+
     override fun getTeamById(teamId: String): Result<Team?> {
         val row = dataSource.getTeamById(teamId).getOrElse { return Result.failure(it) }
             ?: return Result.success(null)
