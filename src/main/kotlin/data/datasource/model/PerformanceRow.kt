@@ -1,6 +1,6 @@
 package data.datasource.model
 
-import domain.model.SubmissionType
+import domain.model.PerformanceSubmission.SubmissionType
 
 data class PerformanceRow(
     val id: String,

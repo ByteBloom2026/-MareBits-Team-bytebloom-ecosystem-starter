@@ -14,4 +14,4 @@ class ScoreValidator(
         }
         return ValidationResult.success(data)
     }
-}//
+}

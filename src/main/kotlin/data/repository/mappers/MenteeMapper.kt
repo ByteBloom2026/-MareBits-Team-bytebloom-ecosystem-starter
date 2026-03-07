@@ -1,5 +1,9 @@
 package data.repository.mappers
 import data.datasource.model.MenteeRow
 import domain.model.Mentee
-fun MenteeRow.toDomain(): Mentee =
-    Mentee(id = id, name = name, teamId = teamId)
+import domain.validation.ValidationResult
+
+fun MenteeRow.toDomain(): ValidationResult<Mentee> =
+    Mentee.create(id = id
+        , name = name
+        , teamId = teamId)

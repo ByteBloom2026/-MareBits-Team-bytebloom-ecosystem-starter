@@ -1,14 +1,25 @@
 ## Welcome to the world of Marebits!✨  
 ###### We are a team united by passion and driven by a shared goal: to build a seamless and well-crafted data experience in the ByteBloom Ecosystem project
+###### "We don't just write code; we build an ecosystem that thrives on the spirit of unity." 🌟
+## Team Contributions👥🚀
 
-## Team Contributions👥🚀 
->##### [yara-jamal](): 🧱 Core Data Architecture & Team Parsing 
-* Led the design of the core data structure by creating all required Data Classes.  
-* Developed the team parsing function parseTeamData and ensured its seamless integration within the CsvParsers.kt file.
-* Contributed to unifying and organizing the parser structure with a clear and logical project architecture
->##### [IbtisamSafi](): ⚙️ Mentee & Performance Parsing
-* Implemented the parsing functions for mentee and performance data (parseMenteeData and parsePerformanceData).  
-* Assisted in data cleaning and proper formatting during the parsing process.  
-* Supported consistent coordination within the CsvParsers.kt file to align with the agreed project structure.
-## Team Spirit & Collaboration🤝 
->Despite not having the full team available, the spirit of collaboration remained strong. The contributing members supported each other, shared feedback, and worked seamlessly together—ensuring the task was completed efficiently and with care .
+### 👑 Team Leadership
+##### Ibtisam Safi | [The Visionary Leader] ⚓
+##### The inspiring leader steering the ByteBloom ship with wisdom and dedication.
+
+### 👥 The Core Pillars
+##### Tasneem Abu Nada | [The Right Hand] 🤝
+##### The ultimate supporter and the technical engine who is always there to back the team up.
+
+### Soad Al-Astal | [The Trusted Guardian] ✅
+##### The definition of reliability; the one you can delegate any task to with absolute peace of mind.
+
+### Alaa Husan | [The Efficiency Expert] ⏱️
+##### The symbol of commitment and discipline; delivering high-quality tasks ahead of every deadline.
+
+### Raghad | [The Dedicated Soul] 🔥
+##### The heartbeat of the team; her consistent presence in every meeting is the fuel for our continuity.
+
+### Elham Hasen | [The Silent Contributor] 🏗️
+##### A vital part of the assembly line, contributing to the foundational blocks of our system.
+

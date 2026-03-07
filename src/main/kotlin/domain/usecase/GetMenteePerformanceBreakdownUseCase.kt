@@ -1,6 +1,7 @@
 package domain.usecase
-import domain.model.SubmissionType
 import data.repository.PerformanceRepository
+import domain.model.PerformanceSubmission.SubmissionType
+
 class  GetMenteePerformanceBreakdownUseCase(
     private val performanceRepository: PerformanceRepository
 ) {
