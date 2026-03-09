@@ -1,15 +1,16 @@
 package domain.validation.validators
-import domain.validation.ValidationResult
-import domain.validation.Validator
-class ProjectNameValidator : Validator<String> {
-    override fun validate(data: String): ValidationResult<String> {
+import domain.validation.EcosystemValidator
+import domain.model.exception.EmptyProjectNameException
+import domain.model.exception.InvalidProjectNameLengthException
+class ProjectNameValidator : EcosystemValidator<String> {
+    override fun validate(data: String): String {
         val value = data.trim()
         if (value.isEmpty()) {
-            return ValidationResult.failure("projectName", "Project name is required.")
+            throw EmptyProjectNameException()
         }
         if (value.length < 3) {
-            return ValidationResult.failure("projectName", "Project name must be at least 3 characters.")
+            throw InvalidProjectNameLengthException()
         }
-        return ValidationResult.success(value)
+        return value
     }
 }

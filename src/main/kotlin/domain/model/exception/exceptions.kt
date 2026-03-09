@@ -10,3 +10,8 @@ sealed class SearchTeamException : Throwable() {
 class EmptyMenteeNameException: Exception()
 
 class NotCapitalizedNameException: Exception()
+class EmptyAttendanceWeeksException : Exception()
+
+class EmptyProjectNameException : Exception()
+class InvalidProjectNameLengthException : Exception()
+class InvalidProjectIdException : Exception()
