@@ -3,7 +3,7 @@ import domain.validation.validators.*
 
 data class Mentee  private constructor(
     val id: String,
-    val name: Result<String>,
+    val name: String,
     val teamId: String
 ) {
 
@@ -21,7 +21,7 @@ data class Mentee  private constructor(
             val teamId = teamIdValidator.validate(teamId)
             return  Mentee(
                 id = menteeId,
-                name = nameName,
+                name = name,
                 teamId = teamId
             )
 
