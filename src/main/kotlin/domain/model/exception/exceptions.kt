@@ -15,3 +15,4 @@ class EmptyAttendanceWeeksException : Exception()
 class EmptyProjectNameException : Exception()
 class InvalidProjectNameLengthException : Exception()
 class InvalidProjectIdException : Exception()
+//
