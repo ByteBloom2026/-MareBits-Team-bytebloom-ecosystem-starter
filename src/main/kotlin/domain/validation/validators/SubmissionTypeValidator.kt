@@ -16,7 +16,5 @@ class SubmissionTypeValidator: EcosystemValidator<PerformanceSubmission.Submissi
         return data
 
     }
-}
-
-
+}//
 
