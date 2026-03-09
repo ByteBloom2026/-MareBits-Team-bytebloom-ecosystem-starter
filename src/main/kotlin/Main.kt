@@ -2,6 +2,9 @@ import java.io.File
 import data.datasource.CsvEcosystemDataSource
 import domain.usecase.*
 import data.repository.*
+import domain.model.Team
+import domain.model.exception.InvalidTeamNameLengthException
+import domain.model.exception.SearchTeamException
 
 fun main() {
     val csvDataSource = CsvEcosystemDataSource.getInstance(
@@ -17,8 +20,23 @@ fun main() {
     val projectRepository = ProjectRepositoryImpl(csvDataSource)
     val attendanceRepository = AttendanceRepositoryImpl(csvDataSource)
 
-     val groupTeamsByMentorUseCase=GroupTeamsByMentorUseCase(teamRepositry)
-     println(" Teams Grouped By Mentor : ${groupTeamsByMentorUseCase}")
+    val searchTeamsByName = SearchTeamsByNameUseCase(teamRepositry)
+    try {
+        searchTeamsByName
+    } catch () {
+
+    }
+
+    val searchTeamsByNameResult = searchTeamsByName("   ")
+
+    searchTeamsByNameResult.fold(
+        onSuccess = ::onSearchTeamsByNameSuccess,
+        onFailure = ::onSearchTeamsByNameFailure
+    )
+
+
+    val groupTeamsByMentorUseCase = GroupTeamsByMentorUseCase(teamRepositry)
+    println(" Teams Grouped By Mentor : ${groupTeamsByMentorUseCase}")
 
     val getMenteeNameById = GetMenteeNameByIdUseCase(menteeRepository)
     println("Mentee name (M1): ${getMenteeNameById("M1")}")
@@ -65,4 +83,15 @@ fun main() {
 
     val getTopScoringMentee = GetTopScoringMenteeUseCase(menteeRepository, performanceRepository)
     println("Top scoring mentee: ${getTopScoringMentee()}")
+}
+
+private fun onSearchTeamsByNameSuccess(teams: List<Team>) {
+
+}
+
+private fun onSearchTeamsByNameFailure(throwable: Throwable) {
+    val searchTeamException = throwable as SearchTeamException
+    when(searchTeamException){
+        else -> {}
+    }
 }

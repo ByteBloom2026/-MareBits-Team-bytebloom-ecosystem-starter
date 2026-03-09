@@ -1,16 +1,19 @@
 package domain.validation.validators
+import domain.model.exception.EmptyMenteeNameException
+import domain.model.exception.NotCapitalizedNameException
+import domain.validation.EcosystemValidator
 import domain.validation.ValidationResult
 import domain.validation.Validator
-class MenteeNameValidator : Validator<String> {
-    override fun validate(data: String): ValidationResult<String> {
+class MenteeNameValidator : EcosystemValidator<String> {
+    override fun validate(data: String): Result<String> {
         val value = data.trim()
         if (value.isEmpty()) {
-            return ValidationResult.failure(field = "menteeName", message = "cannot be empty.")
+            return Result.failure(EmptyMenteeNameException())
         }
         if (!value[0].isUpperCase()) {
-            return ValidationResult.failure(field = "menteeName", message = "The first letter must be capitalized.")
+            return Result.failure(NotCapitalizedNameException())
         }
-        return ValidationResult.success(data = value)
+        return Result.success(value)
     }
 }
 
