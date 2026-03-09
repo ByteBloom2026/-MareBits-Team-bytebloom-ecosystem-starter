@@ -21,3 +21,4 @@ class EmptySumissionTypeException : Exception("The submission type cannot is emp
 class InvalidSubmissionTypeException : Exception("The submission type is invalid ")
 class EmptyTeamIdExcpection :Exception("The team id cannect be empty")
 class NameContainsInvalidCharactersException :Exception("Name must contain only letters")
+//
