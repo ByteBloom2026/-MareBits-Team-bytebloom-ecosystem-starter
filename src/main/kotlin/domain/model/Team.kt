@@ -1,8 +1,6 @@
 package domain.model
 
 import domain.validation.validators.*
-import domain.validation.ValidationResult
-
 data class Team private constructor(
     val id: String,
     val name: String,
