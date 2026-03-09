@@ -1,6 +1,7 @@
 package domain.validation.validators
 import domain.validation.EcosystemValidator
 import domain.model.exception.InvalidProjectIdException
+
 class ProjectIdValidator : EcosystemValidator<String> {
     override fun validate(data: String): String {
         val value = data.trim()
