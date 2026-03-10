@@ -1,18 +1,18 @@
 package domain.validation.validators
-import domain.validation.ValidationResult
-import domain.validation.Validator
+import domain.validation.EcosystemValidator
+import domain.model.exception.*
 
-class SubmissionIdValidator : Validator<String> {
+class SubmissionIdValidator : EcosystemValidator<String> {
     private val idRegex = Regex("^sub\\d{3}$", RegexOption.IGNORE_CASE)
-    override fun validate(data: String): ValidationResult<String> {
+    override fun validate(data: String): String {
     val value = data.trim()
     if (value.isEmpty()) {
-        return ValidationResult.failure("submissionId", "submission id is required.")
+        throw EmptySubmissionIdException()
     }
     if (!idRegex.matches(value)) {
-        return ValidationResult.failure("SubmissionId","It must begin with 'sub' followed by 3 numbers.")
+        throw InvalidSumbmissionIdException()
     }
-    return ValidationResult.success(value.lowercase())
+    return  value.lowercase()
 }
 
 }

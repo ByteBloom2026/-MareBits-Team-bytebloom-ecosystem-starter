@@ -1,24 +1,20 @@
 package domain.validation.validators
 import domain.model.PerformanceSubmission
-import domain.validation.ValidationResult
-import domain.validation.Validator
+import domain.validation.EcosystemValidator
+import domain.model.exception.*
 
-class SubmissionTypeValidator: Validator<PerformanceSubmission.SubmissionType> {
+class SubmissionTypeValidator: EcosystemValidator<PerformanceSubmission.SubmissionType> {
     private val allowedTypes =listOf("TASK","BOOK_CLUB","WORKSHOP")
-   override fun validate(data: PerformanceSubmission.SubmissionType): ValidationResult<PerformanceSubmission.SubmissionType> {
+   override fun validate(data: PerformanceSubmission.SubmissionType): PerformanceSubmission.SubmissionType {
         val value=data.name.trim().uppercase()
         if(value.isEmpty()){
-            return ValidationResult.failure("submissionType", "Submission type is required.")
+            throw EmptySumissionTypeException()
         }
         if (!allowedTypes.contains(value)){
-            return ValidationResult.failure(
-                "submissionType",
-                "Invalid type. Allowed types are: ${allowedTypes.joinToString(", ")}"
-            )
+            throw InvalidSubmissionTypeException()
         }
-        return ValidationResult.success(data)
+        return data
+
     }
 }
-
-
 

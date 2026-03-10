@@ -2,8 +2,7 @@ package data.repository.mappers
 import data.datasource.model.AttendanceRow
 import domain.model.Attendance
 import domain.model.AttendanceState
-import domain.validation.ValidationResult
-fun AttendanceRow.toDomain(): ValidationResult<Attendance> {
+fun AttendanceRow.toDomain(): Attendance {
     val states = weeks.split(",").map { token ->
         when (token.trim().uppercase()) {
             "PRESENT" -> AttendanceState.PRESENT
@@ -12,6 +11,8 @@ fun AttendanceRow.toDomain(): ValidationResult<Attendance> {
             else -> AttendanceState.ABSENT
         }
     }
-    return Attendance.create(menteeId = menteeId, weeks = states)
+    return Attendance.create(
+        menteeId = menteeId,
+        weeks = states)
 }
 
