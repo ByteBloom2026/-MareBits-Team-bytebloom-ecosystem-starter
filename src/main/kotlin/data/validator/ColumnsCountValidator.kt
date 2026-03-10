@@ -1,16 +1,13 @@
 package data.validator
-import data.exception.ValidationException
+import data.validator.exception.*
 
 class ColumnsCountValidator(private val expectedColumns: Int) : Validator<List<String>> {
-    override fun validate(input: List<String>): Result<List<String>> {
+    override fun validate(input: List<String>): List<String>{
         return if (input.size == expectedColumns) {
-            Result.success(input)
+            return input
         } else {
-            Result.failure(
-                ValidationException(
-                    "Wrong number of columns: expected=$expectedColumns, got=${input.size}"
-                )
-            )
+             throw InvalidColumnCountException()
+
         }
     }
 }

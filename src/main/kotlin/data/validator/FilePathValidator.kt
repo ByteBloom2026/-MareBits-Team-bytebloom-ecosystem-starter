@@ -1,30 +1,23 @@
 package data.validator
-import data.exception.ValidationException
 import java.io.File
+import data.validator.exception.*
 
 class FilePathValidator : Validator<String> {
-    override fun validate(input: String): Result<String> {
+    override fun validate(input: String): String {
         if (input.isBlank()) {
-            return Result.failure(
-                ValidationException("File path is blank")
-            )
+             throw BlankFilePathException()
+
         }
         val file = File(input)
         if (!file.exists()) {
-            return Result.failure(
-                ValidationException("File does not exist: $input")
-            )
+           throw FileDoesNotExistException()
         }
         if (!file.isFile) {
-            return Result.failure(
-                ValidationException("Path is not a file: $input")
-            )
+            throw PathIsNotFileException()
         }
         if (file.length() == 0L) {
-            return Result.failure(
-                ValidationException("File is empty: $input")
-            )
+            throw FileIsEmptyException()
         }
-        return Result.success(input)
+        return  input
     }
 }

@@ -1,14 +1,12 @@
 package data.validator
-import data.exception.ValidationException
+import data.validator.exception.*
 
 class LineIsNotEmptyValidator : Validator<String> {
-    override fun validate(input: String): Result<String> {
+    override fun validate(input: String): String {
         return if (input.isNotBlank()) {
-            Result.success(input)
+            return input
         } else {
-            Result.failure(
-                ValidationException("CSV line is empty")
-            )
+         throw EmptyLineException()
         }
     }
 }
