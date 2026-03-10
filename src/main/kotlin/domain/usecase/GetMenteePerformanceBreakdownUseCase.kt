@@ -1,11 +1,12 @@
 package domain.usecase
 import data.repository.PerformanceRepository
 import domain.model.PerformanceSubmission.SubmissionType
+import domain.usecase.request.RequestMenteeId
 
 class  GetMenteePerformanceBreakdownUseCase(
     private val performanceRepository: PerformanceRepository
 ) {
-    operator fun invoke(menteeId: String): Map<SubmissionType, Double> {
+    operator fun invoke(menteeId: RequestMenteeId): Map<SubmissionType, Double> {
         val submissions = performanceRepository.getPerformanceByMenteeId(menteeId)
         return submissions.groupBy { it.type }
             .mapValues { (_, list) ->

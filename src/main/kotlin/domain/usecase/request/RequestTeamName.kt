@@ -1,5 +1,5 @@
 package domain.usecase.request
 
-data class requestTeamName (
+data class RequestTeamName (
      val teamName: String
 )
