@@ -9,17 +9,15 @@ class GetMenteeNameByIdUseCase(
         return menteeRepository
             .getMenteeById(request.menteeId)
             .fold(
-                onSuccess = ::toMenteeNameResult,
-                onFailure = ::toFailureResult
+                onSuccess = ::onGetMenteeNameByIdSuccess,
+                onFailure = ::onGetMenteeNameByIdFailure
             )
 
     }
-    private fun toMenteeNameResult(mentee: Mentee?): Result<String?> {
+    private fun onGetMenteeNameByIdSuccess(mentee: Mentee?): Result<String?> {
         return Result.success(mentee?.name)
     }
-    private fun toFailureResult(error: Throwable): Result<String?> {
-        return Result.failure(
-            Exception("Failed to fetch mentee name: ${error.message}")
-        )
+    private fun  onGetMenteeNameByIdFailure(error: Throwable): Result<String?> {
+        return Result.failure(error)
     }
 }
