@@ -12,7 +12,6 @@ import java.io.File
 class CsvEcosystemDataSource private constructor(
     private val menteeFile: File, private val teamFile: File, private val performanceFile: File,  private val projectFile: File,  private val attendanceFile: File
 ) : EcoSystemDataSource {
-
     private val filePathValidator = FilePathValidator()
     private val lineValidator = LineIsNotEmptyValidator()
     private val noEmptyColumnsValidator = NoEmptyColumnsValidator()
@@ -147,14 +146,15 @@ class CsvEcosystemDataSource private constructor(
 
     private fun validateFile(file: File, fileLabel: String): Result<List<String>> {
         val r = filePathValidator.validate(file.path)
-        if (r.isFailure) return Result.failure(IllegalArgumentException("$fileLabel: ${r.exceptionOrNull()?.message}"))
+        if (r.isFailure)
+            return Result.failure(IllegalArgumentException("$fileLabel: ${r.exceptionOrNull()?.message}"))
 
         val lines = file.readLines()
-        if (lines.size <= 1) return Result.failure(IllegalArgumentException("$fileLabel: No data rows (only header or empty)"))
+        if (lines.size <= 1)
+            return Result.failure(IllegalArgumentException("$fileLabel: No data rows (only header or empty)"))
 
         return Result.success(lines)
     }
-
     private fun validateLineToParts(
         line: String,
         fileLabel: String,
@@ -162,33 +162,27 @@ class CsvEcosystemDataSource private constructor(
         expectedColumns: Int
     ): Result<List<String>> {
         val vLine = lineValidator.validate(line)
-        if (vLine.isFailure) return Result.failure(IllegalArgumentException("$fileLabel line $lineNumber: ${vLine.exceptionOrNull()?.message}"))
-
+        if (vLine.isFailure)
+            return Result.failure(IllegalArgumentException("$fileLabel line $lineNumber: ${vLine.exceptionOrNull()?.message}"))
         val parts = line.split(",").map { it.trim() }
-
         val vCount = ColumnsCountValidator(expectedColumns).validate(parts)
-        if (vCount.isFailure) return Result.failure(IllegalArgumentException("$fileLabel line $lineNumber: ${vCount.exceptionOrNull()?.message}"))
-
+        if (vCount.isFailure)
+            return Result.failure(IllegalArgumentException("$fileLabel line $lineNumber: ${vCount.exceptionOrNull()?.message}"))
         val vEmpty = noEmptyColumnsValidator.validate(parts)
         if (vEmpty.isFailure) return Result.failure(IllegalArgumentException("$fileLabel line $lineNumber: ${vEmpty.exceptionOrNull()?.message}"))
-
         return Result.success(parts)
     }
-
     private fun validatedParts(file: File, fileLabel: String, expectedColumns: Int): Result<List<List<String>>> {
         val linesResult = validateFile(file, fileLabel)
         if (linesResult.isFailure) return Result.failure(linesResult.exceptionOrNull()!!)
-
         val lines = linesResult.getOrNull()!!
         val out = mutableListOf<List<String>>()
-
         for ((i, line) in lines.drop(1).withIndex()) {
             val lineNumber = i + 2
             val partsResult = validateLineToParts(line, fileLabel, lineNumber, expectedColumns)
             if (partsResult.isFailure) return Result.failure(partsResult.exceptionOrNull()!!)
             out.add(partsResult.getOrNull()!!)
         }
-
         return Result.success(out)
     }
-}//
+}

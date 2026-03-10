@@ -1,11 +1,12 @@
 package data.validator
+import data.validator.exception.*
 
-class NoEmptyColumnsValidator: Validator<List<String>> {
-    override fun validate(input: List<String>): Result<List<String>> {
+class NoEmptyColumnsValidator : Validator<List<String>> {
+    override fun validate(input: List<String>):List<String> {
         return if (input.any { it.isBlank() }) {
-            Result.failure(IllegalArgumentException("One or more columns are empty"))
+             throw EmptyColumnException()
         } else {
-            Result.success(input)
+            return input
         }
     }
 }
