@@ -3,6 +3,7 @@ package domain.model.exception
 sealed class SearchTeamException(string: String) : Throwable() {
     class EmptyTeamNameException: SearchTeamException("Team name cannot be empty")
     class InvalidTeamNameLengthException: SearchTeamException("Team name length is invalid")
+    class EmptyTeamIdExcpection :Exception("The team id cannect be empty")
 }
 class EmptyMenteeNameException: Exception("Mentee name cannot be empty")
 class NotCapitalizedNameException: Exception("Name must start with a letter")
@@ -19,6 +20,5 @@ class EmptySubmissionIdException:Exception("The submission Id  cannot is empty")
 class InvalidSumbmissionIdException : Exception("The submission Id is invalid")
 class EmptySumissionTypeException : Exception("The submission type cannot is empty ")
 class InvalidSubmissionTypeException : Exception("The submission type is invalid ")
-class EmptyTeamIdExcpection :Exception("The team id cannect be empty")
 class NameContainsInvalidCharactersException :Exception("Name must contain only letters")
 class MenteeNotFoundException(): Exception()
