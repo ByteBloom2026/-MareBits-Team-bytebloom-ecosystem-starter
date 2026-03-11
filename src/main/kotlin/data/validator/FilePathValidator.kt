@@ -1,6 +1,6 @@
 package data.validator
 import java.io.File
-import data.validator.exception.*
+import data.datasource.model.exception.*
 
 class FilePathValidator : Validator<String> {
     override fun validate(input: String): String {
