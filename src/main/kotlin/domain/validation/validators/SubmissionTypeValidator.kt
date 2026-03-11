@@ -8,10 +8,10 @@ class SubmissionTypeValidator: EcosystemValidator<PerformanceSubmission.Submissi
    override fun validate(data: PerformanceSubmission.SubmissionType): PerformanceSubmission.SubmissionType {
         val value=data.name.trim().uppercase()
         if(value.isEmpty()){
-            throw EmptySumissionTypeException()
+            throw SubmissionException.EmptySumissionTypeException()
         }
         if (!allowedTypes.contains(value)){
-            throw InvalidSubmissionTypeException()
+            throw SubmissionException.InvalidSubmissionTypeException()
         }
         return data
 

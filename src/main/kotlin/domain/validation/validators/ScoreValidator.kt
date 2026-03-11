@@ -7,10 +7,10 @@ class ScoreValidator(
     private val max: Double = 100.0) : EcosystemValidator<Double> {
     override fun validate(data: Double): Double {
         if (data.isNaN() || data.isInfinite()) {
-            throw InvalidScoreException()
+            throw ScoreException.InvalidScoreException()
         }
         if (data < min || data > max) {
-            throw ScoreOutOfRangeException(min,max)
+            throw ScoreException.ScoreOutOfRangeException(min,max)
         }
         return data
     }
