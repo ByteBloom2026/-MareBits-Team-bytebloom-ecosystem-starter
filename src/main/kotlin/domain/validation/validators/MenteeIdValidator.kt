@@ -7,10 +7,10 @@ class MenteeIdValidator : EcosystemValidator<String> {
     override fun validate(data: String): String {
         val value = data.trim()
         if (value.isEmpty()) {
-            throw EmptyMenteeNameException()
+            throw MenteeException.EmptyMenteeNameException()
         }
         if (!menteeIdRegex.matches(value)) {
-            throw InvalidMenteeNameException()
+            throw MenteeException.InvalidMenteeNameException()
         }
         return value.lowercase()
     }

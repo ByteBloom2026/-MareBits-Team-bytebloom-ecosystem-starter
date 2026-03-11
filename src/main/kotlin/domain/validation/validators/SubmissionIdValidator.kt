@@ -7,10 +7,10 @@ class SubmissionIdValidator : EcosystemValidator<String> {
     override fun validate(data: String): String {
     val value = data.trim()
     if (value.isEmpty()) {
-        throw EmptySubmissionIdException()
+        throw SubmissionException.EmptySubmissionIdException()
     }
     if (!idRegex.matches(value)) {
-        throw InvalidSumbmissionIdException()
+        throw SubmissionException.InvalidSumbmissionIdException()
     }
     return  value.lowercase()
 }
