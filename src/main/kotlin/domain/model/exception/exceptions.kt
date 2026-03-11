@@ -22,3 +22,4 @@ class EmptySumissionTypeException : Exception("The submission type cannot is emp
 class InvalidSubmissionTypeException : Exception("The submission type is invalid ")
 class NameContainsInvalidCharactersException :Exception("Name must contain only letters")
 class MenteeNotFoundException(): Exception()
+//
