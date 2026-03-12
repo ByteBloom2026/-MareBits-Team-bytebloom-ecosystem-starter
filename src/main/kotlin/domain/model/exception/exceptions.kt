@@ -33,3 +33,7 @@ sealed class QueryException(): Throwable(){
 }
 class NotCapitalizedNameException: Exception("Name must start with a letter")
 class NameContainsInvalidCharactersException :Exception("Name must contain only letters")
+sealed class DataAccessException(message: String) : Exception(message) {
+    class InvalidDataSourceException : DataAccessException("Invalid data source")
+    class InvalidDataFormatException : DataAccessException("Invalid data format")
+}
