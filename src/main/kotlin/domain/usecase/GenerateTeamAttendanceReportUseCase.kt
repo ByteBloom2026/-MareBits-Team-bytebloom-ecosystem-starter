@@ -2,11 +2,14 @@ package domain.usecase
 import data.repository.AttendanceRepository
 import data.repository.MenteeRepository
 import domain.model.AttendanceState
+import domain.usecase.request
+import domain.usecase.request.RequestTeamId
+
 class GenerateTeamAttendanceReportUseCase(
     private val attendanceRepository: AttendanceRepository,
     private val menteeRepository: MenteeRepository
 ) {
-    operator fun invoke(teamId: String): Map<String, Int> =
+    operator fun invoke(teamId: RequestTeamId): Map<String, Int> =
         getAbsenceCountPerMentee(teamId)
 
     private fun getAbsenceCountPerMentee(teamId: String): Map<String, Int> = menteeRepository.getMenteesByTeamId(teamId)

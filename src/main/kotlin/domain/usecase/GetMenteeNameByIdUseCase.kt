@@ -1,6 +1,5 @@
 package domain.usecase
 import data.repository.MenteeRepository
-import domain.usecase.request.GetMenteeNameByIdRequest
 import domain.model.Mentee
 class GetMenteeNameByIdUseCase(
     private val menteeRepository: MenteeRepository
