@@ -8,11 +8,14 @@ class GetPerfectAttendanceMenteesUseCase (
     private val menteeRepository: MenteeRepository
 )
 {
-    operator fun invoke(): List<Mentee> =
-        menteeRepository.getAllMentees()
-            .filter { mentee -> attendanceRepository.getAttendanceByMenteeId(mentee.id)
-                ?.weeks
-                ?.all { it == AttendanceState.PRESENT }
-                ?: false
+    operator fun invoke(): Result<List<Mentee>> {
+         return Result.success(menteeRepository.getAllMentees()
+            .filter { mentee ->
+                attendanceRepository.getAttendanceByMenteeId(mentee.id)
+                    ?.weeks
+                    ?.all { it == AttendanceState.PRESENT }
+                    ?: false
             }
+        )
+    }
 }

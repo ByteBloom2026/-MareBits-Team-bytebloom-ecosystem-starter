@@ -7,8 +7,8 @@ class GetMostAbsentMenteesUseCase (
     private val menteeRepository: MenteeRepository,
     private val attendanceRepository: AttendanceRepository
 ){
-    operator fun invoke(): List<Pair<Mentee, Int>> {
-        return menteeRepository.getAllMentees()
+    operator fun invoke(): Result<List<Pair<Mentee, Int>>> {
+        val absentList = menteeRepository.getAllMentees()
             .mapNotNull { mentee ->
                 attendanceRepository.getAttendanceByMenteeId(mentee.id)
                     ?.weeks
@@ -18,5 +18,6 @@ class GetMostAbsentMenteesUseCase (
                     }
             }
             .sortedByDescending { it.second }
+        return Result.success(absentList)
     }
 }
