@@ -15,10 +15,12 @@ class GetMenteesWithLowAverageScoreUseCase(
     }
     private fun onMenteeWithLowAverageSuccess(mentees: List<Mentee>, threshold: Double): Result<List<Mentee>> {
         val lowScoringMentees = mentees.filter { mentee ->
-            val avgScore = performanceRepository.getPerformanceByMenteeId(mentee.id)
+            val performances = performanceRepository.getPerformanceByMenteeId(mentee.id)
+                .getOrDefault(emptyList())
+            val avgScore = performances
                 .map { it.score }
-                .average().let { if (it.isNaN()) 0.0 else it }
-
+                .average()
+                .let { if (it.isNaN()) 0.0 else it }
             avgScore < threshold
         }
         return Result.success(lowScoringMentees)

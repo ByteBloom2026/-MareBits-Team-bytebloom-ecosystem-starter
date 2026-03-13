@@ -8,15 +8,16 @@ class GetTeamAverageScoreUseCase(
     private val performanceRepository: PerformanceRepository
 ) {
     operator fun invoke(request: GetTeamAverageScoreRequest): Result<Double> {
-        return menteeRepository.getMenteesByTeamId(request.teamId).fold(
+        return menteeRepository.getMenteesByTeamId(request.teamId)
+            .fold(
         onSuccess = { mentees -> onGetTeamAverageScoreSuccess(mentees) },
         onFailure = ::onGetTeamAverageScoreFailure
         )
     }
     private fun onGetTeamAverageScoreSuccess(mentees: List<Mentee>): Result<Double>{
         val allScores = mentees.flatMap { mentee ->
-            performanceRepository.getPerformanceByMenteeId(mentee.id)
-                .map { it.score}
+           val performance= performanceRepository.getPerformanceByMenteeId(mentee.id).getOrNull()
+            performance?.map { it.score} ?:emptyList()
         }
         val average = allScores.average().let { if (it.isNaN()) 0.0 else it }
         return Result.success(average)

@@ -9,13 +9,15 @@ class GetMenteeNamesByTeamNameUseCase(
 ) {
     operator fun invoke(request: GetMenteeNamesByTeamNameRequest): Result<List<String>> {
         return teamRepository.searchTeamsByName(request.teamName).fold(
-            onSuccess = ::onGetMenteeNameByTeamNameSucess,
+            onSuccess = ::GetMenteeNamesByTeamNameSuccess,
             onFailure = ::onGetMenteeNameByTeamNameFailure
         )
     }
-    private fun onGetMenteeNameByTeamNameSucess(team: Team?): Result<List<String>> {
-        val names = menteeRepository.getAllMentees()
-            .filter { it.teamId == team?.id }
+    private fun GetMenteeNamesByTeamNameSuccess(teams: List<Team>): Result<List<String>> {
+        val targetTeam = teams.firstOrNull()
+        val allMentees = menteeRepository.getAllMentees().getOrDefault(emptyList())
+        val names = allMentees
+            .filter { it.teamId == targetTeam?.id }
             .map { it.name }
         return Result.success(names)
     }

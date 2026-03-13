@@ -8,7 +8,8 @@ class  GetMenteePerformanceBreakdownUseCase(
     private val performanceRepository: PerformanceRepository
 ) {
     operator fun invoke(request: GetMenteePerformanceBreakdownRequest): Result<Map<SubmissionType, Double>> {
-        return performanceRepository.getPerformanceByMenteeId(request.menteeId).fold(
+        return performanceRepository.getPerformanceByMenteeId(request.menteeId)
+            .fold(
             onSuccess = ::onGetMenteePerformanceBreakdownSuccess,
             onFailure = ::onGetMenteePerformanceBreakdownFailure
         )

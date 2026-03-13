@@ -15,16 +15,18 @@ class GenerateTeamAttendanceReportUseCase(
             onFailure = ::onGenerateTeamAttendanceReportFailure
         )
     }
-    private fun getAbsenceCountPerMentee(teamId: String): Map<String, Int> =
-        menteeRepository.getMenteesByTeamId(teamId)
-            .associate { mentee ->
-                val absences = attendanceRepository
-                    .getAttendanceByMenteeId(mentee.id)
-                    ?.weeks
-                    ?.count { it == AttendanceState.ABSENT }
-                    ?: 0
-                mentee.id to absences
-            }
+    private fun getAbsenceCountPerMentee(teamId: String): Map<String, Int> {
+        val mentees = menteeRepository.getMenteesByTeamId(teamId).getOrThrow()
+        return mentees.associate { mentee ->
+            val absences = attendanceRepository
+                .getAttendanceByMenteeId(mentee.id)
+                .getOrNull()
+                ?.weeks
+                ?.count { it == AttendanceState.ABSENT }
+                ?: 0
+            mentee.id to absences
+        }
+    }
     private fun onGenerateTeamAttendanceReportSuccess(report: Map<String, Int>): Result<Map<String, Int>> {
         return Result.success(report)
     }
