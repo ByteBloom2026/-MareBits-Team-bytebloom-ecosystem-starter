@@ -1,5 +1,5 @@
 package data.validator
-import data.validator.exception.*
+import data.datasource.model.exception.*
 
 class NoEmptyColumnsValidator : Validator<List<String>> {
     override fun validate(input: List<String>):List<String> {

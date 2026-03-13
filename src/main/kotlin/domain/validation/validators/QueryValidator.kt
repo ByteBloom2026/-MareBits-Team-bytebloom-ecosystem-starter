@@ -7,10 +7,10 @@ class QueryValidator : EcosystemValidator<String> {
     override fun validate(data: String): String {
         val value = data.trim()
         if (value.isEmpty()) {
-            throw  EmptyQueryException()
+            throw QueryException.EmptyQueryException()
         }
         if (value.length < minLength) {
-            throw InvalidQueryException()
+            throw QueryException.InvalidQueryException()
         }
         return value
     }

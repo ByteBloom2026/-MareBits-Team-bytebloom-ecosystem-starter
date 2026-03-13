@@ -7,7 +7,7 @@ class TeamIdValidator : EcosystemValidator<String> {
     override fun validate(data: String): String {
         val value = data.trim()
         if (value.isEmpty()) {
-            throw EmptyTeamIdExcpection()
+            throw SearchTeamException.EmptyTeamIdExcpection()
         }
         if (!value.first().isLetter()) {
             throw NotCapitalizedNameException()
