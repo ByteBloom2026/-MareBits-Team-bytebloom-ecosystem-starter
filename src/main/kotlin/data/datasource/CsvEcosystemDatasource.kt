@@ -29,13 +29,11 @@ class CsvEcosystemDataSource private constructor(
                 }
             }
     }
-
     override fun getMenteeById(id: String): Result<MenteeRow?> {
         return getMentees().map { mentees ->
             mentees.find { it.id == id }
         }
     }
-
     override fun getMenteesByTeamId(teamId: String): Result<List<MenteeRow>> {
         return getMentees().map { mentees ->
             mentees.filter { it.teamId == teamId }
@@ -54,13 +52,11 @@ class CsvEcosystemDataSource private constructor(
                 }
             }
     }
-
     override fun getTeamById(teamId: String): Result<TeamRow?> {
         return getTeams().map { teams ->
             teams.find { it.id == teamId }
         }
     }
-
     override fun getPerformances(): Result<List<PerformanceRow>> {
         return validatedParts(performanceFile, "performance.csv", 4)
             .map { rows ->
@@ -81,7 +77,6 @@ class CsvEcosystemDataSource private constructor(
             performances.filter { it.menteeId == menteeId }
         }
     }
-
     override fun getProjects(): Result<List<ProjectRow>> {
         return validatedParts(projectFile, "projects.csv", 3)
             .map { rows ->
@@ -94,14 +89,11 @@ class CsvEcosystemDataSource private constructor(
                 }
             }
     }
-
-
     override fun getProjectByTeamId(teamId: String): Result<ProjectRow?> {
         return getProjects().map { projects ->
             projects.find { it.teamId == teamId }
         }
     }
-
     override fun getAttendances(): Result<List<AttendanceRow>> {
         return validatedParts(attendanceFile, "attendance.csv", 4)
             .map { rows ->
@@ -113,7 +105,6 @@ class CsvEcosystemDataSource private constructor(
                 }
             }
     }
-
     override fun getAttendanceByMenteeId(
         menteeId: String
     ): Result<AttendanceRow?> {

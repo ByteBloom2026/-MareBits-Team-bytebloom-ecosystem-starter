@@ -3,26 +3,47 @@ import data.repository.AttendanceRepository
 import data.repository.MenteeRepository
 import data.repository.TeamRepository
 import domain.model.AttendanceState
-class GetAverageAttendancePercentagePerTeamUseCase (
+import domain.model.Team
+
+class GetAverageAttendancePercentagePerTeamUseCase(
     private val teamRepository: TeamRepository,
     private val menteeRepository: MenteeRepository,
     private val attendanceRepository: AttendanceRepository
-)
-{
-    operator fun invoke(): Map<String, Double> {
-        return teamRepository.getAllTeams().associate { team ->
-            val mentees = menteeRepository.getMenteesByTeamId(team.id)
-
-            val percentages = mentees.mapNotNull { mentee ->
-                attendanceRepository.getAttendanceByMenteeId(mentee.id)
-                    ?.weeks
-                    ?.let { weeks ->
-                        val presentCount = weeks.count { it == AttendanceState.PRESENT }
-                        (presentCount.toDouble() / weeks.size) * 100
-                    }
-            }
-
-            team.name to (percentages.average().takeIf { !it.isNaN() } ?: 0.0)
+) {
+    operator fun invoke(): Result<Map<String, Double>> {
+        return teamRepository.getAllTeams().fold(
+            onSuccess = ::GetAverageAttendancePercentagePerTeamSuccess,
+            onFailure = ::GetAverageAttendancePercentagePerTeamFailure
+        )
+    }
+    private fun GetAverageAttendancePercentagePerTeamSuccess(teams: List<Team>): Result<Map<String, Double>> {
+        val teamAverages = teams.associate { team ->
+            team.name to calculateAverageAttendance(team.id)
         }
+        return Result.success(teamAverages)
+    }
+    private fun GetAverageAttendancePercentagePerTeamFailure(error: Throwable): Result<Map<String, Double>> {
+        return Result.failure(error)
+    }
+    private fun calculateAverageAttendance(teamId: String): Double {
+        val mentees = menteeRepository.getMenteesByTeamId(teamId).getOrDefault(emptyList())
+
+        if (mentees.isEmpty()) return 0.0
+
+        val percentages = mentees.mapNotNull { mentee ->
+            calculateMenteeAttendancePercentage(mentee.id)
+        }
+
+        val avg = percentages.average()
+        return if (avg.isNaN()) 0.0 else avg
+    }
+    private fun calculateMenteeAttendancePercentage(menteeId: String): Double? {
+        val attendance = attendanceRepository.getAttendanceByMenteeId(menteeId).getOrNull()
+        val weeks = attendance?.weeks ?: return null
+
+        if (weeks.isEmpty()) return 0.0
+
+        val presentCount = weeks.count { it == AttendanceState.PRESENT }
+        return (presentCount.toDouble() / weeks.size) * 100
     }
 }
