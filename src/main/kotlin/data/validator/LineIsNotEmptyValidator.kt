@@ -1,5 +1,5 @@
 package data.validator
-import data.validator.exception.*
+import data.datasource.model.exception.*
 
 class LineIsNotEmptyValidator : Validator<String> {
     override fun validate(input: String): String {

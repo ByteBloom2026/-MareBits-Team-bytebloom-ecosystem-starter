@@ -1,15 +1,31 @@
 package domain.usecase
 import data.repository.MenteeRepository
 import data.repository.TeamRepository
+import domain.model.Mentee
+import domain.usecase.request.GetTeamByMenteeNameRequest
+
 class GetTeamByMenteeNameUseCase (
     private val teamRepository: TeamRepository,
     private val menteeRepository: MenteeRepository,
-){
-    operator fun invoke(menteeName: String): String? {
-        val mentee = menteeRepository.getAllMentees()
-            .find { it.name == menteeName }
+) {
+    operator fun invoke(request: GetTeamByMenteeNameRequest): Result<String?> {
+        return menteeRepository.getAllMentees().fold(
+            onSuccess = { mentees -> onGetTeamByMenteeNameSuccess(mentees, request.menteeName) },
+            onFailure = ::onGetTeamByMenteeNameFailure
+        )
+    }
+
+    private fun onGetTeamByMenteeNameSuccess(mentees: List<Mentee>, menteeName: String): Result<String?> {
+        val mentee = mentees.find { it.name == menteeName }
         val team = teamRepository.getAllTeams()
-            .find { it.id == mentee?.teamId }
-        return team?.name
+            .getOrNull()
+            ?.find { it.id == mentee?.teamId }
+        return Result.success(team?.name)
+    }
+
+    private fun onGetTeamByMenteeNameFailure(error: Throwable): Result<String?> {
+        return Result.failure(error)
     }
 }
+
+

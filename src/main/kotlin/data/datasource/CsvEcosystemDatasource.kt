@@ -2,6 +2,7 @@ package data.datasource
 
 import data.datasource.model.*
 import data.EcoSystemDataSource
+import data.datasource.model.exception.FileIsEmptyException
 import data.validator.ColumnsCountValidator
 import data.validator.FilePathValidator
 import data.validator.LineIsNotEmptyValidator
@@ -28,13 +29,11 @@ class CsvEcosystemDataSource private constructor(
                 }
             }
     }
-
     override fun getMenteeById(id: String): Result<MenteeRow?> {
         return getMentees().map { mentees ->
             mentees.find { it.id == id }
         }
     }
-
     override fun getMenteesByTeamId(teamId: String): Result<List<MenteeRow>> {
         return getMentees().map { mentees ->
             mentees.filter { it.teamId == teamId }
@@ -53,13 +52,11 @@ class CsvEcosystemDataSource private constructor(
                 }
             }
     }
-
     override fun getTeamById(teamId: String): Result<TeamRow?> {
         return getTeams().map { teams ->
             teams.find { it.id == teamId }
         }
     }
-
     override fun getPerformances(): Result<List<PerformanceRow>> {
         return validatedParts(performanceFile, "performance.csv", 4)
             .map { rows ->
@@ -80,7 +77,6 @@ class CsvEcosystemDataSource private constructor(
             performances.filter { it.menteeId == menteeId }
         }
     }
-
     override fun getProjects(): Result<List<ProjectRow>> {
         return validatedParts(projectFile, "projects.csv", 3)
             .map { rows ->
@@ -93,14 +89,11 @@ class CsvEcosystemDataSource private constructor(
                 }
             }
     }
-
-
     override fun getProjectByTeamId(teamId: String): Result<ProjectRow?> {
         return getProjects().map { projects ->
             projects.find { it.teamId == teamId }
         }
     }
-
     override fun getAttendances(): Result<List<AttendanceRow>> {
         return validatedParts(attendanceFile, "attendance.csv", 4)
             .map { rows ->
@@ -112,7 +105,6 @@ class CsvEcosystemDataSource private constructor(
                 }
             }
     }
-
     override fun getAttendanceByMenteeId(
         menteeId: String
     ): Result<AttendanceRow?> {
@@ -145,15 +137,19 @@ class CsvEcosystemDataSource private constructor(
     }
 
     private fun validateFile(file: File, fileLabel: String): Result<List<String>> {
-        val r = filePathValidator.validate(file.path)
-        if (r.isFailure)
-            return Result.failure(IllegalArgumentException("$fileLabel: ${r.exceptionOrNull()?.message}"))
+        return try {
+            filePathValidator.validate(file.path)
 
-        val lines = file.readLines()
-        if (lines.size <= 1)
-            return Result.failure(IllegalArgumentException("$fileLabel: No data rows (only header or empty)"))
+            val fileLines = file.readLines()
 
-        return Result.success(lines)
+            if (fileLines.size <= 1) {
+                Result.failure(FileIsEmptyException())
+            } else {
+                Result.success(fileLines)
+            }
+        } catch (exception: Exception) {
+            Result.failure(exception)
+        }
     }
     private fun validateLineToParts(
         line: String,
@@ -161,16 +157,15 @@ class CsvEcosystemDataSource private constructor(
         lineNumber: Int,
         expectedColumns: Int
     ): Result<List<String>> {
-        val vLine = lineValidator.validate(line)
-        if (vLine.isFailure)
-            return Result.failure(IllegalArgumentException("$fileLabel line $lineNumber: ${vLine.exceptionOrNull()?.message}"))
-        val parts = line.split(",").map { it.trim() }
-        val vCount = ColumnsCountValidator(expectedColumns).validate(parts)
-        if (vCount.isFailure)
-            return Result.failure(IllegalArgumentException("$fileLabel line $lineNumber: ${vCount.exceptionOrNull()?.message}"))
-        val vEmpty = noEmptyColumnsValidator.validate(parts)
-        if (vEmpty.isFailure) return Result.failure(IllegalArgumentException("$fileLabel line $lineNumber: ${vEmpty.exceptionOrNull()?.message}"))
-        return Result.success(parts)
+        return try {
+            lineValidator.validate(line)
+            val columns = line.split(",").map { column -> column.trim() }
+            ColumnsCountValidator(expectedColumns).validate(columns)
+            noEmptyColumnsValidator.validate(columns)
+            Result.success(columns)
+        } catch (exception: Exception) {
+            Result.failure(exception)
+        }
     }
     private fun validatedParts(file: File, fileLabel: String, expectedColumns: Int): Result<List<List<String>>> {
         val linesResult = validateFile(file, fileLabel)
