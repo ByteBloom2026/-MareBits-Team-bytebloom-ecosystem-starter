@@ -62,10 +62,10 @@ class CsvEcosystemDataSource private constructor(
             .map { rows ->
                 rows.map { parts ->
                     PerformanceRow(
-                        id = parts[0],
-                        type = SubmissionType.valueOf(parts[1].uppercase()),
-                        score = parts[2].toDoubleOrNull() ?: 0.0,
-                        menteeId = parts[3]
+                        id = parts[1],
+                        type = SubmissionType.valueOf(parts[2].uppercase()),
+                        score = parts[3].toDoubleOrNull() ?: 0.0,
+                        menteeId = parts[0]
                     )
                 }
             }
