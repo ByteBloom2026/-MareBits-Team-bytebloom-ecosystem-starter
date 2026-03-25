@@ -2,13 +2,6 @@ package data.repository
 import domain.model.Team
 import data.EcoSystemDataSource
 import data.repository.mappers.toDomain
-import data.datasource.model.exception.BlankFilePathException
-import data.datasource.model.exception.EmptyColumnException
-import data.datasource.model.exception.EmptyLineException
-import data.datasource.model.exception.FileDoesNotExistException
-import data.datasource.model.exception.FileIsEmptyException
-import data.datasource.model.exception.InvalidColumnCountException
-import data.datasource.model.exception.PathIsNotFileException
 import domain.model.exception.DataAccessException
 class TeamRepositoryImpl(
     private val dataSource: EcoSystemDataSource
@@ -64,21 +57,6 @@ class TeamRepositoryImpl(
         )
     }
     private fun mapToDomainException(exception: Throwable): Throwable {
-        return when (exception) {
-            is BlankFilePathException,
-            is FileDoesNotExistException,
-            is PathIsNotFileException,
-            is FileIsEmptyException -> {
-                DataAccessException.InvalidDataSourceException()
-            }
-            is InvalidColumnCountException,
-            is EmptyLineException,
-            is EmptyColumnException -> {
-                DataAccessException.InvalidDataFormatException()
-            }
-            else -> {
-                DataAccessException.InvalidDataSourceException()
-            }
-        }
+        return DataAccessException.DataUnavailableException()
     }
 }
