@@ -3,33 +3,33 @@ package domain.model.exception
 sealed class SearchTeamException(string: String) : Throwable() {
     class EmptyTeamNameException: SearchTeamException("Team name cannot be empty")
     class InvalidTeamNameLengthException: SearchTeamException("Team name length is invalid")
-    class EmptyTeamIdExcpection :Exception("The team id cannect be empty")
+    class EmptyTeamIdExcpection :SearchTeamException("The team id cannect be empty")
 }
-sealed class MenteeException (): Throwable(){
-    class EmptyMenteeNameException: Exception("Mentee name cannot be empty")
-    class InvalidMenteeNameException :Exception(" The mentee name is invalid ")
+sealed class MenteeException (string: String): Throwable(){
+    class EmptyMenteeNameException: MenteeException("Mentee name cannot be empty")
+    class InvalidMenteeNameException :MenteeException(" The mentee name is invalid ")
 }
-sealed class AttendanceException(): Throwable(){
-    class EmptyAttendanceWeeksException : Exception("Attendance weeks cannot be empty")
+sealed class AttendanceException(string: String): Throwable(){
+    class EmptyAttendanceWeeksException : AttendanceException("Attendance weeks cannot be empty")
 }
-sealed class SubmissionException(): Throwable(){
-    class InvalidSubmissionTypeException : Exception("The submission type is invalid ")
-    class EmptySumissionTypeException : Exception("The submission type cannot is empty ")
-    class InvalidSumbmissionIdException : Exception("The submission Id is invalid")
-    class EmptySubmissionIdException:Exception("The submission Id  cannot is empty")
+sealed class SubmissionException(string: String): Throwable(){
+    class InvalidSubmissionTypeException : SubmissionException("The submission type is invalid ")
+    class EmptySumissionTypeException : SubmissionException("The submission type cannot is empty ")
+    class InvalidSumbmissionIdException : SubmissionException("The submission Id is invalid")
+    class EmptySubmissionIdException:SubmissionException("The submission Id  cannot is empty")
 }
-sealed class ProjectException(): Throwable(){
-    class EmptyProjectNameException : Exception("project name cannot be empty")
-    class InvalidProjectNameLengthException : Exception("Project length name is invalid")
-    class InvalidProjectIdException : Exception("The project id is invalid ")
+sealed class ProjectException(string: String): Throwable(){
+    class EmptyProjectNameException : ProjectException("project name cannot be empty")
+    class InvalidProjectNameLengthException : ProjectException("Project length name is invalid")
+    class InvalidProjectIdException : ProjectException("The project id is invalid ")
 }
-sealed class ScoreException(): Throwable(){
-    class InvalidScoreException : Exception("Score is invalid (NaN or Infinite)")
-    class ScoreOutOfRangeException(val min : Double,val max : Double) : Exception("the score is out of range [$min,$max]")
+sealed class ScoreException(string: String): Throwable(){
+    class InvalidScoreException : ScoreException("Score is invalid (NaN or Infinite)")
+    class ScoreOutOfRangeException(val min : Double,val max : Double) : ScoreException("the score is out of range [$min,$max]")
 }
-sealed class QueryException(): Throwable(){
-    class EmptyQueryException : Exception("Search query cannot be empty")
-    class InvalidQueryException :Exception("Search query is invalid")
+sealed class QueryException(string: String): Throwable(){
+    class EmptyQueryException : QueryException("Search query cannot be empty")
+    class InvalidQueryException :QueryException("Search query is invalid")
 }
 class NotCapitalizedNameException: Exception("Name must start with a letter")
 class NameContainsInvalidCharactersException :Exception("Name must contain only letters")
