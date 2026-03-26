@@ -4,8 +4,36 @@ import domain.usecase.*
 import data.repository.*
 import domain.model.Team
 import domain.model.exception.SearchTeamException
+import org.koin.core.context.startKoin
+import di.Repositorymodule
+import di.useCaseModule
+
 
 fun main() {
+   startKoin {
+       val appModule={
+           Repositorymodule
+           useCaseModule
+       }
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     val csvDataSource = CsvEcosystemDataSource.getInstance(
         File("src/main/resources/mentees.csv"),
         File("src/main/resources/teams.csv"),
@@ -42,4 +70,5 @@ private fun onSearchTeamsByNameFailure(throwable: Throwable) {
     when(searchTeamException){
         else -> {}
     }
+
 }
