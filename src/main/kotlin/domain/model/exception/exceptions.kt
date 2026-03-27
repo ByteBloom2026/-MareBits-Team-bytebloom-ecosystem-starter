@@ -1,39 +1,39 @@
 package domain.model.exception
 
-sealed class SearchTeamException(string: String) : Throwable() {
+sealed class SearchTeamException(message: String) : Exception(message){
     class EmptyTeamNameException: SearchTeamException("Team name cannot be empty")
     class InvalidTeamNameLengthException: SearchTeamException("Team name length is invalid")
-    class EmptyTeamIdExcpection :Exception("The team id cannect be empty")
+    class EmptyTeamIdExcpection :SearchTeamException("The team id cannect be empty")
 }
-sealed class MenteeException (): Throwable(){
-    class EmptyMenteeNameException: Exception("Mentee name cannot be empty")
-    class InvalidMenteeNameException :Exception(" The mentee name is invalid ")
+sealed class MenteeException (message: String): Exception(message){
+    class EmptyMenteeNameException: MenteeException("Mentee name cannot be empty")
+    class InvalidMenteeNameException :MenteeException(" The mentee name is invalid ")
 }
-sealed class AttendanceException(): Throwable(){
-    class EmptyAttendanceWeeksException : Exception("Attendance weeks cannot be empty")
+sealed class AttendanceException(message: String): Exception(message){
+    class EmptyAttendanceWeeksException : AttendanceException("Attendance weeks cannot be empty")
+    class InvalidAttendanceStateException : AttendanceException("Invalid attendance state")
 }
-sealed class SubmissionException(): Throwable(){
-    class InvalidSubmissionTypeException : Exception("The submission type is invalid ")
-    class EmptySumissionTypeException : Exception("The submission type cannot is empty ")
-    class InvalidSumbmissionIdException : Exception("The submission Id is invalid")
-    class EmptySubmissionIdException:Exception("The submission Id  cannot is empty")
+sealed class SubmissionException(message: String): Exception(message){
+    class InvalidSubmissionTypeException : SubmissionException("The submission type is invalid ")
+    class EmptySumissionTypeException : SubmissionException("The submission type cannot is empty ")
+    class InvalidSumbmissionIdException : SubmissionException("The submission Id is invalid")
+    class EmptySubmissionIdException:SubmissionException("The submission Id  cannot is empty")
 }
-sealed class ProjectException(): Throwable(){
-    class EmptyProjectNameException : Exception("project name cannot be empty")
-    class InvalidProjectNameLengthException : Exception("Project length name is invalid")
-    class InvalidProjectIdException : Exception("The project id is invalid ")
+sealed class ProjectException(message: String): Exception(message){
+    class EmptyProjectNameException : ProjectException("project name cannot be empty")
+    class InvalidProjectNameLengthException : ProjectException("Project length name is invalid")
+    class InvalidProjectIdException : ProjectException("The project id is invalid ")
 }
-sealed class ScoreException(): Throwable(){
-    class InvalidScoreException : Exception("Score is invalid (NaN or Infinite)")
-    class ScoreOutOfRangeException(val min : Double,val max : Double) : Exception("the score is out of range [$min,$max]")
+sealed class ScoreException(message: String): Exception(message){
+    class InvalidScoreException : ScoreException("Score is invalid (NaN or Infinite)")
+    class ScoreOutOfRangeException(val min : Double,val max : Double) : ScoreException("the score is out of range [$min,$max]")
 }
-sealed class QueryException(): Throwable(){
-    class EmptyQueryException : Exception("Search query cannot be empty")
-    class InvalidQueryException :Exception("Search query is invalid")
+sealed class QueryException(message: String): Exception(message){
+    class EmptyQueryException : QueryException("Search query cannot be empty")
+    class InvalidQueryException :QueryException("Search query is invalid")
 }
 class NotCapitalizedNameException: Exception("Name must start with a letter")
 class NameContainsInvalidCharactersException :Exception("Name must contain only letters")
 sealed class DataAccessException(message: String) : Exception(message) {
-    class InvalidDataSourceException : DataAccessException("Invalid data source")
-    class InvalidDataFormatException : DataAccessException("Invalid data format")
+    class DataUnavailableException : DataAccessException("Data is unavailable")
 }

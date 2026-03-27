@@ -14,7 +14,7 @@
 ### Soad Al-Astal | [The Trusted Guardian] ✅
 ##### The definition of reliability; the one you can delegate any task to with absolute peace of mind.
 
-### Alaa Husan | [The Efficiency Expert] ⏱️
+### Alaa Husam | [The Efficiency Expert] ⏱️
 ##### The symbol of commitment and discipline; delivering high-quality tasks ahead of every deadline.
 
 ### Raghad | [The Dedicated Soul] 🔥

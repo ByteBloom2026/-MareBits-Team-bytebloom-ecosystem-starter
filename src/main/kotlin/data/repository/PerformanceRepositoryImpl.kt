@@ -39,21 +39,6 @@ class PerformanceRepositoryImpl(
         )
     }
     private fun mapToDomainException(exception: Throwable): Throwable {
-        return when (exception) {
-            is BlankFilePathException,
-            is FileDoesNotExistException,
-            is PathIsNotFileException,
-            is FileIsEmptyException -> {
-                DataAccessException.InvalidDataSourceException()
-            }
-            is InvalidColumnCountException,
-            is EmptyLineException,
-            is EmptyColumnException -> {
-                DataAccessException.InvalidDataFormatException()
-            }
-            else -> {
-                DataAccessException.InvalidDataSourceException()
-            }
-        }
+        return DataAccessException.DataUnavailableException()
     }
 }

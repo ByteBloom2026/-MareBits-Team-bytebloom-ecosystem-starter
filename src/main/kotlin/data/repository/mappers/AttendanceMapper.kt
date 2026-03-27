@@ -2,13 +2,15 @@ package data.repository.mappers
 import data.datasource.model.AttendanceRow
 import domain.model.Attendance
 import domain.model.AttendanceState
+import domain.model.exception.AttendanceException
+
 fun AttendanceRow.toDomain(): Attendance {
     val states = weeks.split(",").map { token ->
         when (token.trim().uppercase()) {
             "PRESENT" -> AttendanceState.PRESENT
             "LATE" -> AttendanceState.LATE
             "ABSENT" -> AttendanceState.ABSENT
-            else -> AttendanceState.ABSENT
+            else -> throw AttendanceException.InvalidAttendanceStateException()
         }
     }
     return Attendance.create(
