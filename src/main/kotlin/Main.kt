@@ -3,9 +3,10 @@ import data.datasource.CsvEcosystemDataSource
 import domain.usecase.*
 import data.repository.*
 import domain.model.Team
-import domain.model.exception.SearchTeamException
+import domain.usecase.request.GetMenteeNameByIdRequest
 
 fun main() {
+
     val csvDataSource = CsvEcosystemDataSource.getInstance(
         File("src/main/resources/mentees.csv"),
         File("src/main/resources/teams.csv"),
@@ -13,33 +14,40 @@ fun main() {
         File("src/main/resources/projects.csv"),
         File("src/main/resources/attendance.csv")
     )
+
     val menteeRepository = MenteeRepositoryImpl(csvDataSource)
-    val teamRepositry = TeamRepositoryImpl(csvDataSource)
-    val performanceRepository = PerformanceRepositoryImpl(csvDataSource)
-    val projectRepository = ProjectRepositoryImpl(csvDataSource)
-    val attendanceRepository = AttendanceRepositoryImpl(csvDataSource)
+    val teamRepository = TeamRepositoryImpl(csvDataSource)
 
-    val searchTeamsByName = SearchTeamsByNameUseCase(teamRepositry)
-    try {
-        searchTeamsByName
-    } catch () {
+    val searchTeamsByNameUseCase = SearchTeamsByNameUseCase(teamRepository)
 
-    }
-    val searchTeamsByNameResult = searchTeamsByName("   ")
+    val searchTeamsByNameResult = searchTeamsByNameUseCase("Alpha")
 
     searchTeamsByNameResult.fold(
         onSuccess = ::onSearchTeamsByNameSuccess,
-        onFailure = ::onSearchTeamsByNameFailure
+        onFailure = ::onFailure
     )
 
+    val getMenteeNameByIdUseCase = GetMenteeNameByIdUseCase(menteeRepository)
+
+    val getMenteeNameResult = getMenteeNameByIdUseCase(
+        GetMenteeNameByIdRequest("M1")
+    )
+
+    getMenteeNameResult.fold(
+        onSuccess = ::onGetMenteeNameSuccess,
+        onFailure = ::onFailure
+    )
 }
 
 private fun onSearchTeamsByNameSuccess(teams: List<Team>) {
+    println("Found: $teams")
+}
 
+private fun onGetMenteeNameSuccess(name: String?) {
+    println("Found: $name")
 }
-private fun onSearchTeamsByNameFailure(throwable: Throwable) {
-    val searchTeamException = throwable as SearchTeamException
-    when(searchTeamException){
-        else -> {}
-    }
+
+private fun onFailure(error: Throwable) {
+    println("Access Denied: ${error.message}")
 }
+//R
