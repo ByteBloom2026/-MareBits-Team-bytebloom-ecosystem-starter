@@ -24,7 +24,7 @@ class GenerateTeamAttendanceReportUseCase(
                 ?.weeks
                 ?.count { it == AttendanceState.ABSENT }
                 ?: 0
-            mentee.id to absences
+            mentee.name to absences
         }
     }
     private fun onGenerateTeamAttendanceReportSuccess(report: Map<String, Int>): Result<Map<String, Int>> {
