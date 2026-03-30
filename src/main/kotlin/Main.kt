@@ -18,28 +18,28 @@ fun main() {
     val performanceRepository = PerformanceRepositoryImpl(csvDataSource)
     val projectRepository = ProjectRepositoryImpl(csvDataSource)
     val attendanceRepository = AttendanceRepositoryImpl(csvDataSource)
-
-    val searchTeamsByName = SearchTeamsByNameUseCase(teamRepositry)
-    try {
-        searchTeamsByName
-    } catch () {
-
-    }
-    val searchTeamsByNameResult = searchTeamsByName("   ")
-
-    searchTeamsByNameResult.fold(
-        onSuccess = ::onSearchTeamsByNameSuccess,
-        onFailure = ::onSearchTeamsByNameFailure
-    )
-
-}
-
-private fun onSearchTeamsByNameSuccess(teams: List<Team>) {
-
-}
-private fun onSearchTeamsByNameFailure(throwable: Throwable) {
-    val searchTeamException = throwable as SearchTeamException
-    when(searchTeamException){
-        else -> {}
-    }
+//
+//    val searchTeamsByName = SearchTeamsByNameUseCase(teamRepositry)
+//    try {
+//        searchTeamsByName
+//    } catch () {
+//
+//    }
+//    val searchTeamsByNameResult = searchTeamsByName("   ")
+//
+//    searchTeamsByNameResult.fold(
+//        onSuccess = ::onSearchTeamsByNameSuccess,
+//        onFailure = ::onSearchTeamsByNameFailure
+//    )
+//
+//}
+//
+//private fun onSearchTeamsByNameSuccess(teams: List<Team>) {
+//
+//}
+//private fun onSearchTeamsByNameFailure(throwable: Throwable) {
+//    val searchTeamException = throwable as SearchTeamException
+//    when(searchTeamException){
+//        else -> {}
+//    }
 }
