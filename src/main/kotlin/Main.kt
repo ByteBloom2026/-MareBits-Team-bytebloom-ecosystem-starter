@@ -4,6 +4,7 @@ import domain.usecase.*
 import data.repository.*
 import domain.model.Team
 import domain.usecase.request.GetMenteeNameByIdRequest
+import domain.usecase.request.SearchTeamsByNameRequest
 
 fun main() {
 
@@ -20,7 +21,7 @@ fun main() {
 
     val searchTeamsByNameUseCase = SearchTeamsByNameUseCase(teamRepository)
 
-    val searchTeamsByNameResult = searchTeamsByNameUseCase("Alpha")
+    val searchTeamsByNameResult = searchTeamsByNameUseCase(SearchTeamsByNameRequest("Alpha"))
 
     searchTeamsByNameResult.fold(
         onSuccess = ::onSearchTeamsByNameSuccess,
@@ -50,4 +51,3 @@ private fun onGetMenteeNameSuccess(name: String?) {
 private fun onFailure(error: Throwable) {
     println("Access Denied: ${error.message}")
 }
-//R
