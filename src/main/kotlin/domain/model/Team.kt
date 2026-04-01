@@ -7,12 +7,12 @@ data class Team private constructor(
     val mentorLead: String,
     val projects: Project? = null
 ) {
-    constructor(id: String, name: String, mentorLead: String, project: Project) : this(
-        id = id,
-        name = name,
-        mentorLead = mentorLead,
-        projects = project
-    )
+//    constructor(id: String, name: String, mentorLead: String, project: Project) : this(
+//        id = id,
+//        name = name,
+//        mentorLead = mentorLead,
+//        projects = project
+//    )
 
     companion object {
         val teamNameValidator = TeamNameValidator()
