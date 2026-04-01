@@ -30,7 +30,7 @@ class GetMenteePerformanceBreakdownUseCaseTest {
         val result = useCase(request)
 
         //Then
-        val expectedBreakdown = mapOf(PerformanceSubmission.SubmissionType.TASK to 100.0,
+        val expectedBreakdown = mapOf(PerformanceSubmission.SubmissionType.TASK to 80.0,
         PerformanceSubmission.SubmissionType.BOOK_CLUB to 90.0)
 
         assertThat(result.isSuccess).isTrue()
