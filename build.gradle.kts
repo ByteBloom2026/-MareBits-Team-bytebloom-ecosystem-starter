@@ -11,12 +11,10 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    testImplementation("com.google.truth:truth:1.4.5")
-    testImplementation("io.mockk:mockk:1.14.9")
-    implementation("io.insert-koin:koin-core:4.1.1")
-
+    testImplementation("com.google.truth:truth:truth:1.4.5")
+    testImplementation("io.mokk:mokk:1.14.9")
+    implementation("io.insert-koin:koin-core:4.1.0")
 }
-
 
 tasks.test {
     useJUnitPlatform()
