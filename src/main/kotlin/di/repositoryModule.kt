@@ -14,7 +14,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.koin.dsl.bind
 
-val Repositorymodule = module {
+val repositoryModule = module {
 
     singleOf(::AttendanceRepositoryImpl) bind AttendanceRepository :: class
     singleOf(::MenteeRepositoryImpl) bind MenteeRepository :: class
