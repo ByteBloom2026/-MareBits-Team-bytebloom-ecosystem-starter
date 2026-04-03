@@ -15,7 +15,7 @@ val dataSourceModule = module {
     single(named("attendanceFile")) { File("src/main/resources/attendance.csv") }
 
     single<EcoSystemDataSource> {
-        CsvEcosystemDataSource.getInstance(
+        CsvEcosystemDataSource(
             menteeFile = get(named("menteeFile")),
             teamFile = get(named("teamFile")),
             performanceFile = get(named("performanceFile")),
@@ -24,4 +24,3 @@ val dataSourceModule = module {
         )
     }
 }
-//

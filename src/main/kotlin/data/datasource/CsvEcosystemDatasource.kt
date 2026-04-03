@@ -10,7 +10,7 @@ import data.validator.NoEmptyColumnsValidator
 import domain.model.PerformanceSubmission.SubmissionType
 import java.io.File
 
-class CsvEcosystemDataSource private constructor(
+class CsvEcosystemDataSource(
     private val menteeFile: File, private val teamFile: File, private val performanceFile: File,  private val projectFile: File,  private val attendanceFile: File
 ) : EcoSystemDataSource {
     private val filePathValidator = FilePathValidator()
@@ -112,36 +112,10 @@ class CsvEcosystemDataSource private constructor(
             attendances.find { it.menteeId == menteeId }
         }
     }
-    companion object {
-        @Volatile
-        private var instance: CsvEcosystemDataSource? = null
-
-        fun getInstance(
-            menteeFile: File,
-            teamFile: File,
-            performanceFile: File,
-            projectFile: File,
-            attendanceFile: File
-        ):
-                CsvEcosystemDataSource {
-            return instance ?: synchronized(this) {
-                instance ?: CsvEcosystemDataSource(
-                    menteeFile,
-                    teamFile,
-                    performanceFile,
-                    projectFile,
-                    attendanceFile
-                ).also { instance = it }
-            }
-        }
-    }
-
     private fun validateFile(file: File, fileLabel: String): Result<List<String>> {
         return try {
             filePathValidator.validate(file.path)
-
             val fileLines = file.readLines()
-
             if (fileLines.size <= 1) {
                 Result.failure(FileIsEmptyException())
             } else {
