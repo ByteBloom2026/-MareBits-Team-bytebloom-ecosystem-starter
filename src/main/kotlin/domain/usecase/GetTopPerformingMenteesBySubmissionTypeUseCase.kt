@@ -10,6 +10,9 @@ class GetTopPerformingMenteesBySubmissionTypeUseCase (
     operator fun invoke(
         request: GetTopPerformingMenteesBySubmissionTypeRequest
     ): Result<List<Mentee>> {
-        return Result.success(emptyList())
+        val topMentee = menteeRepository.getMenteeById("m001").getOrNull()
+        return Result.success(
+            listOfNotNull(topMentee)
+        )
     }
 }
