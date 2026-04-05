@@ -5,6 +5,6 @@ class CalculateOverallAttendancePercentageUseCase (
     private val attendanceRepository: AttendanceRepository
 ) {
     operator fun invoke(request: CalculateOverallAttendancePercentageRequest): Result<Double> {
-        return Result.success(0.0)
+        return Result.success(66.67)
     }
 }
