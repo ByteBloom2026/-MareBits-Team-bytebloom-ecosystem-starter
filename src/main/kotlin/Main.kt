@@ -8,7 +8,7 @@ import domain.usecase.request.SearchTeamsByNameRequest
 
 fun main() {
 
-    val csvDataSource = CsvEcosystemDataSource.getInstance(
+    val csvDataSource = CsvEcosystemDataSource(
         File("src/main/resources/mentees.csv"),
         File("src/main/resources/teams.csv"),
         File("src/main/resources/performance.csv"),
