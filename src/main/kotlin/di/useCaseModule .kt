@@ -27,4 +27,5 @@ val useCaseModule  = module {
     singleOf(::IsMenteeInTeamUseCase)
     singleOf(::SearchTeamsByNameUseCase)
     singleOf(::CalculateOverallAttendancePercentageUseCase)
+    singleOf(::GetTopPerformingMenteesBySubmissionTypeUseCase)
 }
