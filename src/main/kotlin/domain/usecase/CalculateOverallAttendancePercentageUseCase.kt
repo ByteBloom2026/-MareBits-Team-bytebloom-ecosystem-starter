@@ -30,7 +30,7 @@ class CalculateOverallAttendancePercentageUseCase (
     private fun mapAttendanceStateToPoint(state: AttendanceState): Double {
         return when (state) {
             AttendanceState.PRESENT -> 1.0
-            AttendanceState.LATE -> 0.0
+            AttendanceState.LATE -> 0.5
             AttendanceState.ABSENT -> 0.0
         }
     }
