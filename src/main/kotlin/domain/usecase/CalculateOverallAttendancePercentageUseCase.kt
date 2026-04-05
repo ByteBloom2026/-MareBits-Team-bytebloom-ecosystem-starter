@@ -27,11 +27,10 @@ class CalculateOverallAttendancePercentageUseCase (
         val percentage = (totalPoints / weeks.size) * 100
         return String.format("%.2f", percentage).toDouble()
     }
-    private fun mapAttendanceStateToPoint(state: AttendanceState): Double {
-        return when (state) {
+    private fun mapAttendanceStateToPoint(state: AttendanceState): Double =
+         when (state) {
             AttendanceState.PRESENT -> 1.0
             AttendanceState.LATE -> 0.5
             AttendanceState.ABSENT -> 0.0
         }
     }
-}
