@@ -30,13 +30,19 @@ class FakeAttendanceRepository : AttendanceRepository {
                     AttendanceState.PRESENT,
                     AttendanceState.PRESENT
                 )
+            ),
+            Attendance.create(
+                "m004",
+                listOf(
+                    AttendanceState.LATE,
+                    AttendanceState.ABSENT,
+                    AttendanceState.PRESENT
+                )
             )
         )
-
         override fun getAllAttendance(): Result<List<Attendance>> {
             return Result.success(attendanceList)
         }
-
         override fun getAttendanceByMenteeId(menteeId: String): Result<Attendance?> {
             return Result.success(
                 attendanceList.find { it.menteeId == menteeId }

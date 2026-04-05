@@ -13,4 +13,13 @@ class CalculateOverallAttendancePercentageUseCaseTest {
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isEqualTo(66.67)
     }
+    @Test
+    fun shouldCalculateAttendancePercentageWithLateAsHalfPoint() {
+        val repository = FakeAttendanceRepository()
+        val useCase = CalculateOverallAttendancePercentageUseCase(repository)
+        val request = CalculateOverallAttendancePercentageRequest("m004")
+        val result = useCase(request)
+        assertThat(result.isSuccess).isTrue()
+        assertThat(result.getOrNull()).isEqualTo(50.0)
+    }
 }
