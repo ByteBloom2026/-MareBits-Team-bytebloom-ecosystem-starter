@@ -1,16 +1,14 @@
 package domain.usecase
 import data.repository.AttendanceRepository
 import data.repository.MenteeRepository
-import data.repository.TeamRepository
 import domain.model.AttendanceState
 import domain.model.Team
 
 class GetAverageAttendancePercentagePerTeamUseCase(
-    private val teamRepository: TeamRepository,
-    private val menteeRepository: MenteeRepository,
-    private val attendanceRepository: AttendanceRepository
+    private val teamRepository: AttendanceRepository,
+    private val menteeRepository: MenteeRepository
 ) {
-    operator fun invoke(): Result<Map<String, Double>> {
+    operator fun invoke(GetAverageAttendancePercentagePerTeamUseCase: Any?): Result<Map<String, Double>> {
         return teamRepository.getAllTeams().fold(
             onSuccess = ::GetAverageAttendancePercentagePerTeamSuccess,
             onFailure = ::GetAverageAttendancePercentagePerTeamFailure
