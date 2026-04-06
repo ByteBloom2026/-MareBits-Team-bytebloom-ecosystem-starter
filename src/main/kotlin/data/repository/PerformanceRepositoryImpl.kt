@@ -38,6 +38,21 @@ class PerformanceRepositoryImpl(
             }
         )
     }
+
+    override fun getPerformanceByTeamId(teamId: String): Result<List<PerformanceSubmission>> {
+        return dataSource.getPerformanceByTeamId(teamId)
+            .fold(
+            onSuccess = { performanceRows ->
+                Result.success(
+                    performanceRows.map { row -> row.toDomain() }
+                )
+            },
+            onFailure = { exception ->
+                Result.failure(mapToDomainException(exception))
+            }
+        )
+    }
+
     private fun mapToDomainException(exception: Throwable): Throwable {
         return DataAccessException.DataUnavailableException()
     }

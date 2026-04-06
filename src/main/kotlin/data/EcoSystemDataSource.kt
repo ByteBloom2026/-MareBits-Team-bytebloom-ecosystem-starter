@@ -12,4 +12,5 @@ interface EcoSystemDataSource {
     fun getProjectByTeamId(teamId: String): Result<ProjectRow?>
     fun getAttendances(): Result<List<AttendanceRow>>
     fun getAttendanceByMenteeId(menteeId: String): Result<AttendanceRow?>
+    fun getPerformanceByTeamId(teamId: String): Result<List<PerformanceRow>>
 }

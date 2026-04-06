@@ -77,6 +77,15 @@ class CsvEcosystemDataSource(
             performances.filter { it.menteeId == menteeId }
         }
     }
+
+    override fun getPerformanceByTeamId(
+        teamId: String
+    ): Result<List<PerformanceRow>> {
+        return getPerformances().map { performances ->
+            performances.filter { it.id==teamId}
+        }
+    }
+
     override fun getProjects(): Result<List<ProjectRow>> {
         return validatedParts(projectFile, "projects.csv", 3)
             .map { rows ->

@@ -26,6 +26,7 @@ val useCaseModule  = module {
     singleOf(::GroupTeamsByMentorUseCase)
     singleOf(::IsMenteeInTeamUseCase)
     singleOf(::SearchTeamsByNameUseCase)
+    singleOf(::GenerateCrossTeamPreformanceReportUseCase)
 
 //
 
