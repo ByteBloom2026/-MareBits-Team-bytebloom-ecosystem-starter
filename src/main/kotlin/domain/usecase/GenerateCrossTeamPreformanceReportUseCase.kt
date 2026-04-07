@@ -8,7 +8,7 @@ import domain.model.TeamScore
 
 class GenerateCrossTeamPreformanceReportUseCase(
     private val teamRepository: TeamRepository,
-    private val preformancerepo: PerformanceRepository
+    private val totalScore: TotalScore
 ) {
     operator fun invoke(request: GenerateTeamAttendanceReportRequest): Result<CrossTeamPerformanceReport> {
             return runCatching {
@@ -20,29 +20,22 @@ class GenerateCrossTeamPreformanceReportUseCase(
             )
     }
     private fun getReportByPreformance(teamId: String): CrossTeamPerformanceReport{
-        val teamScoresList = teamRepository.getAllTeams()
-            .getOrThrow()
-            .map { teams ->
-            val preformanceResalt = preformancerepo
-                .getPerformanceByTeamId(teams.id).getOrNull()
-            val TotelScore = preformanceResalt
-                ?.sumOf { it.score }
-                ?: 0.0
+        val teamScoresList = teamRepository.getAllTeams().getOrThrow()
+            .map { team ->
+                val totalScoreRaselt=totalScore.invoke()
+                val Score=totalScoreRaselt.getOrElse { 0.0 }
+
             TeamScore(
-                Score = TotelScore,
-                TeamName = teams.name
-            )
-        }
+                Score = Score,
+                TeamName = team.name
+            ) }
         val topPerformance = teamScoresList.maxByOrNull { it.Score }
             ?.takeIf { it.Score > 0 }
-
         return CrossTeamPerformanceReport(
             ScoreAndTeamName = teamScoresList,
             Repotr = topPerformance
         )
-
     }
-
     private fun GenerateCrossTeamPreformanceReportUseCaseonSuccess (report: CrossTeamPerformanceReport): Result<CrossTeamPerformanceReport>{
          return Result.success(
              value = report)

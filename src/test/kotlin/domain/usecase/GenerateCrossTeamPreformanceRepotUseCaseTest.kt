@@ -10,46 +10,57 @@ import org.koin.test.inject
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.koin.core.context.stopKoin
+import data.repository.*
+import com.google.common.truth.ExpectFailure.assertThat
 
 
 class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     private val myTestModule = testModule()
     val generateCrossTeamPreformanceReportUseCase: GenerateCrossTeamPreformanceReportUseCase by inject()
+    private val teamRepo: TeamRepository by inject()
+    private val perfRepo: PerformanceRepository by inject()
 
     @BeforeEach
     fun start() {
-
         startKoin {
             modules(
-                myTestModule.useCaseTestModule, myTestModule.repositorytestModule
+                myTestModule.useCaseTestModule
+                , myTestModule.repositorytestModule
             )
         }
     }
-
     @AfterEach
     fun stop() {
         stopKoin()
     }
 
     @Test
-    fun `should return success result with correct data when repositories succeed`() {
+    fun `Should calculate total  score correctly for each team `(){
         //given
-        val repo = myTestModule.teamRepoTest
-        val perf = myTestModule.performance
+        generateCrossTeamPreformanceReportUseCase
+        //when
+   val rsaltTheeentretheIdTeam = perfRepo.getPerformanceByTeamId("123ibt").getOrNull()
 
-        val fakeTeams = listOf(
-            Team(id = "1", name = "Team Alpha"),
-            Team(id = "2", name = "Team Beta")
-        )
-        every { repo.getAllTeams() } returns Result.success(fakeTeams)
-        every { perf.getPerformanceByTeamId(any()) } returns Result.success(emptyList())
+        //then
+      //  assertThat(rsaltTheeentretheIdTeam).isEqualTo()
+    }
 
-        //  When
-        val result = generateCrossTeamPreformanceReportUseCase
-            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
+    @Test
+    fun `Should calculate total score correctly for each team`() {
 
-        //  Then
-        assert(result.isSuccess)
+        // given
+        val performanceList = myTestModule.performance.getPerformanceByTeamId("123ibt")
+            .getOrThrow() ?: emptyList()
+        val expectedTotalScore = performanceList.sumOf { it.score }
+
+        // when
+        val result = generateCrossTeamPreformanceReportUseCase(GenerateTeamAttendanceReportRequest(teamId = String()))
+        val teamScore = result.getOrThrow()
+           val Score= teamScore.ScoreAndTeamName
+               .find { it.TeamName == "Team 123ibt" }
+
+        // then
+        assertThat(teamScore?.Score).isEqualTo(expectedTotalScore)
     }
 
 
