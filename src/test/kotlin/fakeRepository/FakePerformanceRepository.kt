@@ -36,4 +36,10 @@ class FakePerformanceRepository :PerformanceRepository {
             performances.filter { it.menteeId == menteeId }
         )
     }
+
+    override fun getPerformanceByTeamId(teamId: String): Result<List<PerformanceSubmission>> {
+        return Result.success(
+            performances.filter { it.id==teamId }
+        )
+    }
 }
