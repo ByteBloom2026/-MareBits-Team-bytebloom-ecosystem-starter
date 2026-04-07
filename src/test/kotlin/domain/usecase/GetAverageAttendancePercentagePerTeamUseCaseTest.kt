@@ -22,21 +22,21 @@ class GetAverageAttendancePercentagePerTeamUseCaseTest {
     fun `should calculate average attendance for team`(){
         //Given
         val teams = listOf(
-            Team.create("team1", "marebits", "Mentor1", null),
-            Team.create("team2", "power", "Mentor2", null)
+            Team.create("teama", "marebits", "Mentor1", null),
+            Team.create("teamb", "power", "Mentor2", null)
         )
         every { teamRepository.getAllTeams() } returns Result.success(teams)
         val mentees = listOf(
-            Mentee.create("m111", "Kenan", "team1"),
-            Mentee.create("m222", "Salma", "team2")
+            Mentee.create("m111", "Kenan", "teama"),
+            Mentee.create("m222", "Salma", "teamb")
         )
         mentees.forEach { mentee ->
             every { menteeRepository.getMenteesByTeamId(mentee.teamId) } returns Result.success(listOf(mentee))
         }
 
         val attendances= listOf(
-            Attendance.create("a111", listOf(AttendanceState.PRESENT, AttendanceState.PRESENT)),
-            Attendance.create("a222", listOf(AttendanceState.PRESENT, AttendanceState.ABSENT))
+            Attendance.create("m111", listOf(AttendanceState.PRESENT, AttendanceState.PRESENT)),
+            Attendance.create("m222", listOf(AttendanceState.PRESENT, AttendanceState.ABSENT))
         )
         attendances.forEach { attendance ->
             every { attendanceRepository.getAttendanceByMenteeId(attendance.menteeId) } returns Result.success(attendance) }
