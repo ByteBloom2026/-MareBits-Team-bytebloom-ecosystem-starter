@@ -19,7 +19,7 @@ class GetMenteeNameByIdUseCaseTest {
         val menteeId = "m123"
         val expectedName = "Elham Hassan"
         val request = GetMenteeNameByIdRequest(menteeId)
-        val mockMentee = Mentee(id = menteeId, name = expectedName, teamId = "t1")
+        val mockMentee = Mentee.create(id = menteeId, name = expectedName, teamId = "marebits")
         every { menteeRepository.getMenteeById(menteeId) } returns Result.success(mockMentee)
 
         // When
