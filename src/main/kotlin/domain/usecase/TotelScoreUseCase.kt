@@ -8,7 +8,8 @@ class TotalScore(
     private val teamRepository: TeamRepository
 ) {
     operator fun invoke(): Result<Double> {
-        return performanceRepo.getAllPerformance().fold(
+        return performanceRepo.getAllPerformance()
+            .fold(
             onSuccess =  {onCalculateTotalScoreOnSuccess()},
             onFailure = ::onCalculateTotalScoreOnFailure
         )
