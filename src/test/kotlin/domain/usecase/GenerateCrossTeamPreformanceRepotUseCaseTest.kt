@@ -21,7 +21,7 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     private val perfRepo: PerformanceRepository by inject()
 
     @BeforeEach
-    fun start() {
+    fun setup() {
         startKoin {
             modules(
                 myTestModule.useCaseTestModule
@@ -30,7 +30,7 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
         }
     }
     @AfterEach
-    fun stop() {
+    fun tearDown() {
         stopKoin()
     }
 
@@ -66,14 +66,9 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
 
     @Test
     fun `should fetch teams and performance data when invoke is called`() {
-        //givan
-        val TeamRepoTest = myTestModule.teamRepoTest
-        val PerformanceTest = myTestModule.performance
-        //when
         generateCrossTeamPreformanceReportUseCase
             .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
-        //then
-        verify { TeamRepoTest.getAllTeams() }
-        verify { PerformanceTest.getAllPerformance() }
+        verify { teamRepo.getTeamById(teamId = String()) }
+        verify { perfRepo.getPerformanceByTeamId(teamId = String()) }
     }
 }
