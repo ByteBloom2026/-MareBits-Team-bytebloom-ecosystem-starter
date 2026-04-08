@@ -1,7 +1,7 @@
 package fakeRepository
 import data.repository.PerformanceRepository
 import domain.model.PerformanceSubmission
-class FakePerformanceRepository :PerformanceRepository {
+class FakePerformanceRepository(menteeId: String, id: String, type: PerformanceSubmission.SubmissionType, score: Double) :PerformanceRepository {
     private val performances = listOf(
         PerformanceSubmission.create(
             id = "sub001",
