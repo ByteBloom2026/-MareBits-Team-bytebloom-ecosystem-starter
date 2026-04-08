@@ -4,7 +4,10 @@ import data.repository.TeamRepository
 import domain.model.Project
 import domain.model.Team
 
-class FakeTeamRepository: TeamRepository {
+class FakeTeamRepository(id: String,
+                         name: String
+                         , mentorLead: String,
+                          projects: Project) : TeamRepository {
         private val  FackTeamData =listOf(
             Team.create(
                 id = "123ibt",
