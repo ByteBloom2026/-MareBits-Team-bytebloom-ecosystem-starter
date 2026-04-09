@@ -51,16 +51,16 @@ class TotelScoreTest: KoinTest {
     }
     @Test
     fun `sholde return success result with correct data when repositories succeed`(){
-        //then
+        //When
         val TotelScoreOnSuccess=TotalScore.invoke()
-        // when
+        // Then
         assert(TotelScoreOnSuccess.isSuccess)
     }
     @Test
     fun `Should return error result when repositories fail`(){
-        //then
+        //When
         val TotelScoreOnFailure=TotalScore.invoke()
-        //when
+        //Then
         assert(TotelScoreOnFailure.isFailure)
     }
 
