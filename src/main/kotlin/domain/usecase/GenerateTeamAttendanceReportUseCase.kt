@@ -15,7 +15,7 @@ class GenerateTeamAttendanceReportUseCase(
             onFailure = ::onGenerateTeamAttendanceReportFailure
         )
     }
-    private fun getAbsenceCountPerMentee(teamId: String): Map<String, Int> {
+    public fun getAbsenceCountPerMentee(teamId: String): Map<String, Int> {
         val mentees = menteeRepository.getMenteesByTeamId(teamId).getOrThrow()
         return mentees.associate { mentee ->
             val absences = attendanceRepository

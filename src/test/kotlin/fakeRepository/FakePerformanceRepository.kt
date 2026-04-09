@@ -1,7 +1,7 @@
 package fakeRepository
 import data.repository.PerformanceRepository
 import domain.model.PerformanceSubmission
-class FakePerformanceRepository :PerformanceRepository {
+class FakePerformanceRepository(menteeId: String, id: String, type: PerformanceSubmission.SubmissionType, score: Double) :PerformanceRepository {
     private val performances = listOf(
         PerformanceSubmission.create(
             id = "sub001",
@@ -34,6 +34,12 @@ class FakePerformanceRepository :PerformanceRepository {
     override fun getPerformanceByMenteeId(menteeId: String): Result<List<PerformanceSubmission>> {
         return Result.success(
             performances.filter { it.menteeId == menteeId }
+        )
+    }
+
+    override fun getPerformanceByTeamId(teamId: String): Result<List<PerformanceSubmission>> {
+        return Result.success(
+            performances.filter { it.id==teamId }
         )
     }
 }
