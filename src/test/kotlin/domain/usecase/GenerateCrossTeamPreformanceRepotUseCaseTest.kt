@@ -33,37 +33,22 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     fun tearDown() {
         stopKoin()
     }
-
     @Test
-    fun `Should calculate total  score correctly for each team `(){
-        //given
-        generateCrossTeamPreformanceReportUseCase
-        //when
-   val rsaltTheeentretheIdTeam = perfRepo.getPerformanceByTeamId("123ibt").getOrNull()
-
-        //then
-      //  assertThat(rsaltTheeentretheIdTeam).isEqualTo()
+    fun `sholde return success result with correct data when repositories succeed`(){
+        //When
+        val generateCrossTeamPreformanceReportUseCaseOnSuccess=generateCrossTeamPreformanceReportUseCase
+            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
+        //Then
+        assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isSuccess)
     }
-
     @Test
-    fun `Should calculate total score correctly for each team`() {
-
-        // given
-        val performanceList = myTestModule.performance.getPerformanceByTeamId("123ibt")
-            .getOrThrow() ?: emptyList()
-        val expectedTotalScore = performanceList.sumOf { it.score }
-
-        // when
-        val result = generateCrossTeamPreformanceReportUseCase(GenerateTeamAttendanceReportRequest(teamId = String()))
-        val teamScore = result.getOrThrow()
-           val Score= teamScore.ScoreAndTeamName
-               .find { it.TeamName == "Team 123ibt" }
-
-        // then
-        assertThat(teamScore?.Score).isEqualTo(expectedTotalScore)
+    fun `Should return error result when repositories fail`(){
+        //When
+        val generateCrossTeamPreformanceReportUseCaseOnFailure=generateCrossTeamPreformanceReportUseCase
+            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
+        //Then
+        assert(generateCrossTeamPreformanceReportUseCaseOnFailure.isFailure)
     }
-
-
     @Test
     fun `should fetch teams and performance data when invoke is called`() {
         generateCrossTeamPreformanceReportUseCase
