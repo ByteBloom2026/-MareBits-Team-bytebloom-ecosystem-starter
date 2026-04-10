@@ -4,11 +4,11 @@
 ## Team Contributions👥🚀
 
 ### 👑 Team Leadership
-##### Ibtisam Safi | [The Visionary Leader] ⚓
+##### Tasneem Abu Nada | [The Visionary Leader] ⚓
 ##### The inspiring leader steering the ByteBloom ship with wisdom and dedication.
 
 ### 👥 The Core Pillars
-##### Tasneem Abu Nada | [The Right Hand] 🤝
+##### Ibtisam Safi | [The Right Hand] 🤝
 ##### The ultimate supporter and the technical engine who is always there to back the team up.
 
 ### Soad Al-Astal | [The Trusted Guardian] ✅
@@ -16,9 +16,6 @@
 
 ### Alaa Husam | [The Efficiency Expert] ⏱️
 ##### The symbol of commitment and discipline; delivering high-quality tasks ahead of every deadline.
-
-### Raghad | [The Dedicated Soul] 🔥
-##### The heartbeat of the team; her consistent presence in every meeting is the fuel for our continuity.
 
 ### Elham Hasen | [The Silent Contributor] 🏗️
 ##### A vital part of the assembly line, contributing to the foundational blocks of our system.
