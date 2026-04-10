@@ -1,27 +1,30 @@
 package domain.usecase
 
-import fakeRepository.FakeAttendanceRepository
-import fakeRepository.FakeMenteeRepository
+import di.testModule
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+import org.koin.test.inject
 
 
-class FindMenteeWithMostAbsencesUseCaseTest {
-
+class FindMenteeWithMostAbsencesUseCaseTest: KoinTest {
+    private val findMenteeWithMostAbsencesUseCase : FindMenteeWithMostAbsencesUseCase by inject()
+    @BeforeEach
+    fun setUp() {
+        startKoin { modules(testModule) }
+    }
+    @AfterEach
+    fun tearDown() { stopKoin() }
         @Test
-        fun findMenteeWithMostAbsencesShouldReturnCorrectMentee() {
-
-            // Setup
-            val menteeRepository = FakeMenteeRepository()
-            val attendanceRepository = FakeAttendanceRepository()
-
-            val useCase = FindMenteeWithMostAbsencesUseCase(
-                menteeRepository,
-                attendanceRepository
-            )
-
+        fun `findMenteeWithMostAbsencesShouldReturnCorrectMentee`() {
             // Action
-            val result = useCase()
+            val result = findMenteeWithMostAbsencesUseCase()
 
             // Assertion
             val output = result.getOrNull()
