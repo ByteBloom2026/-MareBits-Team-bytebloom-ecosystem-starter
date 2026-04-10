@@ -22,4 +22,4 @@ val Repositorymodule = module {
     singleOf(::ProjectRepositoryImpl) bind ProjectRepository :: class
     singleOf(::TeamRepositoryImpl) bind  TeamRepository::class
 
-}
+}//
