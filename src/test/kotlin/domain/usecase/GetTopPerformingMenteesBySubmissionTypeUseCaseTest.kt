@@ -1,23 +1,29 @@
 package domain.usecase
 import com.google.common.truth.Truth.assertThat
+import di.testModule
 import domain.model.PerformanceSubmission
 import domain.usecase.request.GetTopPerformingMenteesBySubmissionTypeRequest
-import fakeRepository.FakeMenteeRepository
-import fakeRepository.FakePerformanceRepository
 import org.junit.jupiter.api.Test
-class GetTopPerformingMenteesBySubmissionTypeUseCaseTest {
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+import org.koin.test.inject
+class GetTopPerformingMenteesBySubmissionTypeUseCaseTest : KoinTest{
+    private val getTopPerformingMenteesBySubmissionTypeUseCase: GetTopPerformingMenteesBySubmissionTypeUseCase by inject()
+    @BeforeEach
+    fun setUp() { startKoin { modules(testModule) } }
+    @AfterEach
+    fun tearDown() { stopKoin() }
+
     @Test
-    fun shouldReturnTopPerformingMenteeForTaskSubmissionType() {
-        val menteeRepository = FakeMenteeRepository()
-        val performanceRepository = FakePerformanceRepository()
-        val useCase = GetTopPerformingMenteesBySubmissionTypeUseCase(
-            menteeRepository,
-            performanceRepository
-        )
+    fun `shouldReturnTopPerformingMenteeForTaskSubmissionType`() {
+
         val request = GetTopPerformingMenteesBySubmissionTypeRequest(
             PerformanceSubmission.SubmissionType.TASK
         )
-        val result = useCase(request)
+        val result =getTopPerformingMenteesBySubmissionTypeUseCase (request)
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()?.map { it.id }).containsExactly("m001")
     }
