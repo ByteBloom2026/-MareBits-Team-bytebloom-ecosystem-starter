@@ -1,8 +1,7 @@
 package domain.usecase
 import com.google.common.truth.Truth.assertThat
-import di.testModule
+import di_test.testModule
 import domain.usecase.request.CalculateOverallAttendancePercentageRequest
-import fakeRepository.FakeAttendanceRepository
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach

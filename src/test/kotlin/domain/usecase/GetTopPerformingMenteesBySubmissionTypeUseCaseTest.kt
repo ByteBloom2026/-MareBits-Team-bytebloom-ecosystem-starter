@@ -1,6 +1,6 @@
 package domain.usecase
 import com.google.common.truth.Truth.assertThat
-import di.testModule
+import di_test.testModule
 import domain.model.PerformanceSubmission
 import domain.usecase.request.GetTopPerformingMenteesBySubmissionTypeRequest
 import org.junit.jupiter.api.Test

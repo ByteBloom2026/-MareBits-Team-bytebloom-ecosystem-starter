@@ -2,7 +2,7 @@ package domain.usecase
 import com.google.common.truth.Truth.assertThat
 import data.repository.*
 import data.repository.TeamRepository
-import di.testModule
+import di_test.testModule
 import domain.model.*
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach

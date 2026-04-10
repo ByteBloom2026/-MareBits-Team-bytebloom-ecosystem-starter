@@ -1,6 +1,6 @@
 package domain.usecase
 
-import di.testModule
+import di_test.testModule
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals

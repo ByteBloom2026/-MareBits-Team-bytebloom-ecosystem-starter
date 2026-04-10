@@ -1,6 +1,5 @@
 package domain.usecase
-import di.testModule
-import io.mockk.every
+import di_test.testModule
 import domain.usecase.request.GenerateTeamAttendanceReportRequest
 import kotlin.test.Test
 import io.mockk.verify
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.koin.core.context.stopKoin
 import data.repository.*
-import com.google.common.truth.ExpectFailure.assertThat
 
 
 class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {

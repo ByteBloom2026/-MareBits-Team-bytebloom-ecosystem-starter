@@ -1,4 +1,4 @@
-package di
+package di_test
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import domain.usecase.*

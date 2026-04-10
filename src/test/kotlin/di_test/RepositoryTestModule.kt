@@ -1,4 +1,4 @@
-package di
+package di_test
 import data.repository.AttendanceRepository
 import data.repository.MenteeRepository
 import data.repository.PerformanceRepository
