@@ -56,4 +56,16 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
         verify { teamRepo.getTeamById(teamId = String()) }
         verify { perfRepo.getPerformanceByTeamId(teamId = String()) }
     }
+    @Test
+    fun ``(){
+        //Given
+        //When
+        //Then
+    }
+    @Test
+    fun ``(){
+        //Given
+        //When
+        //Then
+    }
 }

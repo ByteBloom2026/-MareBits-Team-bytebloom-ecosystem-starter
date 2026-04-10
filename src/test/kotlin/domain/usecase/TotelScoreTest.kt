@@ -16,18 +16,14 @@ import kotlin.test.Test
 import fakeRepository.*
 
 class TotelScoreTest: KoinTest {
-    private val myTestModule = testModule()
     val TotalScore: TotalScore by inject()
     private val performanceRepository: PerformanceRepository by inject()
     private val TeamRepository: TeamRepository by inject()
     @BeforeEach
     fun setup() {
         startKoin {
-            modules(
-                myTestModule.useCaseTestModule
-                , myTestModule.repositorytestModule
-            )
-        }
+            modules(testModule
+            ) }
     }
     @AfterEach
     fun tearDown() {
@@ -63,5 +59,16 @@ class TotelScoreTest: KoinTest {
         //Then
         assert(TotelScoreOnFailure.isFailure)
     }
+    @Test
+    fun `Should handle negative scores gracefully`() {
+        // Given
+        FakePerformanceRepository(id = "sub003", type = PerformanceSubmission.SubmissionType.TASK, score = -50.0, menteeId = "m001")
+        // When
+        val result = TotalScore.invoke()
+        // Then
+        assert(result.isFailure)
+    }
+
+
 
 }
