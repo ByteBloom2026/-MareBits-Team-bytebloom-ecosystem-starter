@@ -5,7 +5,7 @@ import org.koin.dsl.module
 import domain.usecase.*
 
 
-val useCaseModule  = module {
+val UseCaseTestModule  = module {
     singleOf(::CountTeamsByMentorUseCase)
     singleOf(::FindTeamsWithNoProjectUseCase)
     singleOf(::GenerateTeamAttendanceReportUseCase)
