@@ -15,7 +15,6 @@ import com.google.common.truth.ExpectFailure.assertThat
 
 
 class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
-    private val myTestModule = testModule()
     val generateCrossTeamPreformanceReportUseCase: GenerateCrossTeamPreformanceReportUseCase by inject()
     private val teamRepo: TeamRepository by inject()
     private val perfRepo: PerformanceRepository by inject()
@@ -24,8 +23,7 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     fun setup() {
         startKoin {
             modules(
-                myTestModule.useCaseTestModule
-                , myTestModule.repositorytestModule
+                testModule
             )
         }
     }
