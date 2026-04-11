@@ -6,9 +6,9 @@ import domain.model.Mentee
 class FakeMenteeRepository : MenteeRepository {
 
         private val mentees = listOf(
-            Mentee.create("m001", "Ahmad", "123ibt"),
-            Mentee.create("m002", "Sara", "123Tas"),
-            Mentee.create("m003", "Ali", "123sod")
+            Mentee.create("m001", "Ahmad",  "Ibt123"),
+            Mentee.create("m002", "Sara", "Tas123"),
+            Mentee.create("m003", "Ali",  "Sod123")
         )
 
         override fun getAllMentees(): Result<List<Mentee>> {

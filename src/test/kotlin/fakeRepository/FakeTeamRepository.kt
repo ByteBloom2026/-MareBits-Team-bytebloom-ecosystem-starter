@@ -10,7 +10,7 @@ class FakeTeamRepository(id: String,
                           projects: Project) : TeamRepository {
         private val  FackTeamData =listOf(
             Team.create(
-                id = "123ibt",
+                id = "Ibt123",
                 name="ScentOfSecurity",
                 mentorLead = "ibtisam",
                 projects = Project.create(
@@ -20,7 +20,7 @@ class FakeTeamRepository(id: String,
                 )
             ),
             Team.create(
-                id = "123sod",
+                id = "Sod123",
                name="NullPointers",
                mentorLead = "soad",
                 projects = Project.create(
@@ -30,7 +30,7 @@ class FakeTeamRepository(id: String,
             )
         ),
             Team.create(
-                id = "123Tas",
+                id = "Tas123",
                 name="FrameMasters",
                 mentorLead = "Tasname",
                 projects = Project.create(
