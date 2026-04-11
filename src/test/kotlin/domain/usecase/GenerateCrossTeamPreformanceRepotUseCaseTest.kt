@@ -1,4 +1,5 @@
 package domain.usecase
+import com.google.common.truth.Truth.assertThat
 import di_test.testModule
 import domain.usecase.request.GenerateTeamAttendanceReportRequest
 import kotlin.test.Test
@@ -30,20 +31,35 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
         stopKoin()
     }
     @Test
+    fun `should Return Correct Performance Score For Given Team`() {
+        // Given
+        val request = GenerateTeamAttendanceReportRequest("Ibt123")
+        // When
+        val result = generateCrossTeamPreformanceReportUseCase(request)
+        val report = result.getOrNull()
+        // Then
+        assertThat(report?.ScoreAndTeamName?.firstOrNull()?.Score).isEqualTo(185.0)
+    }
+
+    @Test
     fun `sholde return success result with correct data when repositories succeed`(){
+        // Given
+        val request = GenerateTeamAttendanceReportRequest("Ibt123")
         //When
         val generateCrossTeamPreformanceReportUseCaseOnSuccess=generateCrossTeamPreformanceReportUseCase
-            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
+            .invoke(request)
         //Then
         assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isSuccess)
     }
     @Test
     fun `Should return error result when repositories fail`(){
+        // Given
+        val request = GenerateTeamAttendanceReportRequest("Ibt123")
         //When
-        val generateCrossTeamPreformanceReportUseCaseOnFailure=generateCrossTeamPreformanceReportUseCase
-            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
+        val generateCrossTeamPreformanceReportUseCaseOnSuccess=generateCrossTeamPreformanceReportUseCase
+            .invoke(request)
         //Then
-        assert(generateCrossTeamPreformanceReportUseCaseOnFailure.isFailure)
+        assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isFailure)
     }
     @Test
     fun `should fetch teams and performance data when invoke is called`() {
@@ -52,16 +68,5 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
         verify { teamRepo.getTeamById(teamId = String()) }
         verify { perfRepo.getPerformanceByTeamId(teamId = String()) }
     }
-    @Test
-    fun ``(){
-        //Given
-        //When
-        //Then
-    }
-    @Test
-    fun ``(){
-        //Given
-        //When
-        //Then
-    }
+
 }
