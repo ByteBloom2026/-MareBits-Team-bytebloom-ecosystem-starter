@@ -42,8 +42,8 @@ class TotelScoreTest: KoinTest {
     @Test
     fun `shoulde fetch preformnce for each team`(){
         TotalScore.invoke()
-        verify { performanceRepository.getPerformanceByTeamId(teamId = String()) }
-        verify { TeamRepository.getTeamById(teamId = String())  }
+        verify { performanceRepository.getPerformanceByTeamId("Soa123") }
+        verify { TeamRepository.getTeamById("Soa123")  }
     }
     @Test
     fun `sholde return success result with correct data when repositories succeed`(){
