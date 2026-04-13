@@ -40,10 +40,18 @@ class TotelScoreTest: KoinTest {
         assertThat(result.getOrNull()).isEqualTo(185)
     }
     @Test
-    fun `shoulde fetch preformnce for each team`(){
+    fun `shold fetch performance data when invoke is called`(){
+        //When
         TotalScore.invoke()
+        //Then
         verify { performanceRepository.getPerformanceByTeamId("Soa123") }
-        verify { TeamRepository.getTeamById("Soa123")  }
+    }
+    @Test
+    fun `shold fetch teams data when invoke is called`(){
+        //When
+        TotalScore.invoke()
+        //Then
+        verify { TeamRepository.getTeamById("Ibt123")}
     }
     @Test
     fun `sholde return success result with correct data when repositories succeed`(){
