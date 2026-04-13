@@ -62,11 +62,23 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
         assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isFailure)
     }
     @Test
-    fun `should fetch teams and performance data when invoke is called`() {
+    fun `should fetch performance data when invoke is called`() {
+        //When
         generateCrossTeamPreformanceReportUseCase
             .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
-        verify { teamRepo.getTeamById(teamId = String()) }
+        //Then
         verify { perfRepo.getPerformanceByTeamId(teamId = String()) }
     }
 
-}
+    @Test
+    fun`shold fetch teams data when invoke is called`(){
+        //When
+        generateCrossTeamPreformanceReportUseCase
+            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
+        //Then
+        verify { teamRepo.getTeamById(teamId = String()) }
+
+    }
+
+    }
+
