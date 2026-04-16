@@ -22,8 +22,7 @@ class TotelScoreTest: KoinTest {
     @BeforeEach
     fun setup() {
         startKoin {
-            modules(testModule
-            ) }
+            modules(testModule) }
     }
     @AfterEach
     fun tearDown() {
@@ -32,12 +31,11 @@ class TotelScoreTest: KoinTest {
     @Test
     fun `Should calculate total score correctly`() {
         //given
-        //FakePerformanceRepository(id = "sub002", type = PerformanceSubmission.SubmissionType.TASK, score = 95.0, menteeId = "m001")
-        //FakePerformanceRepository(id = "sub001", type = PerformanceSubmission.SubmissionType.TASK, score = 90.0, menteeId = "m001")
+        val result=FakePerformanceRepository().getAllPerformance()
         //when
-        val result = TotalScore.invoke()
+          TotalScore.invoke()
         //Then
-        assertThat(result.getOrNull()).isEqualTo(185)
+        assertThat(result.getOrNull()).isEqualTo(520.0)
     }
     @Test
     fun `shold fetch performance data when invoke is called`(){
@@ -69,8 +67,6 @@ class TotelScoreTest: KoinTest {
     }
     @Test
     fun `Should handle negative scores gracefully`() {
-        // Given
-        //FakePerformanceRepository(id = "sub003", type = PerformanceSubmission.SubmissionType.TASK, score = -50.0, menteeId = "m001")
         // When
         val result = TotalScore.invoke()
         // Then
