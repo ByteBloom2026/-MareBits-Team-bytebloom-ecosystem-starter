@@ -10,4 +10,5 @@ val UseCaseTestModule  = module {
     singleOf(::CalculateOverallAttendancePercentageUseCase)
     singleOf(::GetTopPerformingMenteesBySubmissionTypeUseCase)
     singleOf(::TotalScore)
+    singleOf(::FindMenteeWithMostAbsencesUseCase)
 }
