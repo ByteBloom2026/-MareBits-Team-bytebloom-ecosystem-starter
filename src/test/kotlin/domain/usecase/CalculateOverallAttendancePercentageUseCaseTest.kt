@@ -17,18 +17,23 @@ class CalculateOverallAttendancePercentageUseCaseTest : KoinTest{
     }
     @AfterEach
     fun tearDown() { stopKoin() }
+
     @Test
-    fun `shouldCalculateOverallAttendancePercentage`() {
+    fun `should Calculate Overall Attendance Percentage`() {
+        //given
         val request = CalculateOverallAttendancePercentageRequest("m001")
+        //when
         val result = calculateOverallAttendancePercentageUseCase(request)
-        assertThat(result.isSuccess).isTrue()
+        //then
         assertThat(result.getOrNull()).isEqualTo(66.67)
     }
     @Test
-    fun `shouldCalculateAttendancePercentageWithLateAsHalfPoint`() {
+    fun `should Calculate Attendance Percentage With Late As Half Point`() {
+        //given
         val request = CalculateOverallAttendancePercentageRequest("m004")
+        //when
         val result = calculateOverallAttendancePercentageUseCase(request)
-        assertThat(result.isSuccess).isTrue()
+        //then
         assertThat(result.getOrNull()).isEqualTo(50.0)
     }
 }

@@ -21,18 +21,32 @@ class FindMenteeWithMostAbsencesUseCaseTest: KoinTest {
     }
     @AfterEach
     fun tearDown() { stopKoin() }
+
         @Test
-        fun `findMenteeWithMostAbsencesShouldReturnCorrectMentee`() {
-            // Action
+        fun `should return successful result when finding mentee with most absences`() {
+            //when
             val result = findMenteeWithMostAbsencesUseCase()
-
-            // Assertion
-            val output = result.getOrNull()
-
+            //then
             assertTrue(result.isSuccess)
-            assertNotNull(output)
-            assertEquals("m002", output?.first?.id)
-            assertEquals(2, output?.second)
+        }
+        @Test
+        fun `should return non null output when mentees and attendance data are available`(){
+            //when
+            val result = findMenteeWithMostAbsencesUseCase()
+            //then
+            assertNotNull(result)
+        }
+        @Test
+        fun `should return mentee with id m002 as the mentee with most absences`(){
+            val result = findMenteeWithMostAbsencesUseCase()
+            val returnedMenteeId = result.getOrNull()?.first?.id
+            assertEquals("m002", returnedMenteeId)
+        }
+        @Test
+        fun `should return absence count of 2 for the mentee with most absences`(){
+            val result = findMenteeWithMostAbsencesUseCase()
+            val returnedAbsenceCount = result.getOrNull()?.second
+            assertEquals(2,returnedAbsenceCount)
         }
     }
 

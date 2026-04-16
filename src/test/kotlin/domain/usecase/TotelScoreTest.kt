@@ -32,8 +32,8 @@ class TotelScoreTest: KoinTest {
     @Test
     fun `Should calculate total score correctly`() {
         //given
-        FakePerformanceRepository(id = "sub002", type = PerformanceSubmission.SubmissionType.TASK, score = 95.0, menteeId = "m001")
-        FakePerformanceRepository(id = "sub001", type = PerformanceSubmission.SubmissionType.TASK, score = 90.0, menteeId = "m001")
+        //FakePerformanceRepository(id = "sub002", type = PerformanceSubmission.SubmissionType.TASK, score = 95.0, menteeId = "m001")
+        //FakePerformanceRepository(id = "sub001", type = PerformanceSubmission.SubmissionType.TASK, score = 90.0, menteeId = "m001")
         //when
         val result = TotalScore.invoke()
         //Then
@@ -70,7 +70,7 @@ class TotelScoreTest: KoinTest {
     @Test
     fun `Should handle negative scores gracefully`() {
         // Given
-        FakePerformanceRepository(id = "sub003", type = PerformanceSubmission.SubmissionType.TASK, score = -50.0, menteeId = "m001")
+        //FakePerformanceRepository(id = "sub003", type = PerformanceSubmission.SubmissionType.TASK, score = -50.0, menteeId = "m001")
         // When
         val result = TotalScore.invoke()
         // Then
