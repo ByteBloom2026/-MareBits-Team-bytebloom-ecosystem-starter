@@ -4,14 +4,11 @@ import data.repository.TeamRepository
 import domain.model.Project
 import domain.model.Team
 
-class FakeTeamRepository(id: String,
-                         name: String
-                         , mentorLead: String,
-                          projects: Project) : TeamRepository {
+class FakeTeamRepository : TeamRepository {
         private val  FackTeamData =listOf(
             Team.create(
-                id = "Ibt123",
-                name="ScentOfSecurity",
+                id = "Marebits",
+                name="Marebits",
                 mentorLead = "ibtisam",
                 projects = Project.create(
                     id="p08",
@@ -20,8 +17,8 @@ class FakeTeamRepository(id: String,
                 )
             ),
             Team.create(
-                id = "Sod123",
-               name="NullPointers",
+                id = "Hashira",
+               name="Hashira",
                mentorLead = "soad",
                 projects = Project.create(
                      id="p010",
@@ -30,9 +27,9 @@ class FakeTeamRepository(id: String,
             )
         ),
             Team.create(
-                id = "Tas123",
-                name="FrameMasters",
-                mentorLead = "Tasname",
+                id = "Kernels",
+                name="Kernels",
+                mentorLead = "alaa",
                 projects = Project.create(
                     id="p03",
                     name="Motion Matrix",
