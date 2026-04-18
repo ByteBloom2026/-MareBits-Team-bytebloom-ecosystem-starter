@@ -13,7 +13,8 @@ class FakeTeamRepository : TeamRepository {
                 projects = Project.create(
                     id="p08",
                     name="Cybersecurity",
-                    assignedTeamId="123ibt"
+                    //assignedTeamId="123ibt"
+                    assignedTeamId="ibt"
                 )
             ),
             Team.create(
@@ -21,9 +22,11 @@ class FakeTeamRepository : TeamRepository {
                name="Hashira",
                mentorLead = "soad",
                 projects = Project.create(
-                     id="p010",
+                     //id="p010",
+                    id="p10",
                     name="AppGenius",
-                   assignedTeamId="123sod"
+                   //assignedTeamId="123sod"
+                    assignedTeamId="sod"
             )
         ),
             Team.create(
@@ -33,7 +36,8 @@ class FakeTeamRepository : TeamRepository {
                 projects = Project.create(
                     id="p03",
                     name="Motion Matrix",
-                    assignedTeamId="123Tas"
+                    //assignedTeamId="123Tas"
+                    assignedTeamId="Tas"
                 )
             )
         )

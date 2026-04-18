@@ -5,10 +5,13 @@ import domain.model.Mentee
 
 class FakeMenteeRepository : MenteeRepository {
 
-        private val mentees = listOf(
+        private val mentees = listOf(/*
             Mentee.create("m001", "Ahmad",  "Marebits"),
             Mentee.create("m002", "Sara", "Hashira"),
-            Mentee.create("m003", "Ali",  "Kernels")
+            Mentee.create("m003", "Ali",  "Kernels")*/
+            Mentee.create("m001", "Ahmad",  "marebits"),
+            Mentee.create("m002", "Sara", "hashira"),
+            Mentee.create("m003", "Ali",  "kernels")
         )
 
         override fun getAllMentees(): Result<List<Mentee>> {
@@ -19,7 +22,7 @@ class FakeMenteeRepository : MenteeRepository {
             return Result.success(mentees.find { it.id == id })
         }
 
-        override fun getMenteesByTeamId(teamId: String): Result<List<Mentee>> {
+       override fun getMenteesByTeamId(teamId: String): Result<List<Mentee>> {
             return Result.success(mentees.filter { it.teamId == teamId })
         }
-    }
+}

@@ -1,43 +1,41 @@
 package domain.usecase
 import com.google.common.truth.Truth.assertThat
-import data.repository.AttendanceRepository
-import data.repository.MenteeRepository
-import domain.model.Attendance
-import domain.model.AttendanceState
-import domain.model.Mentee
+import di_test.testModule
 import domain.usecase.request.GenerateTeamAttendanceReportRequest
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
-class GenerateTeamAttendanceReportUseCaseTest {
-    private val attendanceRepository = mockk<AttendanceRepository>()
-    private val menteeRepository = mockk<MenteeRepository>()
-    private val useCase = GenerateTeamAttendanceReportUseCase(attendanceRepository, menteeRepository)
-    @Test
-    fun `should calculate absence counts correctly for all mentees in a team`() {
-        //Given
-        val teamId = "ByteBloom"
-        val mentees = listOf(Mentee.create("m111", "Kenan", teamId),
-            Mentee.create("m222", "Salma", teamId))
-
-        every { menteeRepository.getMenteesByTeamId(teamId) } returns Result.success(mentees)
-
-        every { attendanceRepository.getAttendanceByMenteeId("m111") } returns Result.success(
-            Attendance.create("m111", listOf(AttendanceState.ABSENT, AttendanceState.ABSENT, AttendanceState.PRESENT)))
-
-        every { attendanceRepository.getAttendanceByMenteeId("m222") } returns Result.success(
-            Attendance.create("m222", listOf(AttendanceState.PRESENT, AttendanceState.PRESENT)))
-        //When
-        val result = useCase(GenerateTeamAttendanceReportRequest(teamId))
-        //Then
-        val expectedReport = mapOf("Kenan" to 2, "Salma" to 0)
-
-        assertThat(result.isSuccess).isTrue()
-        assertThat(result.getOrNull()).isEqualTo(expectedReport)
-
-
-        }
-
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+import org.koin.test.inject
+class GenerateTeamAttendanceReportUseCaseTest: KoinTest {
+    private val generateTeamAttendanceReportUseCase: GenerateTeamAttendanceReportUseCase by inject()
+    @BeforeEach
+    fun setup(){
+        startKoin { modules(testModule) }
     }
+    @AfterEach
+    fun tearDown(){
+        stopKoin()
+    }
+    @Test
+    fun `should calculate absence counts for mentees in a team`() {
+        //Given
+        val request = GenerateTeamAttendanceReportRequest("marebits")
+        //When
+        val result = generateTeamAttendanceReportUseCase(request)
+        //Then
+        assertThat(result.getOrNull()).isEqualTo(mapOf("Ahmad" to 1))
+    }
+    @Test
+    fun `should return absence counts for multiple mentees in team Hashira`() {
+        //Given
+        val request = GenerateTeamAttendanceReportRequest("hashira")
+        //When
+        val result = generateTeamAttendanceReportUseCase(request)
+        //Then
+        val expectedReport = mapOf("Sara" to 2)
+        assertThat(result.getOrNull()).isEqualTo(expectedReport)
+    }
+}
