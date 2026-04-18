@@ -7,33 +7,37 @@ import domain.model.Team
 class FakeTeamRepository : TeamRepository {
         private val  FackTeamData =listOf(
             Team.create(
-                id = "Marebits",
+                id = "marebits",
                 name="Marebits",
                 mentorLead = "ibtisam",
                 projects = Project.create(
                     id="p08",
                     name="Cybersecurity",
-                    assignedTeamId="123ibt"
+                    //assignedTeamId="123ibt"
+                    assignedTeamId="Marebits"
                 )
             ),
             Team.create(
-                id = "Hashira",
+                id = "hashira",
                name="Hashira",
                mentorLead = "soad",
                 projects = Project.create(
-                     id="p010",
+                     //id="p010",
+                    id="p10",
                     name="AppGenius",
-                   assignedTeamId="123sod"
+                   //assignedTeamId="123sod"
+                    assignedTeamId="Hashira"
             )
         ),
             Team.create(
-                id = "Kernels",
+                id = "kernels",
                 name="Kernels",
                 mentorLead = "alaa",
                 projects = Project.create(
                     id="p03",
                     name="Motion Matrix",
-                    assignedTeamId="123Tas"
+                    //assignedTeamId="123Tas"
+                    assignedTeamId="Kernels"
                 )
             )
         )

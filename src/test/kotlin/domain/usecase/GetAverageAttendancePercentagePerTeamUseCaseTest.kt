@@ -1,51 +1,39 @@
 package domain.usecase
-
 import com.google.common.truth.Truth.assertThat
-import data.repository.AttendanceRepository
-import data.repository.MenteeRepository
-import data.repository.TeamRepository
-import domain.model.Attendance
-import domain.model.AttendanceState
-import domain.model.Mentee
-import domain.model.Team
-import io.mockk.every
-import io.mockk.mockk
+import di_test.testModule
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
-class GetAverageAttendancePercentagePerTeamUseCaseTest {
-    private val teamRepository = mockk<TeamRepository>()
-    private val menteeRepository = mockk<MenteeRepository>()
-    private val attendanceRepository = mockk<AttendanceRepository>()
-    private val useCase = GetAverageAttendancePercentagePerTeamUseCase(teamRepository, menteeRepository, attendanceRepository)
-
+import org.koin.core.component.inject
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+class GetAverageAttendancePercentagePerTeamUseCaseTest: KoinTest {
+    private val useCase : GetAverageAttendancePercentagePerTeamUseCase by inject()
+    @BeforeEach
+    fun setup(){
+        startKoin { modules(testModule) }
+    }
+    @AfterEach
+    fun tearDown(){
+        stopKoin()
+    }
     @Test
-    fun `should calculate average attendance for team`(){
-        //Given
-        val teams = listOf(
-            Team.create("teama", "marebits", "Mentor1", null),
-            Team.create("teamb", "power", "Mentor2", null)
-        )
-        every { teamRepository.getAllTeams() } returns Result.success(teams)
-        val mentees = listOf(
-            Mentee.create("m111", "Kenan", "teama"),
-            Mentee.create("m222", "Salma", "teamb")
-        )
-        mentees.forEach { mentee ->
-            every { menteeRepository.getMenteesByTeamId(mentee.teamId) } returns Result.success(listOf(mentee))
-        }
-
-        val attendances= listOf(
-            Attendance.create("m111", listOf(AttendanceState.PRESENT, AttendanceState.PRESENT)),
-            Attendance.create("m222", listOf(AttendanceState.PRESENT, AttendanceState.ABSENT))
-        )
-        attendances.forEach { attendance ->
-            every { attendanceRepository.getAttendanceByMenteeId(attendance.menteeId) } returns Result.success(attendance) }
+    fun `should calculate average attendance for teams`(){
         //When
         val result = useCase()
         //Then
-        assertThat(result.isSuccess).isTrue()
-        val breakdown = result.getOrNull()
-        assertThat(breakdown?.get("marebits")).isWithin(0.01).of(100.0)
-        assertThat(breakdown?.get("power")).isWithin(0.01).of(50.0)
+        val report = result.getOrNull()
+        assertThat(report).isNotNull()
+        assertThat(report!!["Marebits"]).isWithin(0.01).of(66.66)
+        assertThat(report["Hashira"]).isWithin(0.01).of(33.33)
+    }
+    @Test
+    fun `should calulate attendance percentage for Hashira`(){
+        //When
+        val result = useCase().getOrNull()
+        //Then
+        assertThat(result).isNotNull()
+        assertThat(result?.get("Hashira")).isWithin(0.01).of(33.33)
     }
 }
