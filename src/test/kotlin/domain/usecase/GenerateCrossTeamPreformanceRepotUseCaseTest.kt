@@ -33,31 +33,30 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     @Test
     fun `should Return Correct Performance Score For Given Team`() {
         // Given
-        val request = GenerateTeamAttendanceReportRequest("Ibt123")
+        val request = GenerateTeamAttendanceReportRequest("marebits")
         // When
         val result = generateCrossTeamPreformanceReportUseCase(request)
         val report = result.getOrNull()
         // Then
-        assertThat(report?.ScoreAndTeamName?.firstOrNull()?.Score).isEqualTo(185.0)
+        assertThat(report?.ScoreAndTeamName?.firstOrNull()?.Score)
+            .isEqualTo(185.0)
     }
 
     @Test
     fun `sholde return success result with correct data when repositories succeed`(){
         // Given
-        val request = GenerateTeamAttendanceReportRequest("Ibt123")
+        val request = GenerateTeamAttendanceReportRequest("marebits")
         //When
-        val generateCrossTeamPreformanceReportUseCaseOnSuccess=generateCrossTeamPreformanceReportUseCase
-            .invoke(request)
+        val generateCrossTeamPreformanceReportUseCaseOnSuccess=generateCrossTeamPreformanceReportUseCase(request)
         //Then
         assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isSuccess)
     }
     @Test
     fun `Should return error result when repositories fail`(){
         // Given
-        val request = GenerateTeamAttendanceReportRequest("Ibt123")
+        val request = GenerateTeamAttendanceReportRequest("marebits")
         //When
-        val generateCrossTeamPreformanceReportUseCaseOnSuccess=generateCrossTeamPreformanceReportUseCase
-            .invoke(request)
+        val generateCrossTeamPreformanceReportUseCaseOnSuccess=generateCrossTeamPreformanceReportUseCase(request)
         //Then
         assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isFailure)
     }
