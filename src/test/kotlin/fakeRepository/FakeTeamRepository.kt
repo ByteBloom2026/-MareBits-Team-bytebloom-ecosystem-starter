@@ -7,18 +7,18 @@ import domain.model.Team
 class FakeTeamRepository : TeamRepository {
         private val  FackTeamData =listOf(
             Team.create(
-                id = "Marebits",
+                id = "marebits",
                 name="Marebits",
                 mentorLead = "ibtisam",
                 projects = Project.create(
                     id="p08",
                     name="Cybersecurity",
                     //assignedTeamId="123ibt"
-                    assignedTeamId="ibt"
+                    assignedTeamId="Marebits"
                 )
             ),
             Team.create(
-                id = "Hashira",
+                id = "hashira",
                name="Hashira",
                mentorLead = "soad",
                 projects = Project.create(
@@ -26,18 +26,18 @@ class FakeTeamRepository : TeamRepository {
                     id="p10",
                     name="AppGenius",
                    //assignedTeamId="123sod"
-                    assignedTeamId="sod"
+                    assignedTeamId="Hashira"
             )
         ),
             Team.create(
-                id = "Kernels",
+                id = "kernels",
                 name="Kernels",
                 mentorLead = "alaa",
                 projects = Project.create(
                     id="p03",
                     name="Motion Matrix",
                     //assignedTeamId="123Tas"
-                    assignedTeamId="Tas"
+                    assignedTeamId="Kernels"
                 )
             )
         )
