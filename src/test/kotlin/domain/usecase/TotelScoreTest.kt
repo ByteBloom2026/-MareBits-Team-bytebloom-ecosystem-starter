@@ -72,7 +72,7 @@ class TotelScoreTest: KoinTest {
         // Then
         assert(result.isFailure)
     }
-//
+
 
 
 }
