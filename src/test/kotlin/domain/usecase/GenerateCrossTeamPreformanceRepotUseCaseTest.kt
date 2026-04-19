@@ -1,5 +1,4 @@
 package domain.usecase
-import com.google.common.truth.Truth.assertThat
 import di_test.testModule
 import domain.usecase.request.GenerateTeamAttendanceReportRequest
 import kotlin.test.Test
@@ -11,6 +10,9 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.koin.core.context.stopKoin
 import data.repository.*
+import com.google.common.truth.Truth.assertThat
+
+
 
 
 class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
@@ -26,10 +28,13 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
             )
         }
     }
+
     @AfterEach
     fun tearDown() {
         stopKoin()
     }
+
+
     @Test
     fun `should Return Correct Performance Score For Given Team`() {
         // Given
@@ -43,23 +48,25 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     }
 
     @Test
-    fun `sholde return success result with correct data when repositories succeed`(){
+    fun `sholde return success result with correct data when repositories succeed`() {
         // Given
         val request = GenerateTeamAttendanceReportRequest("marebits")
         //When
-        val generateCrossTeamPreformanceReportUseCaseOnSuccess=generateCrossTeamPreformanceReportUseCase(request)
+        val generateCrossTeamPreformanceReportUseCaseOnSuccess = generateCrossTeamPreformanceReportUseCase(request)
         //Then
         assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isSuccess)
     }
+
     @Test
-    fun `Should return error result when repositories fail`(){
+    fun `Should return error result when repositories fail`() {
         // Given
         val request = GenerateTeamAttendanceReportRequest("marebits")
         //When
-        val generateCrossTeamPreformanceReportUseCaseOnSuccess=generateCrossTeamPreformanceReportUseCase(request)
+        val generateCrossTeamPreformanceReportUseCaseOnSuccess = generateCrossTeamPreformanceReportUseCase(request)
         //Then
         assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isFailure)
     }
+
     @Test
     fun `should fetch performance data when invoke is called`() {
         //When
@@ -70,7 +77,7 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     }
 
     @Test
-    fun`shold fetch teams data when invoke is called`(){
+    fun `shold fetch teams data when invoke is called`() {
         //When
         generateCrossTeamPreformanceReportUseCase
             .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
@@ -79,5 +86,5 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
 
     }
 
-    }
+}
 

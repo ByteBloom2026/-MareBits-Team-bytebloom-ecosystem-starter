@@ -4,6 +4,7 @@ import data.repository.*
 import data.repository.TeamRepository
 import di_test.testModule
 import domain.model.*
+import domain.usecase.request.GenerateTeamAttendanceReportRequest
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -12,8 +13,11 @@ import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.getValue
-import kotlin.test.Test
+//import kotlin.test.Test
 import fakeRepository.*
+import fakeRepository.FakePerformanceRepository
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class TotelScoreTest: KoinTest {
     val totalScoreUseCase: TotalScore by inject()
@@ -28,6 +32,7 @@ class TotelScoreTest: KoinTest {
     fun tearDown() {
         stopKoin()
     }
+
     @Test
     fun `Should calculate total score correctly`() {
         //when
@@ -56,20 +61,16 @@ class TotelScoreTest: KoinTest {
         // Then
         assert(TotelScoreOnSuccess.isSuccess)
     }
+
+
     @Test
-    fun `Should return error result when repositories fail`(){
-        //When
-        val TotelScoreOnFailure=totalScoreUseCase()
-        //Then
-        assert(TotelScoreOnFailure.isFailure)
+    fun `Should return error result when repositories fail1`() {
+        // When
+        val totalScoreOnFailure = totalScoreUseCase()
+
+        // Then
+        assert(totalScoreOnFailure.isFailure)
     }
-//    @Test
-//    fun `Should handle negative scores gracefully`() {
-//        // When
-//        val result = TotalScore.invoke()
-//        // Then
-//        assert(result.isFailure)
-//    }
 
 
 
