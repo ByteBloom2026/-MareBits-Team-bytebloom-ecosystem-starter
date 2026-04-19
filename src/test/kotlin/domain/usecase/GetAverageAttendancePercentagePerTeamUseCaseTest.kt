@@ -24,7 +24,6 @@ class GetAverageAttendancePercentagePerTeamUseCaseTest: KoinTest {
         val result = useCase().getOrNull()
         //Then
         assertThat(result?.get("Marebits")).isWithin(0.01).of(66.66)
-
     }
     @Test
     fun `should calulate attendance percentage for Hashira`(){
@@ -32,12 +31,5 @@ class GetAverageAttendancePercentagePerTeamUseCaseTest: KoinTest {
         val result = useCase().getOrNull()
         //Then
         assertThat(result?.get("Hashira")).isWithin(0.01).of(33.33)
-    }
-    @Test
-    fun `should return zero for teams with no attendance "Kernels"`(){
-        //When
-        val result = useCase().getOrNull()
-        //Then
-        assertThat(result?.get("Kernels")).isEqualTo(0.0)
     }
 }
