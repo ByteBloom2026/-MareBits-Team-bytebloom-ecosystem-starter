@@ -33,4 +33,11 @@ class GetAverageAttendancePercentagePerTeamUseCaseTest: KoinTest {
         //Then
         assertThat(result?.get("Hashira")).isWithin(0.01).of(33.33)
     }
+    @Test
+    fun `should return zero for teams with no attendance "Kernels"`(){
+        //When
+        val result = useCase().getOrNull()
+        //Then
+        assertThat(result?.get("Kernels")).isEqualTo(0.0)
+    }
 }
