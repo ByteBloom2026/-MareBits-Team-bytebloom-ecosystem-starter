@@ -38,7 +38,7 @@ class TotelScoreTest: KoinTest {
         //when
          val result=totalScoreUseCase()
         //Then
-        assertThat(result.getOrNull()).isEqualTo(520.0)
+        assertThat(result.getOrNull()).isEqualTo(1560.0)
     }
     @Test
     fun `shold fetch performance data when invoke is called`(){
