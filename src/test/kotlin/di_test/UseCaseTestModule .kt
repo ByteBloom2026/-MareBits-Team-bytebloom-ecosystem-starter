@@ -1,3 +1,4 @@
+
 package di_test
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -11,4 +12,5 @@ val UseCaseTestModule  = module {
     singleOf(::GetTopPerformingMenteesBySubmissionTypeUseCase)
     singleOf(::TotalScore)
     singleOf(::FindMenteeWithMostAbsencesUseCase)
+    singleOf(::GenerateCrossTeamPreformanceReportUseCase)
 }
