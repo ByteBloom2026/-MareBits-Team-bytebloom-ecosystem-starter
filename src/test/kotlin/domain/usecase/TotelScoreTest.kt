@@ -3,8 +3,7 @@ import com.google.common.truth.Truth.assertThat
 import data.repository.*
 import data.repository.TeamRepository
 import di_test.testModule
-import domain.model.*
-import domain.usecase.request.GenerateTeamAttendanceReportRequest
+
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -13,10 +12,6 @@ import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.getValue
-//import kotlin.test.Test
-import fakeRepository.*
-import fakeRepository.FakePerformanceRepository
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class TotelScoreTest: KoinTest {
