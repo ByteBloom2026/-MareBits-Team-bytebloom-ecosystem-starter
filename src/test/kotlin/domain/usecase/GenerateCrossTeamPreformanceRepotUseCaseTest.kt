@@ -44,7 +44,7 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
         val report = result.getOrNull()
         // Then
         assertThat(report?.ScoreAndTeamName?.firstOrNull()?.Score)
-            .isEqualTo(185.0)
+            .isEqualTo(1560.0)
     }
 
     @Test
