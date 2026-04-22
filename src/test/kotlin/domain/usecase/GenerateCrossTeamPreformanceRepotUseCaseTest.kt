@@ -11,14 +11,21 @@ import org.junit.jupiter.api.BeforeEach
 import org.koin.core.context.stopKoin
 import data.repository.*
 import com.google.common.truth.Truth.assertThat
+import io.mockk.mockk
+import io.mockk.verify
 
 
 
 
 class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     val generateCrossTeamPreformanceReportUseCase: GenerateCrossTeamPreformanceReportUseCase by inject()
-    private val teamRepo: TeamRepository by inject()
-    private val perfRepo: PerformanceRepository by inject()
+
+    val teamRepoMocck=mockk<TeamRepository>()
+    val performanceRepo=mockk<PerformanceRepository>()
+    val totelScore=mockk<TotalScore>()
+    val generateCrossTeamPreformanceReportUseCaseMocck=GenerateCrossTeamPreformanceReportUseCase(
+        teamRepoMocck,
+        totelScore)
 
     @BeforeEach
     fun setup() {
@@ -69,20 +76,24 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
 
     @Test
     fun `should fetch performance data when invoke is called`() {
+        //Given
+        generateCrossTeamPreformanceReportUseCaseMocck
         //When
         generateCrossTeamPreformanceReportUseCase
             .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
         //Then
-        verify { perfRepo.getPerformanceByTeamId(teamId = String()) }
+        verify {performanceRepo.getAllPerformance()}
     }
 
     @Test
     fun `shold fetch teams data when invoke is called`() {
+        //Given
+        generateCrossTeamPreformanceReportUseCaseMocck
         //When
         generateCrossTeamPreformanceReportUseCase
             .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
         //Then
-        verify { teamRepo.getTeamById(teamId = String()) }
+        verify { teamRepoMocck.getTeamById("marebits") }
 
     }
 

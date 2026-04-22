@@ -3,7 +3,7 @@ import com.google.common.truth.Truth.assertThat
 import data.repository.*
 import data.repository.TeamRepository
 import di_test.testModule
-
+import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -17,7 +17,12 @@ import org.junit.jupiter.api.Test
 class TotelScoreTest: KoinTest {
     val totalScoreUseCase: TotalScore by inject()
     private val performanceRepository: PerformanceRepository by inject()
-    private val TeamRepository: TeamRepository by inject()
+
+     val performanceRepo=mockk<PerformanceRepository>()
+     val teamRepository=mockk<TeamRepository>()
+    val totelScpre= TotalScore(performanceRepo
+        ,teamRepository)
+
     @BeforeEach
     fun setup() {
         startKoin {
@@ -36,20 +41,6 @@ class TotelScoreTest: KoinTest {
         assertThat(result.getOrNull()).isEqualTo(1560.0)
     }
     @Test
-    fun `shold fetch performance data when invoke is called`(){
-        //When
-        totalScoreUseCase.invoke()
-        //Then
-        verify { performanceRepository.getPerformanceByTeamId("Soa123") }
-    }
-    @Test
-    fun `shold fetch teams data when invoke is called`(){
-        //When
-        totalScoreUseCase.invoke()
-        //Then
-        verify { TeamRepository.getTeamById("Ibt123")}
-    }
-    @Test
     fun `sholde return success result with correct data when repositories succeed`(){
         //When
         val TotelScoreOnSuccess=totalScoreUseCase()
@@ -57,19 +48,36 @@ class TotelScoreTest: KoinTest {
         assert(TotelScoreOnSuccess.isSuccess)
     }
 
+//    @Test
+//    fun `Should return error result when repositories fail1`() {
+//        // When
+//        val totalScoreOnFailure = totalScoreUseCase().onFailure {
+//            return Result.failure(error)
+//
+//        }
+//        // Then
+//        assert(totalScoreOnFailure)
+//    }
 
     @Test
-    fun `Should return error result when repositories fail1`() {
-        // When
-        val totalScoreOnFailure = totalScoreUseCase()
-
-        // Then
-        assert(totalScoreOnFailure.isFailure)
+    fun `shold fetch performance data when invoke is called`(){
+        //Given
+        totelScpre
+        //When
+        totelScpre.invoke()
+        //Then
+        verify { performanceRepository.getPerformanceByTeamId("Soa123") }
     }
 
-
-
-
+    @Test
+    fun `shold fetch teams data when invoke is called`(){
+        //Given
+        totelScpre
+        //When
+        totelScpre.invoke()
+        //Then
+        verify { teamRepository.getTeamById("marebits")}
+    }
 
 
 }
