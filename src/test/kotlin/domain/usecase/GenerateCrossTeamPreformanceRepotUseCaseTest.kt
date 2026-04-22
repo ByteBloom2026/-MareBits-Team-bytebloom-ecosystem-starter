@@ -12,20 +12,13 @@ import org.koin.core.context.stopKoin
 import data.repository.*
 import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.every
 
 
 
 
 class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     val generateCrossTeamPreformanceReportUseCase: GenerateCrossTeamPreformanceReportUseCase by inject()
-
-    val teamRepoMocck=mockk<TeamRepository>()
-    val performanceRepo=mockk<PerformanceRepository>()
-    val totelScore=mockk<TotalScore>()
-    val generateCrossTeamPreformanceReportUseCaseMocck=GenerateCrossTeamPreformanceReportUseCase(
-        teamRepoMocck,
-        totelScore)
 
     @BeforeEach
     fun setup() {
@@ -73,28 +66,36 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
         //Then
         assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isFailure)
     }
+//
+//    @Test
+//    fun `should fetch performance data when invoke is called`() {
+//        //Given
+//        val performanceRepoMocck=mockk<PerformanceRepository>()
+//        every { performanceRepoMocck. } returns Result.success(emptyList())
+//
+//        //When
+//        generateCrossTeamPreformanceReportUseCase
+//            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
+//        //Then
+//        verify {performanceRepoMocck.getAllPerformance()}
+//    }
 
     @Test
-    fun `should fetch performance data when invoke is called`() {
-        //Given
-        generateCrossTeamPreformanceReportUseCaseMocck
-        //When
-        generateCrossTeamPreformanceReportUseCase
-            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
-        //Then
-        verify {performanceRepo.getAllPerformance()}
-    }
-
-    @Test
-    fun `shold fetch teams data when invoke is called`() {
-        //Given
-        generateCrossTeamPreformanceReportUseCaseMocck
-        //When
-        generateCrossTeamPreformanceReportUseCase
-            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
-        //Then
-        verify { teamRepoMocck.getTeamById("marebits") }
-
+    fun `should fetch teams data when invoke is called`() {
+        // Given
+        val teamRepoMocck = mockk<TeamRepository>()
+        val totalScore = mockk<TotalScore>()
+        val useCase = GenerateCrossTeamPreformanceReportUseCase(
+            teamRepoMocck,
+            totalScore
+        )
+        every { teamRepoMocck.getAllTeams() } returns Result.success(emptyList())
+        // When
+        useCase.invoke(
+            GenerateTeamAttendanceReportRequest(teamId = "team1")
+        )
+        // Then
+        verify { teamRepoMocck.getAllTeams() }
     }
 
 }

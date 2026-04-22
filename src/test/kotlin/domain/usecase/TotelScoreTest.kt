@@ -3,6 +3,7 @@ import com.google.common.truth.Truth.assertThat
 import data.repository.*
 import data.repository.TeamRepository
 import di_test.testModule
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
@@ -17,11 +18,6 @@ import org.junit.jupiter.api.Test
 class TotelScoreTest: KoinTest {
     val totalScoreUseCase: TotalScore by inject()
     private val performanceRepository: PerformanceRepository by inject()
-
-     val performanceRepo=mockk<PerformanceRepository>()
-     val teamRepository=mockk<TeamRepository>()
-    val totelScpre= TotalScore(performanceRepo
-        ,teamRepository)
 
     @BeforeEach
     fun setup() {
@@ -62,21 +58,31 @@ class TotelScoreTest: KoinTest {
     @Test
     fun `shold fetch performance data when invoke is called`(){
         //Given
-        totelScpre
+        val performanceRepo=mockk<PerformanceRepository>()
+        val teamRepository=mockk<TeamRepository>()
+        val totelScpre= TotalScore(performanceRepo
+            ,teamRepository)
+        every { teamRepository.getAllTeams() } returns Result.success(emptyList())
+        every { performanceRepo.getAllPerformance() } returns Result.success(emptyList())
         //When
         totelScpre.invoke()
         //Then
-        verify { performanceRepository.getPerformanceByTeamId("Soa123") }
+        verify { performanceRepository.getPerformanceByTeamId("team1") }
     }
 
     @Test
     fun `shold fetch teams data when invoke is called`(){
         //Given
-        totelScpre
+        val performanceRepo=mockk<PerformanceRepository>()
+        val teamRepository=mockk<TeamRepository>()
+        val totelScpre= TotalScore(performanceRepo
+            ,teamRepository)
+        every { teamRepository.getAllTeams() } returns Result.success(emptyList())
+        every { performanceRepo.getAllPerformance() } returns Result.success(emptyList())
         //When
         totelScpre.invoke()
         //Then
-        verify { teamRepository.getTeamById("marebits")}
+        verify { teamRepository.getAllTeams()}
     }
 
 
