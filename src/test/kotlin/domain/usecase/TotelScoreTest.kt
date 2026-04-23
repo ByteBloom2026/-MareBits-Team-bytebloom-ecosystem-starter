@@ -44,16 +44,6 @@ class TotelScoreTest: KoinTest {
         assert(TotelScoreOnSuccess.isSuccess)
     }
 
-//    @Test
-//    fun `Should return error result when repositories fail1`() {
-//        // When
-//        val totalScoreOnFailure = totalScoreUseCase().onFailure {
-//            return Result.failure(error)
-//
-//        }
-//        // Then
-//        assert(totalScoreOnFailure)
-//    }
 
     @Test
     fun `shold fetch performance data when invoke is called`(){
@@ -67,7 +57,7 @@ class TotelScoreTest: KoinTest {
         //When
         totelScpre.invoke()
         //Then
-        verify { performanceRepository.getPerformanceByTeamId("team1") }
+        verify { performanceRepo.getAllPerformance() }
     }
 
     @Test

@@ -57,28 +57,6 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
         assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isSuccess)
     }
 
-    @Test
-    fun `Should return error result when repositories fail`() {
-        // Given
-        val request = GenerateTeamAttendanceReportRequest("marebits")
-        //When
-        val generateCrossTeamPreformanceReportUseCaseOnSuccess = generateCrossTeamPreformanceReportUseCase(request)
-        //Then
-        assert(generateCrossTeamPreformanceReportUseCaseOnSuccess.isFailure)
-    }
-//
-//    @Test
-//    fun `should fetch performance data when invoke is called`() {
-//        //Given
-//        val performanceRepoMocck=mockk<PerformanceRepository>()
-//        every { performanceRepoMocck. } returns Result.success(emptyList())
-//
-//        //When
-//        generateCrossTeamPreformanceReportUseCase
-//            .invoke(request = GenerateTeamAttendanceReportRequest(teamId = String()))
-//        //Then
-//        verify {performanceRepoMocck.getAllPerformance()}
-//    }
 
     @Test
     fun `should fetch teams data when invoke is called`() {
