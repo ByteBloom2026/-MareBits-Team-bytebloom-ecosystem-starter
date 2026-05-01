@@ -13,4 +13,5 @@ val UseCaseTestModule  = module {
     singleOf(::TotalScore)
     singleOf(::FindMenteeWithMostAbsencesUseCase)
     singleOf(::GenerateCrossTeamPreformanceReportUseCase)
+    singleOf(::GetAverageScorePerSubmissionTypeUseCase)
 }

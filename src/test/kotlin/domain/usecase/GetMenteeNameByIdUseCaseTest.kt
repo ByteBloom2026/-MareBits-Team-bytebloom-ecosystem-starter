@@ -1,50 +1,40 @@
 package domain.usecase
-
 import com.google.common.truth.Truth.assertThat
-import data.repository.MenteeRepository
-import domain.model.Mentee
+import di_test.testModule
 import domain.usecase.request.GetMenteeNameByIdRequest
-import io.mockk.every
-import io.mockk.mockk
-import org.junit.runner.Request
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+import org.koin.test.inject
 import kotlin.test.Test
-
-class GetMenteeNameByIdUseCaseTest {
-    private val menteeRepository = mockk<MenteeRepository>()
-    private val useCase = GetMenteeNameByIdUseCase(menteeRepository)
-
+class GetMenteeNameByIdUseCaseTest : KoinTest {
+    private val useCase : GetMenteeNameByIdUseCase by inject()
+    @BeforeEach
+    fun setup() {
+        startKoin { modules(testModule) }
+    }
+    @AfterEach
+    fun tearDown() {
+        stopKoin()
+    }
     @Test
     fun `should return mentee name when mentee exists`() {
-        // Given
-        val menteeId = "m123"
-        val expectedName = "Elham Hassan"
-        val request = GetMenteeNameByIdRequest(menteeId)
-        val mockMentee = Mentee.create(id = menteeId, name = expectedName, teamId = "marebits")
-        every { menteeRepository.getMenteeById(menteeId) } returns Result.success(mockMentee)
-
+        //Given
+        val request = GetMenteeNameByIdRequest("m001")
         // When
         val result = useCase(request)
-
         // Then
-        assertThat(result.isSuccess).isTrue()
-        assertThat(result.getOrNull()).isEqualTo(expectedName)
+        assertThat(result.getOrNull()).isEqualTo("Ahmad")
     }
-
     @Test
     fun `should return failure when mentee does not exist`() {
         // Given
-        val menteeId = "unknown_id"
-        val request = GetMenteeNameByIdRequest(menteeId)
-        val errorException = Exception("Mentee not found")
-
-        every { menteeRepository.getMenteeById(menteeId) } returns Result.failure(errorException)
-
+        val request = GetMenteeNameByIdRequest("unknown_id")
         // When
         val result = useCase(request)
-
         // Then
-        assertThat(result.isFailure).isTrue()
-        assertThat(result.exceptionOrNull()).isEqualTo(errorException)
-
+        assertThat(result.getOrNull()).isNull()
     }
 }
