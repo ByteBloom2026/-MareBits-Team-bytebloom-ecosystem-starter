@@ -14,8 +14,10 @@ dependencies {
     testImplementation("com.google.truth:truth:1.4.5")
     testImplementation("io.mockk:mockk:1.14.9")
     implementation("io.insert-koin:koin-core:4.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     testImplementation("io.insert-koin:koin-test:4.1.0")
     testImplementation("io.insert-koin:koin-test-junit5:4.1.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
 
 }
