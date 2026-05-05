@@ -14,7 +14,7 @@ import domain.model.exception.DataAccessException
 class ProjectRepositoryImpl(
     private val dataSource: EcoSystemDataSource
 ) : ProjectRepository {
-    override fun getAllProjects(): Result<List<Project>> {
+    override suspend fun getAllProjects(): Result<List<Project>> {
         return dataSource.getProjects().fold(
             onSuccess = { projectRows ->
                 Result.success(
@@ -26,7 +26,7 @@ class ProjectRepositoryImpl(
             }
         )
     }
-    override fun getProjectByTeamId(teamId: String): Result<Project?> {
+    override suspend fun getProjectByTeamId(teamId: String): Result<Project?> {
         return dataSource.getProjectByTeamId(teamId).fold(
             onSuccess = { projectRow ->
                 if (projectRow == null) {
@@ -40,7 +40,7 @@ class ProjectRepositoryImpl(
             }
         )
     }
-    private fun mapToDomainException(exception: Throwable): Throwable {
+    private suspend fun mapToDomainException(exception: Throwable): Throwable {
         return DataAccessException.DataUnavailableException()
     }
 }

@@ -8,6 +8,8 @@ import data.validator.FilePathValidator
 import data.validator.LineIsNotEmptyValidator
 import data.validator.NoEmptyColumnsValidator
 import domain.model.PerformanceSubmission.SubmissionType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class CsvEcosystemDataSource(
@@ -17,7 +19,7 @@ class CsvEcosystemDataSource(
     private val lineValidator = LineIsNotEmptyValidator()
     private val noEmptyColumnsValidator = NoEmptyColumnsValidator()
 
-    override fun getMentees(): Result<List<MenteeRow>> {
+    override suspend fun getMentees(): Result<List<MenteeRow>> {
         return validatedParts(menteeFile, "mentees.csv", 3)
             .map { rows ->
                 rows.map { parts ->
@@ -29,18 +31,18 @@ class CsvEcosystemDataSource(
                 }
             }
     }
-    override fun getMenteeById(id: String): Result<MenteeRow?> {
+    override suspend fun getMenteeById(id: String): Result<MenteeRow?> {
         return getMentees().map { mentees ->
             mentees.find { it.id == id }
         }
     }
-    override fun getMenteesByTeamId(teamId: String): Result<List<MenteeRow>> {
+    override suspend fun getMenteesByTeamId(teamId: String): Result<List<MenteeRow>> {
         return getMentees().map { mentees ->
             mentees.filter { it.teamId == teamId }
         }
     }
 
-    override fun getTeams(): Result<List<TeamRow>> {
+    override suspend fun getTeams(): Result<List<TeamRow>> {
         return validatedParts(teamFile, "teams.csv", 3)
             .map { rows ->
                 rows.map { parts ->
@@ -52,12 +54,12 @@ class CsvEcosystemDataSource(
                 }
             }
     }
-    override fun getTeamById(teamId: String): Result<TeamRow?> {
+    override suspend fun getTeamById(teamId: String): Result<TeamRow?> {
         return getTeams().map { teams ->
             teams.find { it.id == teamId }
         }
     }
-    override fun getPerformances(): Result<List<PerformanceRow>> {
+    override suspend fun getPerformances(): Result<List<PerformanceRow>> {
         return validatedParts(performanceFile, "performance.csv", 4)
             .map { rows ->
                 rows.map { parts ->
@@ -70,7 +72,7 @@ class CsvEcosystemDataSource(
                 }
             }
     }
-    override fun getPerformanceByMenteeId(
+    override suspend fun getPerformanceByMenteeId(
         menteeId: String
     ): Result<List<PerformanceRow>> {
         return getPerformances().map { performances ->
@@ -78,7 +80,7 @@ class CsvEcosystemDataSource(
         }
     }
 
-    override fun getPerformanceByTeamId(
+    override suspend fun getPerformanceByTeamId(
         teamId: String
     ): Result<List<PerformanceRow>> {
         return getPerformances().map { performances ->
@@ -86,7 +88,7 @@ class CsvEcosystemDataSource(
         }
     }
 
-    override fun getProjects(): Result<List<ProjectRow>> {
+    override suspend fun getProjects(): Result<List<ProjectRow>> {
         return validatedParts(projectFile, "projects.csv", 3)
             .map { rows ->
                 rows.map { parts ->
@@ -98,12 +100,12 @@ class CsvEcosystemDataSource(
                 }
             }
     }
-    override fun getProjectByTeamId(teamId: String): Result<ProjectRow?> {
+    override suspend fun getProjectByTeamId(teamId: String): Result<ProjectRow?> {
         return getProjects().map { projects ->
             projects.find { it.teamId == teamId }
         }
     }
-    override fun getAttendances(): Result<List<AttendanceRow>> {
+    override suspend fun getAttendances(): Result<List<AttendanceRow>> {
         return validatedParts(attendanceFile, "attendance.csv", 4)
             .map { rows ->
                 rows.map { parts ->
@@ -114,24 +116,26 @@ class CsvEcosystemDataSource(
                 }
             }
     }
-    override fun getAttendanceByMenteeId(
+    override suspend fun getAttendanceByMenteeId(
         menteeId: String
     ): Result<AttendanceRow?> {
         return getAttendances().map { attendances ->
             attendances.find { it.menteeId == menteeId }
         }
     }
-    private fun validateFile(file: File, fileLabel: String): Result<List<String>> {
-        return try {
-            filePathValidator.validate(file.path)
-            val fileLines = file.readLines()
-            if (fileLines.size <= 1) {
-                Result.failure(FileIsEmptyException())
-            } else {
-                Result.success(fileLines)
+    private suspend fun validateFile(file: File, fileLabel: String): Result<List<String>> {
+        return withContext(Dispatchers.IO) {
+            try {
+                filePathValidator.validate(file.path)
+                val fileLines = file.readLines()
+                if (fileLines.size <= 1) {
+                    Result.failure(FileIsEmptyException())
+                } else {
+                    Result.success(fileLines)
+                }
+            } catch (exception: Exception) {
+                Result.failure(exception)
             }
-        } catch (exception: Exception) {
-            Result.failure(exception)
         }
     }
     private fun validateLineToParts(
@@ -150,7 +154,7 @@ class CsvEcosystemDataSource(
             Result.failure(exception)
         }
     }
-    private fun validatedParts(file: File, fileLabel: String, expectedColumns: Int): Result<List<List<String>>> {
+    private suspend fun validatedParts(file: File, fileLabel: String, expectedColumns: Int): Result<List<List<String>>> {
         val linesResult = validateFile(file, fileLabel)
         if (linesResult.isFailure) return Result.failure(linesResult.exceptionOrNull()!!)
         val lines = linesResult.getOrNull()!!

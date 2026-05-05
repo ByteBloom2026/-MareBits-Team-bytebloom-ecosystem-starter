@@ -13,7 +13,7 @@ import data.datasource.model.exception.PathIsNotFileException
 class MenteeRepositoryImpl(
     private val dataSource: EcoSystemDataSource
 ) : MenteeRepository {
-    override fun getAllMentees(): Result<List<Mentee>> {
+    override suspend fun getAllMentees(): Result<List<Mentee>> {
         return dataSource.getMentees().fold(
             onSuccess = { menteeRows ->
                 Result.success(
@@ -25,7 +25,7 @@ class MenteeRepositoryImpl(
             }
         )
     }
-    override fun getMenteeById(id: String): Result<Mentee?> {
+    override suspend fun getMenteeById(id: String): Result<Mentee?> {
         return dataSource.getMenteeById(id).fold(
             onSuccess = { menteeRow ->
                 if (menteeRow == null) {
@@ -39,7 +39,7 @@ class MenteeRepositoryImpl(
             }
         )
     }
-    override fun getMenteesByTeamId(teamId: String): Result<List<Mentee>> {
+    override suspend fun getMenteesByTeamId(teamId: String): Result<List<Mentee>> {
         return dataSource.getMenteesByTeamId(teamId).fold(
             onSuccess = { menteeRows ->
                 Result.success(
@@ -51,7 +51,7 @@ class MenteeRepositoryImpl(
             }
         )
     }
-    private fun mapToDomainException(exception: Throwable): Throwable {
+    private suspend fun mapToDomainException(exception: Throwable): Throwable {
         return DataAccessException.DataUnavailableException()
     }
 }
