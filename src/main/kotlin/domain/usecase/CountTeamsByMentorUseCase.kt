@@ -4,7 +4,7 @@ import domain.model.Team
 
 class CountTeamsByMentorUseCase(private val teamRepository: TeamRepository) {
 
-    operator fun invoke(): Result<Map<String, Int>> {
+    suspend operator fun invoke(): Result<Map<String, Int>> {
         return teamRepository.getAllTeams().fold(
             onSuccess = ::onCountTeamsSuccess,
             onFailure = { Result.failure(it) }

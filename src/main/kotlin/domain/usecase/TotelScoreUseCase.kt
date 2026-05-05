@@ -7,14 +7,14 @@ class TotalScore(
     private val performanceRepo: PerformanceRepository,
     private val teamRepository: TeamRepository
 ) {
-    operator fun invoke(): Result<Double> {
+    suspend operator fun invoke(): Result<Double> {
         return performanceRepo.getAllPerformance()
             .fold(
             onSuccess =  {onCalculateTotalScoreOnSuccess()},
             onFailure = ::onCalculateTotalScoreOnFailure
         )
     }
-    private fun calculateTotalScore(): Double {
+    private suspend fun calculateTotalScore(): Double {
         val teamScoresList = teamRepository.getAllTeams().getOrThrow()
         val finalResult = teamScoresList.map { teams ->
             val preformanceResalt = performanceRepo
@@ -28,7 +28,7 @@ class TotalScore(
         return finalResult
     }
 
-    private fun onCalculateTotalScoreOnSuccess(): Result<Double> {
+    private suspend fun onCalculateTotalScoreOnSuccess(): Result<Double> {
         return Result.success(calculateTotalScore())
     }
 

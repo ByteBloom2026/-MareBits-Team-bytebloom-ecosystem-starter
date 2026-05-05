@@ -7,13 +7,14 @@ class GetMenteesWithLowAverageScoreUseCase(
     private val menteeRepository: MenteeRepository,
     private val performanceRepository: PerformanceRepository
 ) {
-    operator fun invoke(request: GetMenteesWithLowAverageScoreRequest): Result<List<Mentee>> {
+    suspend operator fun invoke(request: GetMenteesWithLowAverageScoreRequest): Result<List<Mentee>> {
         return menteeRepository.getAllMentees().fold(
             onSuccess = { mentees -> onMenteeWithLowAverageSuccess(mentees, request.threshold) },
-            onFailure = ::onMenteeWithLowAverageFailure
+            onFailure = { error -> onMenteeWithLowAverageFailure(error)
+            }
         )
     }
-    private fun onMenteeWithLowAverageSuccess(mentees: List<Mentee>, threshold: Double): Result<List<Mentee>> {
+    private suspend fun onMenteeWithLowAverageSuccess(mentees: List<Mentee>, threshold: Double): Result<List<Mentee>> {
         val lowScoringMentees = mentees.filter { mentee ->
             val performances = performanceRepository.getPerformanceByMenteeId(mentee.id)
                 .getOrDefault(emptyList())

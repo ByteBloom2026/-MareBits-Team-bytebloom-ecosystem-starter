@@ -10,7 +10,7 @@ class GenerateCrossTeamPreformanceReportUseCase(
     private val teamRepository: TeamRepository,
     private val totalScore: TotalScore
 ) {
-    operator fun invoke(request: GenerateTeamAttendanceReportRequest): Result<CrossTeamPerformanceReport> {
+    suspend operator fun invoke(request: GenerateTeamAttendanceReportRequest): Result<CrossTeamPerformanceReport> {
             return runCatching {
                 getReportByPreformance(request.teamId)
             }
@@ -19,7 +19,7 @@ class GenerateCrossTeamPreformanceReportUseCase(
                 onFailure = ::GenerateCrossTeamPreformanceReportUseCaseonFailure
             )
     }
-    private fun getReportByPreformance(teamId: String): CrossTeamPerformanceReport{
+    private suspend fun getReportByPreformance(teamId: String): CrossTeamPerformanceReport{
         val teamScoresList = teamRepository.getAllTeams().getOrThrow()
             .map { team ->
                 val totalScoreRaselt=totalScore.invoke()

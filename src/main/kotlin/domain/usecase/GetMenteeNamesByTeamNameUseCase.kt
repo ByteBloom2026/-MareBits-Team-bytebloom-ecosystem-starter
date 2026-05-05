@@ -7,13 +7,16 @@ class GetMenteeNamesByTeamNameUseCase(
     private val teamRepository: TeamRepository,
     private val menteeRepository: MenteeRepository,
 ) {
-    operator fun invoke(request: GetMenteeNamesByTeamNameRequest): Result<List<String>> {
+    suspend operator fun invoke(request: GetMenteeNamesByTeamNameRequest): Result<List<String>> {
         return teamRepository.searchTeamsByName(request.teamName).fold(
-            onSuccess = ::GetMenteeNamesByTeamNameSuccess,
-            onFailure = ::onGetMenteeNameByTeamNameFailure
+            onSuccess =  { teams ->
+                GetMenteeNamesByTeamNameSuccess(teams)
+            },
+            onFailure = { error ->
+                onGetMenteeNameByTeamNameFailure(error)}
         )
     }
-    private fun GetMenteeNamesByTeamNameSuccess(teams: List<Team>): Result<List<String>> {
+    private suspend fun GetMenteeNamesByTeamNameSuccess(teams: List<Team>): Result<List<String>> {
         val targetTeam = teams.firstOrNull()
         val allMentees = menteeRepository.getAllMentees().getOrDefault(emptyList())
         val names = allMentees

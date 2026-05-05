@@ -6,7 +6,7 @@ import domain.usecase.request.CalculateOverallAttendancePercentageRequest
 class CalculateOverallAttendancePercentageUseCase (
     private val attendanceRepository: AttendanceRepository
 ) {
-    operator fun invoke(request: CalculateOverallAttendancePercentageRequest): Result<Double> {
+    suspend operator fun invoke(request: CalculateOverallAttendancePercentageRequest): Result<Double> {
         return attendanceRepository.getAttendanceByMenteeId(request.menteeId).fold(
             onSuccess = ::onCalculateAttendanceSuccess,
             onFailure = ::onCalculateAttendanceFailure

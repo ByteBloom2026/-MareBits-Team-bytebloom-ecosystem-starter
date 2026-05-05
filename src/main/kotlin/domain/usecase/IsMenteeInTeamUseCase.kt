@@ -7,13 +7,13 @@ class IsMenteeInTeamUseCase(
     private val teamRepository: TeamRepository,
     private val menteeRepository: MenteeRepository,
 ) {
-    operator fun invoke(request: IsMenteeInTeamRequest): Result<Boolean> {
+    suspend operator fun invoke(request: IsMenteeInTeamRequest): Result<Boolean> {
         return menteeRepository.getAllMentees().fold(
             onSuccess = { mentees -> onIsMenteeInTeamSuccess(mentees, request.menteeId, request.teamName) },
             onFailure = ::onIsMenteeInTeamFailure
         )
     }
-    private fun onIsMenteeInTeamSuccess(mentees: List<Mentee>, menteeId: String, teamName: String): Result<Boolean> {
+    private suspend fun onIsMenteeInTeamSuccess(mentees: List<Mentee>, menteeId: String, teamName: String): Result<Boolean> {
         val mentee = mentees.find { it.id == menteeId } ?: return Result.success(false)
         val team = teamRepository.getAllTeams()
             .getOrNull()

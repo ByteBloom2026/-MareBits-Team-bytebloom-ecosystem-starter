@@ -6,7 +6,7 @@ import domain.model.PerformanceSubmission.SubmissionType
 class GetAverageScorePerSubmissionTypeUseCase(
     private val performanceRepository: PerformanceRepository
 ) {
-    operator fun invoke(): Result<Map<SubmissionType, Double>> {
+    suspend operator fun invoke(): Result<Map<SubmissionType, Double>> {
         return performanceRepository.getAllPerformance().fold(
             onSuccess = ::GetAverageScorePerSubmissionTypeSuccess,
             onFailure = ::GetAverageScorePerSubmissionTypeFailure

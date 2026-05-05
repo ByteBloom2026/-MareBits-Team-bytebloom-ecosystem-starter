@@ -8,7 +8,7 @@ class GetTopPerformingMenteesBySubmissionTypeUseCase (
     private val menteeRepository: MenteeRepository,
     private val performanceRepository: PerformanceRepository
 ) {
-    operator fun invoke(
+    suspend operator fun invoke(
         request: GetTopPerformingMenteesBySubmissionTypeRequest
     ): Result<List<Mentee>> {
         return performanceRepository.getAllPerformance().fold(
@@ -21,7 +21,7 @@ class GetTopPerformingMenteesBySubmissionTypeUseCase (
             onFailure = ::onGetTopPerformingMenteesBySubmissionTypeFailure
         )
     }
-    private fun onGetTopPerformingMenteesBySubmissionTypeSuccess(
+    private suspend fun onGetTopPerformingMenteesBySubmissionTypeSuccess(
         performances: List<PerformanceSubmission>,
         submissionType: PerformanceSubmission.SubmissionType
     ): Result<List<Mentee>> {

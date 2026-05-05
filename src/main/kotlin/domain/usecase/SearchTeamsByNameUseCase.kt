@@ -6,7 +6,7 @@ import domain.usecase.request.SearchTeamsByNameRequest
 class SearchTeamsByNameUseCase(
     private val teamRepository: TeamRepository
 ) {
-    operator fun invoke(request: SearchTeamsByNameRequest): Result<List<Team>> {
+    suspend operator fun invoke(request: SearchTeamsByNameRequest): Result<List<Team>> {
         return teamRepository.getAllTeams().fold(
             onSuccess = { teams -> onSearchTeamsByNameSuccess(teams, request.keyword) },
             onFailure = ::onSearchTeamsByNameFailure

@@ -7,14 +7,18 @@ class GetMostAbsentMenteesUseCase (
     private val menteeRepository: MenteeRepository,
     private val attendanceRepository: AttendanceRepository
 ){
-    operator fun invoke(): Result<List<Pair<Mentee, Int>>> {
+    suspend operator fun invoke(): Result<List<Pair<Mentee, Int>>> {
         return menteeRepository.getAllMentees()
             .fold(
-            onSuccess = ::GetMostAbsentMenteesSuccess,
-            onFailure = ::GetMostAbsentMenteesFailure
+            onSuccess = { mentees ->
+                GetMostAbsentMenteesSuccess(mentees)
+            },
+            onFailure =  { error ->
+                GetMostAbsentMenteesFailure(error)
+            }
             )
     }
-    private fun GetMostAbsentMenteesSuccess(mentees: List<Mentee>): Result<List<Pair<Mentee, Int>>> {
+    private suspend fun GetMostAbsentMenteesSuccess(mentees: List<Mentee>): Result<List<Pair<Mentee, Int>>> {
         val absentList = mentees.mapNotNull { mentee ->
             attendanceRepository.getAttendanceByMenteeId(mentee.id).getOrNull()?.weeks?.let { weeks ->
                 val absentCount = weeks.count { it != AttendanceState.PRESENT }
