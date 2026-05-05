@@ -13,7 +13,7 @@ import domain.model.exception.DataAccessException
 class AttendanceRepositoryImpl(
     private val dataSource: EcoSystemDataSource
 ) : AttendanceRepository {
-    override fun getAllAttendance(): Result<List<Attendance>> {
+    override suspend fun getAllAttendance(): Result<List<Attendance>> {
         return dataSource.getAttendances().fold(
             onSuccess = { attendanceRows ->
                 Result.success(
@@ -25,7 +25,7 @@ class AttendanceRepositoryImpl(
             }
         )
     }
-    override fun getAttendanceByMenteeId(menteeId: String): Result<Attendance?> {
+    override suspend fun getAttendanceByMenteeId(menteeId: String): Result<Attendance?> {
         return dataSource.getAttendanceByMenteeId(menteeId).fold(
             onSuccess = { attendanceRow ->
                 if (attendanceRow == null) {
@@ -39,7 +39,7 @@ class AttendanceRepositoryImpl(
             }
         )
     }
-    private fun mapToDomainException(exception: Throwable): Throwable {
+    private suspend fun mapToDomainException(exception: Throwable): Throwable {
         return DataAccessException.DataUnavailableException()
     }
 }
