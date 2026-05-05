@@ -1,8 +1,8 @@
 package data.repository
 import domain.model.Team
 interface TeamRepository {
-    fun getAllTeams(): Result<List<Team>>
-    fun getTeamById(teamId: String): Result<Team?>
-    fun getMentorLeadByTeamId(teamId: String): Result<String?>
-    fun searchTeamsByName(keyword: String): Result<List<Team>>
+    suspend fun getAllTeams(): Result<List<Team>>
+    suspend fun getTeamById(teamId: String): Result<Team?>
+    suspend fun getMentorLeadByTeamId(teamId: String): Result<String?>
+    suspend fun searchTeamsByName(keyword: String): Result<List<Team>>
 }
