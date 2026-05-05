@@ -6,7 +6,7 @@ import domain.model.exception.DataAccessException
 class TeamRepositoryImpl(
     private val dataSource: EcoSystemDataSource
 ) : TeamRepository {
-    override fun getAllTeams(): Result<List<Team>> {
+    override suspend fun getAllTeams(): Result<List<Team>> {
         return dataSource.getTeams().fold(
             onSuccess = { teamRows ->
                 Result.success(
@@ -18,7 +18,7 @@ class TeamRepositoryImpl(
             }
         )
     }
-    override fun searchTeamsByName(keyword: String): Result<List<Team>>{
+    override suspend fun searchTeamsByName(keyword: String): Result<List<Team>>{
         return dataSource.getTeams().fold(
             onSuccess = { teamRows ->
                 val filtered = teamRows
@@ -32,7 +32,7 @@ class TeamRepositoryImpl(
             }
         )
     }
-    override fun getTeamById(teamId: String): Result<Team?> {
+    override suspend fun getTeamById(teamId: String): Result<Team?> {
         return dataSource.getTeamById(teamId).fold(
             onSuccess = { teamRow ->
                 if (teamRow == null) {
@@ -46,7 +46,7 @@ class TeamRepositoryImpl(
             }
         )
     }
-    override fun getMentorLeadByTeamId(teamId: String): Result<String?> {
+    override suspend fun getMentorLeadByTeamId(teamId: String): Result<String?> {
         return getTeamById(teamId).fold(
             onSuccess = { team ->
                 Result.success(team?.mentorLead)
@@ -56,7 +56,7 @@ class TeamRepositoryImpl(
             }
         )
     }
-    private fun mapToDomainException(exception: Throwable): Throwable {
+    private suspend fun mapToDomainException(exception: Throwable): Throwable {
         return DataAccessException.DataUnavailableException()
     }
 }
