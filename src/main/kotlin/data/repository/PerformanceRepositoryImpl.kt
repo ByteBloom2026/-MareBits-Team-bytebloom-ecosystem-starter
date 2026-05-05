@@ -14,7 +14,7 @@ import domain.model.exception.DataAccessException
 class PerformanceRepositoryImpl(
     private val dataSource: EcoSystemDataSource
 ) : PerformanceRepository {
-    override fun getAllPerformance(): Result<List<PerformanceSubmission>> {
+    override suspend fun getAllPerformance(): Result<List<PerformanceSubmission>> {
         return dataSource.getPerformances().fold(
             onSuccess = { performanceRows ->
                 Result.success(
@@ -26,7 +26,7 @@ class PerformanceRepositoryImpl(
             }
         )
     }
-    override fun getPerformanceByMenteeId(menteeId: String): Result<List<PerformanceSubmission>> {
+    override suspend fun getPerformanceByMenteeId(menteeId: String): Result<List<PerformanceSubmission>> {
         return dataSource.getPerformanceByMenteeId(menteeId).fold(
             onSuccess = { performanceRows ->
                 Result.success(
@@ -39,7 +39,7 @@ class PerformanceRepositoryImpl(
         )
     }
 
-    override fun getPerformanceByTeamId(teamId: String): Result<List<PerformanceSubmission>> {
+    override suspend fun getPerformanceByTeamId(teamId: String): Result<List<PerformanceSubmission>> {
         return dataSource.getPerformanceByTeamId(teamId)
             .fold(
             onSuccess = { performanceRows ->
@@ -53,7 +53,7 @@ class PerformanceRepositoryImpl(
         )
     }
 
-    private fun mapToDomainException(exception: Throwable): Throwable {
+    private suspend fun mapToDomainException(exception: Throwable): Throwable {
         return DataAccessException.DataUnavailableException()
     }
 }
