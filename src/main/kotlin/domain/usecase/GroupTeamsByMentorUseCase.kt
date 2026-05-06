@@ -2,7 +2,7 @@ package domain.usecase
 import data.repository.TeamRepository
 import domain.model.Team
 class GroupTeamsByMentorUseCase(private val teamRepository: TeamRepository){
-    operator fun invoke(): Result<Map<String, List<Team>>> =
+    suspend operator fun invoke(): Result<Map<String, List<Team>>> =
 
         teamRepository.getAllTeams().fold(
             onSuccess = ::GroupTeamsByMentorSuccess,

@@ -2,7 +2,7 @@ package domain.usecase
 import data.repository.TeamRepository
 import domain.model.Team
 class FindTeamsWithNoProjectUseCase(private val teamRepository: TeamRepository) {
-    operator fun invoke(): Result<List<Team>> {
+    suspend operator fun invoke(): Result<List<Team>> {
         return teamRepository.getAllTeams()
             .fold(
             onSuccess = ::onFindTeamsSuccess,

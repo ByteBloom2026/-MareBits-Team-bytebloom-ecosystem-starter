@@ -9,14 +9,18 @@ class FindMenteeWithMostAbsencesUseCase (
     private val menteeRepository: MenteeRepository,
     private val attendanceRepository: AttendanceRepository
 ){
-    operator fun invoke(): Result<Pair<Mentee, Int>?> {
+    suspend operator fun invoke(): Result<Pair<Mentee, Int>?> {
         return menteeRepository.getAllMentees().fold(
-            onSuccess = ::onFindMenteeWithMostAbsencesSuccess,
-            onFailure = ::onFindMenteeWithMostAbsencesFailure
+            onSuccess = { mentees ->
+                onFindMenteeWithMostAbsencesSuccess(mentees)
+            },
+            onFailure = { error ->
+                onFindMenteeWithMostAbsencesFailure(error)
+            }
         )
     }
 
-    private fun onFindMenteeWithMostAbsencesSuccess(
+    private suspend fun onFindMenteeWithMostAbsencesSuccess(
         mentees: List<Mentee>
     ): Result<Pair<Mentee, Int>?> {
         val mostAbsentMentee = mentees.map { mentee ->

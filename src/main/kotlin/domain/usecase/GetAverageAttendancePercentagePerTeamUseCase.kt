@@ -10,13 +10,13 @@ class GetAverageAttendancePercentagePerTeamUseCase(
     private val menteeRepository: MenteeRepository,
     private val attendanceRepository: AttendanceRepository
 ) {
-    operator fun invoke(): Result<Map<String, Double>> {
+    suspend operator fun invoke(): Result<Map<String, Double>> {
         return teamRepository.getAllTeams().fold(
-            onSuccess = ::GetAverageAttendancePercentagePerTeamSuccess,
-            onFailure = ::GetAverageAttendancePercentagePerTeamFailure
+            onSuccess = { teams -> GetAverageAttendancePercentagePerTeamSuccess(teams) },
+            onFailure = { error -> GetAverageAttendancePercentagePerTeamFailure(error) }
         )
     }
-    private fun GetAverageAttendancePercentagePerTeamSuccess(teams: List<Team>): Result<Map<String, Double>> {
+    private suspend fun GetAverageAttendancePercentagePerTeamSuccess(teams: List<Team>): Result<Map<String, Double>> {
         val teamAverages = teams.associate { team ->
             team.name to calculateAverageAttendance(team.id)
         }
@@ -25,7 +25,7 @@ class GetAverageAttendancePercentagePerTeamUseCase(
     private fun GetAverageAttendancePercentagePerTeamFailure(error: Throwable): Result<Map<String, Double>> {
         return Result.failure(error)
     }
-    private fun calculateAverageAttendance(teamId: String): Double {
+    private suspend fun calculateAverageAttendance(teamId: String): Double {
         val mentees = menteeRepository.getMenteesByTeamId(teamId).getOrDefault(emptyList())
 
         if (mentees.isEmpty()) return 0.0
@@ -37,7 +37,7 @@ class GetAverageAttendancePercentagePerTeamUseCase(
         val avg = percentages.average()
         return if (avg.isNaN()) 0.0 else avg
     }
-    private fun calculateMenteeAttendancePercentage(menteeId: String): Double? {
+    private suspend fun calculateMenteeAttendancePercentage(menteeId: String): Double? {
         val attendance = attendanceRepository.getAttendanceByMenteeId(menteeId).getOrNull()
         val weeks = attendance?.weeks ?: return null
 

@@ -7,7 +7,7 @@ class GenerateTeamAttendanceReportUseCase(
     private val attendanceRepository: AttendanceRepository,
     private val menteeRepository: MenteeRepository
 ) {
-    operator fun invoke(request: GenerateTeamAttendanceReportRequest): Result<Map<String, Int>> {
+    suspend operator fun invoke(request: GenerateTeamAttendanceReportRequest): Result<Map<String, Int>> {
         return runCatching {
             getAbsenceCountPerMentee(request.teamId)
         }.fold(
@@ -15,7 +15,7 @@ class GenerateTeamAttendanceReportUseCase(
             onFailure = ::onGenerateTeamAttendanceReportFailure
         )
     }
-    public fun getAbsenceCountPerMentee(teamId: String): Map<String, Int> {
+    public suspend fun getAbsenceCountPerMentee(teamId: String): Map<String, Int> {
         val mentees = menteeRepository.getMenteesByTeamId(teamId).getOrThrow()
         return mentees.associate { mentee ->
             val absences = attendanceRepository

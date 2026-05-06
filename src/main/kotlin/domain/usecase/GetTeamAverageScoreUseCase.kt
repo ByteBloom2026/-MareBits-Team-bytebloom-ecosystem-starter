@@ -7,14 +7,14 @@ class GetTeamAverageScoreUseCase(
     private val menteeRepository: MenteeRepository,
     private val performanceRepository: PerformanceRepository
 ) {
-    operator fun invoke(request: GetTeamAverageScoreRequest): Result<Double> {
+    suspend operator fun invoke(request: GetTeamAverageScoreRequest): Result<Double> {
         return menteeRepository.getMenteesByTeamId(request.teamId)
             .fold(
         onSuccess = { mentees -> onGetTeamAverageScoreSuccess(mentees) },
         onFailure = ::onGetTeamAverageScoreFailure
         )
     }
-    private fun onGetTeamAverageScoreSuccess(mentees: List<Mentee>): Result<Double>{
+    private suspend fun onGetTeamAverageScoreSuccess(mentees: List<Mentee>): Result<Double>{
         val allScores = mentees.flatMap { mentee ->
            val performance= performanceRepository.getPerformanceByMenteeId(mentee.id).getOrNull()
             performance?.map { it.score} ?:emptyList()

@@ -8,14 +8,14 @@ class GetPoorAttendanceMenteesUseCase(
     private val attendanceRepository: AttendanceRepository,
     private val menteeRepository: MenteeRepository
 ) {
-    operator fun invoke(request: GetPoorAttendanceMenteesRequest): Result<List<Mentee>> {
+    suspend operator fun invoke(request: GetPoorAttendanceMenteesRequest): Result<List<Mentee>> {
         return menteeRepository.getAllMentees()
             .fold(
             onSuccess = { mentees -> onGetPoorAttendanceSuccess(mentees, request.minAbsences) },
             onFailure = ::onGetPoorAttendanceFailure
         )
     }
-    private fun onGetPoorAttendanceSuccess(mentees: List<Mentee>, minAbsences: Int): Result<List<Mentee>> {
+    private suspend fun onGetPoorAttendanceSuccess(mentees: List<Mentee>, minAbsences: Int): Result<List<Mentee>> {
         val poorAttendanceMentees = mentees.filter { mentee ->
             attendanceRepository.getAttendanceByMenteeId(mentee.id).getOrNull()
                 ?.weeks

@@ -8,14 +8,18 @@ class GetPerfectAttendanceMenteesUseCase (
     private val menteeRepository: MenteeRepository
 )
 {
-    operator fun invoke(): Result<List<Mentee>> {
+    suspend operator fun invoke(): Result<List<Mentee>> {
          return menteeRepository.getAllMentees()
              .fold(
-                 onSuccess = ::GetPerfectAttendanceMentewsSuccess,
-                 onFailure = ::GetPerfectAttendanceMentewsFailure
+                 onSuccess =  { mentees ->
+                     GetPerfectAttendanceMentewsSuccess(mentees)
+                 },
+                 onFailure =  { error ->
+                     GetPerfectAttendanceMentewsFailure(error)
+                 }
              )
     }
-    private fun GetPerfectAttendanceMentewsSuccess(mentees: List<Mentee>):Result<List<Mentee>>{
+    private suspend fun GetPerfectAttendanceMentewsSuccess(mentees: List<Mentee>):Result<List<Mentee>>{
         val preferencesAttendanceMentees =mentees.filter { mentee ->
             val attendance = attendanceRepository.getAttendanceByMenteeId(mentee.id).getOrNull()
             attendance?.

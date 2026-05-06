@@ -5,7 +5,7 @@ import domain.model.Mentee
 class GetMenteeNameByIdUseCase(
     private val menteeRepository: MenteeRepository
 ) {
-    operator fun invoke(request: GetMenteeNameByIdRequest):  Result<String?>{
+    suspend operator fun invoke(request: GetMenteeNameByIdRequest):  Result<String?>{
         return menteeRepository
             .getMenteeById(request.menteeId)
             .fold(

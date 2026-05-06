@@ -4,7 +4,7 @@ import domain.model.Project
 import domain.usecase.request.GetProjectByTeamIdRequest
 
 class GetProjectByTeamIdUesCase(private val teamRepository: TeamRepository) {
-    operator fun invoke(request: GetProjectByTeamIdRequest): Result<Project?> {
+    suspend operator fun invoke(request: GetProjectByTeamIdRequest): Result<Project?> {
         return teamRepository.getTeamById(request.teamId)
             .fold(
             onSuccess = { team -> onGetProjectByTeamIdSuccess(team?.projects) },

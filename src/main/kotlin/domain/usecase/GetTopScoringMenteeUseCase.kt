@@ -7,13 +7,13 @@ class GetTopScoringMenteeUseCase(
     private val menteeRepository: MenteeRepository,
     private val performanceRepository: PerformanceRepository
 ) {
-    operator fun invoke(): Result<Mentee?> =
+    suspend operator fun invoke(): Result<Mentee?> =
          menteeRepository.getAllMentees().fold(
              onSuccess = { mentees -> GetTopScoringMenteeSuccess(mentees, performanceRepository) },
              onFailure = ::GetTopScoringMenteeFailure
          )
 }
-private fun GetTopScoringMenteeSuccess(mentees: List<Mentee>,performanceRepository: PerformanceRepository): Result<Mentee?> {
+private suspend fun GetTopScoringMenteeSuccess(mentees: List<Mentee>,performanceRepository: PerformanceRepository): Result<Mentee?> {
     val topMentee = mentees.maxByOrNull { mentee ->
         val scores = performanceRepository.getPerformanceByMenteeId(mentee.id)
             .getOrDefault(emptyList())

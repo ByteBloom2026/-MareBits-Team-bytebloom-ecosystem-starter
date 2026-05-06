@@ -7,7 +7,7 @@ import domain.usecase.request.GetMenteePerformanceBreakdownRequest
 class  GetMenteePerformanceBreakdownUseCase(
     private val performanceRepository: PerformanceRepository
 ) {
-    operator fun invoke(request: GetMenteePerformanceBreakdownRequest): Result<Map<SubmissionType, Double>> {
+    suspend operator fun invoke(request: GetMenteePerformanceBreakdownRequest): Result<Map<SubmissionType, Double>> {
         return performanceRepository.getPerformanceByMenteeId(request.menteeId)
             .fold(
             onSuccess = ::onGetMenteePerformanceBreakdownSuccess,

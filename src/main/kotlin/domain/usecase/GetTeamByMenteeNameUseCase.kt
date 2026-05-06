@@ -8,14 +8,14 @@ class GetTeamByMenteeNameUseCase (
     private val teamRepository: TeamRepository,
     private val menteeRepository: MenteeRepository,
 ) {
-    operator fun invoke(request: GetTeamByMenteeNameRequest): Result<String?> {
+    suspend operator fun invoke(request: GetTeamByMenteeNameRequest): Result<String?> {
         return menteeRepository.getAllMentees().fold(
             onSuccess = { mentees -> onGetTeamByMenteeNameSuccess(mentees, request.menteeName) },
             onFailure = ::onGetTeamByMenteeNameFailure
         )
     }
 
-    private fun onGetTeamByMenteeNameSuccess(mentees: List<Mentee>, menteeName: String): Result<String?> {
+    private suspend fun onGetTeamByMenteeNameSuccess(mentees: List<Mentee>, menteeName: String): Result<String?> {
         val mentee = mentees.find { it.name == menteeName }
         val team = teamRepository.getAllTeams()
             .getOrNull()
