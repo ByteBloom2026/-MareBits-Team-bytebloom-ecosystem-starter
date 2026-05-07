@@ -9,6 +9,9 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import kotlinx.coroutines.test.runTest
+
+
 class GenerateTeamAttendanceReportUseCaseTest: KoinTest {
     private val generateTeamAttendanceReportUseCase: GenerateTeamAttendanceReportUseCase by inject()
     @BeforeEach
@@ -20,7 +23,7 @@ class GenerateTeamAttendanceReportUseCaseTest: KoinTest {
         stopKoin()
     }
     @Test
-    fun `should calculate absence counts for mentees in a team`() {
+    fun `should calculate absence counts for mentees in a team`()=runTest {
         //Given
         val request = GenerateTeamAttendanceReportRequest("marebits")
         //When
@@ -29,7 +32,7 @@ class GenerateTeamAttendanceReportUseCaseTest: KoinTest {
         assertThat(result.getOrNull()).isEqualTo(mapOf("Ahmad" to 1))
     }
     @Test
-    fun `should return absence counts for multiple mentees in team Hashira`() {
+    fun `should return absence counts for multiple mentees in team Hashira`()=runTest {
         //Given
         val request = GenerateTeamAttendanceReportRequest("hashira")
         //When

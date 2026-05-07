@@ -10,6 +10,8 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import kotlinx.coroutines.test.runTest
+
 class GetTopPerformingMenteesBySubmissionTypeUseCaseTest : KoinTest {
     private val getTopPerformingMenteesBySubmissionTypeUseCase: GetTopPerformingMenteesBySubmissionTypeUseCase by inject()
 
@@ -24,7 +26,7 @@ class GetTopPerformingMenteesBySubmissionTypeUseCaseTest : KoinTest {
     }
 
     @Test
-    fun `should Return Top Performing Mentee For Task Submission Type`() {
+    fun `should Return Top Performing Mentee For Task Submission Type`()=runTest {
         //given
         val request = GetTopPerformingMenteesBySubmissionTypeRequest(
             PerformanceSubmission.SubmissionType.TASK
@@ -37,7 +39,7 @@ class GetTopPerformingMenteesBySubmissionTypeUseCaseTest : KoinTest {
     }
 
     @Test
-    fun `should return m003 as top performing mentee for book club submission type`() {
+    fun `should return m003 as top performing mentee for book club submission type`()=runTest {
         //given
         val request = GetTopPerformingMenteesBySubmissionTypeRequest(
             PerformanceSubmission.SubmissionType.BOOK_CLUB
@@ -50,7 +52,7 @@ class GetTopPerformingMenteesBySubmissionTypeUseCaseTest : KoinTest {
     }
 
     @Test
-    fun `should return m003 as top performing mentee for workshop submission type`() {
+    fun `should return m003 as top performing mentee for workshop submission type`()=runTest {
        //given
         val request = GetTopPerformingMenteesBySubmissionTypeRequest(
             PerformanceSubmission.SubmissionType.WORKSHOP)

@@ -12,8 +12,9 @@ import org.koin.core.context.stopKoin
 import data.repository.*
 import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk
-import io.mockk.every
-
+import io.mockk.coVerify
+import kotlinx.coroutines.test.runTest
+import  io.mockk.coEvery
 
 
 
@@ -36,7 +37,7 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
 
 
     @Test
-    fun `should Return Correct Performance Score For Given Team`() {
+    fun `should Return Correct Performance Score For Given Team`()=runTest {
         // Given
         val request = GenerateTeamAttendanceReportRequest("marebits")
         // When
@@ -48,7 +49,7 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
     }
 
     @Test
-    fun `sholde return success result with correct data when repositories succeed`() {
+    fun `sholde return success result with correct data when repositories succeed`()=runTest {
         // Given
         val request = GenerateTeamAttendanceReportRequest("marebits")
         //When
@@ -59,7 +60,7 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
 
 
     @Test
-    fun `should fetch teams data when invoke is called`() {
+    fun `should fetch teams data when invoke is called`()=runTest {
         // Given
         val teamRepoMocck = mockk<TeamRepository>()
         val totalScore = mockk<TotalScore>()
@@ -67,13 +68,13 @@ class GenerateCrossTeamPreformanceRepotUseCaseTest : KoinTest {
             teamRepoMocck,
             totalScore
         )
-        every { teamRepoMocck.getAllTeams() } returns Result.success(emptyList())
+        coEvery { teamRepoMocck.getAllTeams() } returns Result.success(emptyList())
         // When
         useCase.invoke(
             GenerateTeamAttendanceReportRequest(teamId = "team1")
         )
         // Then
-        verify { teamRepoMocck.getAllTeams() }
+        coVerify  { teamRepoMocck.getAllTeams() }
     }
 
 }

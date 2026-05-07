@@ -3,9 +3,7 @@ import com.google.common.truth.Truth.assertThat
 import data.repository.*
 import data.repository.TeamRepository
 import di_test.testModule
-import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.koin.core.context.startKoin
@@ -14,6 +12,9 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.getValue
 import org.junit.jupiter.api.Test
+import kotlinx.coroutines.test.runTest
+import  io.mockk.coEvery
+import  io.mockk.coVerify
 
 class TotelScoreTest: KoinTest {
     val totalScoreUseCase: TotalScore by inject()
@@ -30,14 +31,14 @@ class TotelScoreTest: KoinTest {
     }
 
     @Test
-    fun `Should calculate total score correctly`() {
+    fun `Should calculate total score correctly`()=runTest {
         //when
          val result=totalScoreUseCase()
         //Then
         assertThat(result.getOrNull()).isEqualTo(1560.0)
     }
     @Test
-    fun `sholde return success result with correct data when repositories succeed`(){
+    fun `sholde return success result with correct data when repositories succeed`()=runTest{
         //When
         val TotelScoreOnSuccess=totalScoreUseCase()
         // Then
@@ -46,33 +47,33 @@ class TotelScoreTest: KoinTest {
 
 
     @Test
-    fun `shold fetch performance data when invoke is called`(){
+    fun `shold fetch performance data when invoke is called`()=runTest{
         //Given
         val performanceRepo=mockk<PerformanceRepository>()
         val teamRepository=mockk<TeamRepository>()
         val totelScpre= TotalScore(performanceRepo
             ,teamRepository)
-        every { teamRepository.getAllTeams() } returns Result.success(emptyList())
-        every { performanceRepo.getAllPerformance() } returns Result.success(emptyList())
+        coEvery { teamRepository.getAllTeams() } returns Result.success(emptyList())
+        coEvery { performanceRepo.getAllPerformance() } returns Result.success(emptyList())
         //When
         totelScpre.invoke()
         //Then
-        verify { performanceRepo.getAllPerformance() }
+        coVerify { performanceRepo.getAllPerformance() }
     }
 
     @Test
-    fun `shold fetch teams data when invoke is called`(){
+    fun `shold fetch teams data when invoke is called`()=runTest{
         //Given
         val performanceRepo=mockk<PerformanceRepository>()
         val teamRepository=mockk<TeamRepository>()
         val totelScpre= TotalScore(performanceRepo
             ,teamRepository)
-        every { teamRepository.getAllTeams() } returns Result.success(emptyList())
-        every { performanceRepo.getAllPerformance() } returns Result.success(emptyList())
+        coEvery { teamRepository.getAllTeams() } returns Result.success(emptyList())
+        coEvery { performanceRepo.getAllPerformance() } returns Result.success(emptyList())
         //When
         totelScpre.invoke()
         //Then
-        verify { teamRepository.getAllTeams()}
+        coVerify { teamRepository.getAllTeams()}
     }
 
 

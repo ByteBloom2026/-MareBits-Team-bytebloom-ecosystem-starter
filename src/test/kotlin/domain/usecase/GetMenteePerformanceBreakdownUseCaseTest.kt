@@ -15,6 +15,8 @@ import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
+
 
 class GetMenteePerformanceBreakdownUseCaseTest: KoinTest {
     private val useCase : GetMenteePerformanceBreakdownUseCase by inject()
@@ -27,7 +29,7 @@ class GetMenteePerformanceBreakdownUseCaseTest: KoinTest {
         stopKoin()
     }
     @Test
-    fun `should calculate average for submission type`(){
+    fun `should calculate average for submission type`()=runTest{
         //Given
         val menteeId = "m001"
         val request = GetMenteePerformanceBreakdownRequest(menteeId)
@@ -38,7 +40,7 @@ class GetMenteePerformanceBreakdownUseCaseTest: KoinTest {
         assertThat(result.getOrNull()).isEqualTo(expectedBreakdown)
     }
     @Test
-    fun `should return failure when performance repository fails`() {
+    fun `should return failure when performance repository fails`()=runTest {
         //Given
         val request = GetMenteePerformanceBreakdownRequest("mentee")
         //When

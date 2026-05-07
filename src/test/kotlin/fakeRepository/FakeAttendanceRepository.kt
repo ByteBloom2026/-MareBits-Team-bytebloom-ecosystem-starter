@@ -40,10 +40,10 @@ class FakeAttendanceRepository : AttendanceRepository {
                 )
             )
         )
-        override fun getAllAttendance(): Result<List<Attendance>> {
+    suspend  override fun getAllAttendance(): Result<List<Attendance>> {
             return Result.success(attendanceList)
         }
-        override fun getAttendanceByMenteeId(menteeId: String): Result<Attendance?> {
+    suspend  override fun getAttendanceByMenteeId(menteeId: String): Result<Attendance?> {
             return Result.success(
                 attendanceList.find { it.menteeId == menteeId }
             )
