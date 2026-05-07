@@ -8,6 +8,8 @@ import org.koin.core.component.inject
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
+import kotlinx.coroutines.test.runTest
+
 class GetAverageAttendancePercentagePerTeamUseCaseTest: KoinTest {
     private val useCase : GetAverageAttendancePercentagePerTeamUseCase by inject()
     @BeforeEach
@@ -19,14 +21,14 @@ class GetAverageAttendancePercentagePerTeamUseCaseTest: KoinTest {
         stopKoin()
     }
     @Test
-    fun `should calculate average attendance for teams`() {
+    fun `should calculate average attendance for teams`()=runTest {
         //When
         val result = useCase().getOrNull()
         //Then
         assertThat(result?.get("Marebits")).isWithin(0.01).of(66.66)
     }
     @Test
-    fun `should calulate attendance percentage for Hashira`(){
+    fun `should calulate attendance percentage for Hashira`()=runTest{
         //When
         val result = useCase().getOrNull()
         //Then

@@ -14,15 +14,15 @@ class FakeMenteeRepository : MenteeRepository {
             Mentee.create("m003", "Ali",  "kernels")
         )
 
-        override fun getAllMentees(): Result<List<Mentee>> {
+    suspend override fun getAllMentees(): Result<List<Mentee>> {
             return Result.success(mentees)
         }
 
-        override fun getMenteeById(id: String): Result<Mentee?> {
+    suspend  override fun getMenteeById(id: String): Result<Mentee?> {
             return Result.success(mentees.find { it.id == id })
         }
 
-       override fun getMenteesByTeamId(teamId: String): Result<List<Mentee>> {
+    suspend   override fun getMenteesByTeamId(teamId: String): Result<List<Mentee>> {
             return Result.success(mentees.filter { it.teamId == teamId })
         }
 }

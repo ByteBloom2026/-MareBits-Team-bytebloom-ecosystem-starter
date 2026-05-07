@@ -9,6 +9,8 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import kotlinx.coroutines.test.runTest
+
 class GetAverageScorePerSubmissionTypeUseCaseTest : KoinTest {
     private val useCase : GetAverageScorePerSubmissionTypeUseCase by inject ()
     @BeforeEach
@@ -20,14 +22,14 @@ class GetAverageScorePerSubmissionTypeUseCaseTest : KoinTest {
         stopKoin()
     }
     @Test
-    fun `should calculate averages for all submission types`() {
+    fun `should calculate averages for all submission types`()=runTest {
         //When
         val result = useCase().getOrNull()
         //Then
         assertThat(result?.get(SubmissionType.TASK)).isWithin(0.01).of(87.5)
     }
     @Test
-    fun `should return average for book club`() {
+    fun `should return average for book club`()=runTest {
         //When
         val result = useCase().getOrNull()
         //Then

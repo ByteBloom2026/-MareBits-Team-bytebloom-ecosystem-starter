@@ -9,6 +9,8 @@ import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
+
 class GetMenteeNameByIdUseCaseTest : KoinTest {
     private val useCase : GetMenteeNameByIdUseCase by inject()
     @BeforeEach
@@ -20,7 +22,7 @@ class GetMenteeNameByIdUseCaseTest : KoinTest {
         stopKoin()
     }
     @Test
-    fun `should return mentee name when mentee exists`() {
+    fun `should return mentee name when mentee exists`()=runTest {
         //Given
         val request = GetMenteeNameByIdRequest("m001")
         // When
@@ -29,7 +31,7 @@ class GetMenteeNameByIdUseCaseTest : KoinTest {
         assertThat(result.getOrNull()).isEqualTo("Ahmad")
     }
     @Test
-    fun `should return failure when mentee does not exist`() {
+    fun `should return failure when mentee does not exist`()=runTest {
         // Given
         val request = GetMenteeNameByIdRequest("unknown_id")
         // When

@@ -42,20 +42,20 @@ class FakeTeamRepository : TeamRepository {
             )
         )
 
-    override fun getAllTeams(): Result<List<Team>> {
+   suspend override fun getAllTeams(): Result<List<Team>> {
         return Result.success(FackTeamData)
     }
 
-    override fun getTeamById(teamId: String): Result<Team?> {
+    suspend  override fun getTeamById(teamId: String): Result<Team?> {
         return Result.success(FackTeamData.find { it.id==teamId })
     }
 
-    override fun getMentorLeadByTeamId(teamId: String): Result<String?> {
+    suspend override fun getMentorLeadByTeamId(teamId: String): Result<String?> {
         val Team= FackTeamData.find { it.id==teamId }
         return Result.success(Team?.mentorLead)
     }
 
-    override fun searchTeamsByName(keyword: String): Result<List<Team>> {
+    suspend override fun searchTeamsByName(keyword: String): Result<List<Team>> {
         return Result.success(FackTeamData)
     }
 }

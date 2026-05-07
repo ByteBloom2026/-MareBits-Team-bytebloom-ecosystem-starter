@@ -41,16 +41,16 @@ class FakePerformanceRepository:PerformanceRepository {
         )
 
     )
-    override fun getAllPerformance(): Result<List<PerformanceSubmission>> {
+    suspend override fun getAllPerformance(): Result<List<PerformanceSubmission>> {
         return Result.success(performances)
     }
-    override fun getPerformanceByMenteeId(menteeId: String): Result<List<PerformanceSubmission>> {
+    suspend   override fun getPerformanceByMenteeId(menteeId: String): Result<List<PerformanceSubmission>> {
         return Result.success(
             performances.filter { it.menteeId == menteeId }
         )
     }
 
-    override fun getPerformanceByTeamId(teamId: String): Result<List<PerformanceSubmission>> {
+    suspend  override fun getPerformanceByTeamId(teamId: String): Result<List<PerformanceSubmission>> {
         return Result.success(performances)
     }
 

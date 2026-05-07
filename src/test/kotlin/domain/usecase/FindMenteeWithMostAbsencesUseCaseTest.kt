@@ -11,6 +11,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import kotlinx.coroutines.test.runTest
 
 
 class FindMenteeWithMostAbsencesUseCaseTest: KoinTest {
@@ -23,27 +24,27 @@ class FindMenteeWithMostAbsencesUseCaseTest: KoinTest {
     fun tearDown() { stopKoin() }
 
         @Test
-        fun `should return successful result when finding mentee with most absences`() {
+        fun `should return successful result when finding mentee with most absences`()=runTest(){
             //when
             val result = findMenteeWithMostAbsencesUseCase()
             //then
             assertTrue(result.isSuccess)
         }
         @Test
-        fun `should return non null output when mentees and attendance data are available`(){
+        fun `should return non null output when mentees and attendance data are available`()=runTest(){
             //when
             val result = findMenteeWithMostAbsencesUseCase()
             //then
             assertNotNull(result)
         }
         @Test
-        fun `should return mentee with id m002 as the mentee with most absences`(){
+        fun `should return mentee with id m002 as the mentee with most absences`()=runTest(){
             val result = findMenteeWithMostAbsencesUseCase()
             val returnedMenteeId = result.getOrNull()?.first?.id
             assertEquals("m002", returnedMenteeId)
         }
         @Test
-        fun `should return absence count of 2 for the mentee with most absences`(){
+        fun `should return absence count of 2 for the mentee with most absences`()=runTest(){
             val result = findMenteeWithMostAbsencesUseCase()
             val returnedAbsenceCount = result.getOrNull()?.second
             assertEquals(2,returnedAbsenceCount)

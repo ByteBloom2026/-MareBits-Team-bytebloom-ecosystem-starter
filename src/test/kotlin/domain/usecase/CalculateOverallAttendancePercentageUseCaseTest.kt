@@ -9,6 +9,8 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import kotlinx.coroutines.test.runTest
+
 class CalculateOverallAttendancePercentageUseCaseTest : KoinTest{
     private val calculateOverallAttendancePercentageUseCase: CalculateOverallAttendancePercentageUseCase by inject()
     @BeforeEach
@@ -19,7 +21,7 @@ class CalculateOverallAttendancePercentageUseCaseTest : KoinTest{
     fun tearDown() { stopKoin() }
 
     @Test
-    fun `should Calculate Overall Attendance Percentage`() {
+    fun `should Calculate Overall Attendance Percentage`()=runTest {
         //given
         val request = CalculateOverallAttendancePercentageRequest("m001")
         //when
@@ -28,7 +30,7 @@ class CalculateOverallAttendancePercentageUseCaseTest : KoinTest{
         assertThat(result.getOrNull()).isEqualTo(66.67)
     }
     @Test
-    fun `should Calculate Attendance Percentage With Late As Half Point`() {
+    fun `should Calculate Attendance Percentage With Late As Half Point`()=runTest {
         //given
         val request = CalculateOverallAttendancePercentageRequest("m004")
         //when
