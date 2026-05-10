@@ -3,6 +3,9 @@ import domain.model.Team
 import data.EcoSystemDataSource
 import data.repository.mappers.toDomain
 import domain.model.exception.DataAccessException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+
 class TeamRepositoryImpl(
     private val dataSource: EcoSystemDataSource
 ) : TeamRepository {
@@ -18,14 +21,14 @@ class TeamRepositoryImpl(
             }
         )
     }
-    override suspend fun searchTeamsByName(keyword: String): Result<List<Team>>{
+    override suspend fun searchTeamsByName(keyword: String): Result<Flow<Team>>{
         return dataSource.getTeams().fold(
             onSuccess = { teamRows ->
                 val filtered = teamRows
                     .filter { it.name.contains(keyword, ignoreCase = true) }
                     .map { row -> row.toDomain() }
 
-                Result.success(filtered)
+                Result.success(filtered.asFlow())
             },
             onFailure = { exception ->
                 Result.failure(mapToDomainException(exception))

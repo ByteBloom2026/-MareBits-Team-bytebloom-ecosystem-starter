@@ -3,6 +3,8 @@ package fakeRepository
 import data.repository.TeamRepository
 import domain.model.Project
 import domain.model.Team
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 
 class FakeTeamRepository : TeamRepository {
         private val  FackTeamData =listOf(
@@ -55,7 +57,7 @@ class FakeTeamRepository : TeamRepository {
         return Result.success(Team?.mentorLead)
     }
 
-    suspend override fun searchTeamsByName(keyword: String): Result<List<Team>> {
-        return Result.success(FackTeamData)
+    suspend override fun searchTeamsByName(keyword: String): Result<Flow<Team>> {
+        return Result.success(FackTeamData.asFlow())
     }
-}
+}//
